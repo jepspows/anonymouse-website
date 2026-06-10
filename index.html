@@ -161,11 +161,14 @@ var TX=BW*.62,TY=BH*.45;
 function draw(){
   var st=window.scrollY;
   var maxH=document.getElementById('spacer').offsetHeight;
-  var maxScroll=maxH-H;
-  if(maxScroll<=0)maxScroll=1;
+  var maxScroll=Math.max(maxH-H,1);
   var t=Math.min(Math.max(st/maxScroll,0),1);
+  t=isNaN(t)?0:t;
 
   ctx.clearRect(0,0,W,H);
+
+  // Safety: draw visible background
+  ctx.fillStyle='#0a0500';ctx.fillRect(0,0,W,H);
 
   // Dark ambient background
   var bgG=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H));
