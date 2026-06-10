@@ -123,10 +123,10 @@ h2.section-title{font-size:2.2rem;font-weight:700;letter-spacing:2px;color:#2d8a
 var C=document.getElementById('c'),ctx=C.getContext('2d');
 if(!ctx)return;
 var W=1,H=1;
-var img=new Image();
-img.src='assets/illustration.png';
 function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
 rs();window.addEventListener('resize',function(){rs();draw()});
+
+var BW=1200,BH=850,TX=BW*.62,TY=BH*.45;
 
 function draw(){
   var st=window.scrollY;
@@ -135,30 +135,48 @@ function draw(){
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
 
-  if(!img.complete||!img.naturalWidth){setTimeout(draw,200);return}
-
-  var iw=img.naturalWidth,ih=img.naturalHeight;
-  // Contain mode: show full image, fit within screen
-  var fitScale=Math.min(W/iw,H/ih);
-  var zoom=fitScale+t*(fitScale*8); // from fit to 8x zoom
-  // Zoom target: center-bottom of image (door below ANONYMOUSE text)
-  var zx=iw*.5,zy=ih*.55;
-
-  var bx=W/2-zx*zoom,by=H/2-zy*zoom;
+  var zoom=1+t*12;
+  var bx=W/2-TX*zoom,by=H/2-TY*zoom;
   ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
-  ctx.drawImage(img,0,0,iw,ih);
-  ctx.restore();
 
-  // White vignette when zoomed in
+  // Old leather cover
+  var cov=ctx.createLinearGradient(0,0,0,BH);
+  cov.addColorStop(0,'#f5f0e5');cov.addColorStop(.5,'#e8e0d0');cov.addColorStop(1,'#d8d0c0');
+  ctx.fillStyle=cov;
+  ctx.beginPath();ctx.moveTo(20,10);ctx.lineTo(BW-20,10);
+  ctx.quadraticCurveTo(BW+35,10,BW+35,BH/2);ctx.quadraticCurveTo(BW+35,BH,BW-20,BH-10);
+  ctx.lineTo(20,BH-10);ctx.quadraticCurveTo(-35,BH,-35,BH/2);ctx.quadraticCurveTo(-35,10,20,10);
+  ctx.closePath();ctx.fill();
+
+  // Spine
+  var sp=ctx.createLinearGradient(BW/2-10,0,BW/2+10,0);
+  sp.addColorStop(0,'#ddd8cc');sp.addColorStop(.5,'#c8c0b0');sp.addColorStop(1,'#ddd8cc');
+  ctx.fillStyle=sp;ctx.fillRect(BW/2-10,10,20,BH-20);
+
+  // Pages
+  drawPg(30,20,BW/2-50,BH-40);
+  drawPg(BW/2+20,20,BW/2-50,BH-40);
+
+  ctx.restore();
   if(t>.5){var a=(t-.5)/.5;var v=ctx.createRadialGradient(W/2,H/2,W*.35,W/2,H/2,W);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(255,255,255,'+(a*.5)+')');ctx.fillStyle=v;ctx.fillRect(0,0,W,H)}
-  // Fade to white at very end
-  if(t>.85){var a2=(t-.85)/.15;C.style.opacity=1-a2}
-  else{C.style.opacity=1}
 }
 
-img.onload=function(){draw()};
+function drawPg(x,y,w,h){
+  var pg=ctx.createLinearGradient(x,y,x,y+h);
+  pg.addColorStop(0,'#e8dcc0');pg.addColorStop(.4,'#d8cba0');pg.addColorStop(1,'#beb080');
+  ctx.fillStyle=pg;ctx.fillRect(x,y,w,h);
+  // Stains and wear
+  for(var i=0;i<8;i++){var sx=x+20+Math.random()*(w-40),sy=y+20+Math.random()*(h-40);ctx.fillStyle='rgba(120,80,40,'+(.03+Math.random()*.06)+')';ctx.beginPath();ctx.arc(sx,sy,10+Math.random()*35,0,Math.PI*2);ctx.fill()}
+  // Dirt spots
+  for(var i=0;i<20;i++){ctx.fillStyle='rgba(80,50,20,.04)';ctx.fillRect(x+Math.random()*w,y+Math.random()*h,2+Math.random()*3,2+Math.random()*3)}
+  // Torn edge
+  ctx.fillStyle='rgba(180,150,100,.1)';ctx.fillRect(x+w-3,y,3,h);
+  // Page number
+  ctx.fillStyle='rgba(60,30,10,.15)';ctx.font='10px serif';ctx.fillText('◆',x+w/2,y+h-10);
+}
+
 window.addEventListener('scroll',draw,{passive:true});
-setTimeout(draw,300);
+setTimeout(draw,200);
 })();
 
 var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
