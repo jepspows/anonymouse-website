@@ -5,7 +5,7 @@
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anonymouse | The Mouse Door</title>
+<title>Anonymouse | The Mouse Hole</title>
 <style>
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -127,161 +127,60 @@ function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
 rs();window.addEventListener('resize',function(){rs();draw()});
 
 var DZ=800; // door scene size
-var DTX=400,DTY=500; // zoom target (center of open doorway)
+var DTX=400,DTY=680; // zoom target (mouse hole)
 
 function draw(){
   var st=window.scrollY;
   var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
   var t=Math.min(Math.max(st/maxScroll,0),1)||0;
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#f5f2ec';ctx.fillRect(0,0,W,H);
 
   var zoom=1+t*10;
   var bx=W/2-DTX*zoom,by=H/2-DTY*zoom;
   ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
 
-  // Wall
-  var wg=ctx.createLinearGradient(0,0,0,DZ);
-  wg.addColorStop(0,'#f7f4ee');wg.addColorStop(1,'#ebe6db');
-  ctx.fillStyle=wg;ctx.fillRect(0,0,DZ,DZ);
-  // Baseboard
-  ctx.fillStyle='#d4c9b5';ctx.fillRect(0,DZ-100,DZ,30);
-  ctx.fillStyle='#c4b8a2';ctx.fillRect(0,DZ-103,DZ,6);
+  var bw=80,bh=40; // block size
+  var cols=Math.ceil(DZ/bw)+1,rows=Math.ceil(DZ/bh)+1;
 
-  // Wood grain on wall
-  ctx.strokeStyle='rgba(180,160,130,.06)';ctx.lineWidth=1;
-  for(var g=0;g<12;g++){ctx.beginPath();ctx.moveTo(0,80+g*50);for(var xi=0;xi<=DZ;xi+=25){ctx.lineTo(xi,80+g*50+Math.sin(xi*.018+g)*7)}ctx.stroke()}
-
-  var dx=200,dy=DZ-340,dw=400,dh=260,da=dh*.35;
-
-  // === INSIDE THE ROOM (visible through open doorway) ===
-  ctx.save();
-  ctx.beginPath();ctx.moveTo(dx,dy+dh);ctx.lineTo(dx,dy+da);
-  ctx.quadraticCurveTo(dx,dy-6,dx+dw*.5,dy-6);ctx.quadraticCurveTo(dx+dw,dy-6,dx+dw,dy+da);
-  ctx.lineTo(dx+dw,dy+dh);ctx.closePath();ctx.clip();
-
-  // Back wall of room - warm cozy tone
-  var rw=ctx.createLinearGradient(0,dy,0,dy+dh);
-  rw.addColorStop(0,'#c4a97a');rw.addColorStop(1,'#a68b5c');
-  ctx.fillStyle=rw;ctx.fillRect(dx,dy,dw,dh+da);
-
-  // Room baseboard
-  ctx.fillStyle='#8B6914';ctx.fillRect(dx,dy+dh-25,dw,25);
-  ctx.fillStyle='#6B4E0A';ctx.fillRect(dx,dy+dh-28,dw,4);
-
-  // Brick pattern on back wall
-  ctx.strokeStyle='rgba(0,0,0,.04)';ctx.lineWidth=.5;
-  for(var br=0;br<8;br++){
-    var byy=dy+10+br*30,off=(br%2)*25;
-    for(var bc=0;bc<18;bc++){
-      ctx.strokeRect(dx+off+bc*25,byy,25,28)
+  // Wall of blocks
+  for(var r=0;r<rows;r++){
+    var off=(r%2)*bw/2; // staggered rows
+    for(var c=-1;c<cols;c++){
+      var bx2=c*bw+off,by2=r*bh;
+      // Block body
+      var bg=ctx.createLinearGradient(bx2,by2,bx2+bw,by2+bh);
+      bg.addColorStop(0,'#e8e0d0');bg.addColorStop(.3,'#ddd5c5');bg.addColorStop(1,'#ccc0b0');
+      ctx.fillStyle=bg;
+      ctx.fillRect(bx2,by2,bw-2,bh-2);
+      // Block edge highlight
+      ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillRect(bx2,by2,bw-2,2);
+      ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(bx2,by2,2,bh-2);
+      // Block edge shadow
+      ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillRect(bx2,by2+bh-3,bw-2,2);
+      ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(bx2+bw-3,by2,2,bh-2);
     }
   }
 
-  // Tiny fireplace
-  var fx=dx+140,fy=dy+120,fw=110,fh=110;
-  ctx.fillStyle='#8B4513';ctx.fillRect(fx,fy,fw,fh);
-  ctx.fillStyle='#6B3410';ctx.fillRect(fx,fy,fw,8);
-  // Fireplace opening
-  var fox=fx+10,foy=fy+20,fow=90,foh=50;
-  ctx.fillStyle='#1a0a00';ctx.fillRect(fox,foy,fow,foh);
-  // Arch top for fireplace
-  ctx.fillStyle='#1a0a00';ctx.beginPath();ctx.arc(fox+fow/2,foy,45,Math.PI,0);ctx.fill();
-  // Fire glow
-  var fg=ctx.createRadialGradient(fox+fow/2,foy+35,5,fox+fow/2,foy+30,50);
-  fg.addColorStop(0,'#ff6600');fg.addColorStop(.5,'#ff3300');fg.addColorStop(1,'transparent');
-  ctx.fillStyle=fg;ctx.beginPath();ctx.arc(fox+fow/2,foy+35,20,0,Math.PI*2);ctx.fill();
-  // Little fire flames
-  for(var fl=0;fl<5;fl++){
-    ctx.fillStyle=fl%2?'#ffaa00':'#ff4400';
-    ctx.beginPath();ctx.moveTo(fox+15+fl*14,foy+30);
-    ctx.quadraticCurveTo(fox+12+fl*14,foy+10, fox+22+fl*14,foy+5);
-    ctx.quadraticCurveTo(fox+25+fl*14,foy+10, fox+22+fl*14,foy+30);ctx.fill();
-  }
-  // Mantle
-  ctx.fillStyle='#5a3010';ctx.fillRect(fx-5,fy-8,fw+10,10);
+  // Baseboard
+  ctx.fillStyle='#b8a890';ctx.fillRect(0,DZ-80,DZ,25);
+  ctx.fillStyle='#a89880';ctx.fillRect(0,DZ-83,DZ,5);
 
-  // Matchbox bed on right side
-  var mx=dx+290,my=dy+160;
-  ctx.fillStyle='#d44';ctx.fillRect(mx,my,70,40);
-  ctx.fillStyle='#a22';ctx.fillRect(mx,my,70,8);
-  // Matchbox label
-  ctx.fillStyle='#ff8';ctx.fillRect(mx+15,my+12,40,18);
-  ctx.fillStyle='#c00';ctx.font='7px sans-serif';
-  ctx.fillText('MATCHES',mx+18,my+25);
-  // Tiny blanket/pillow
-  ctx.fillStyle='#ffe';ctx.fillRect(mx+8,my+3,25,5);
-  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(mx+12,my-1,5,0,Math.PI*2);ctx.fill();
+  // === MOUSE HOLE ===
+  var hx=DZ/2-40,hy=DZ-2,hr=35;
+  // Dark hole
+  ctx.fillStyle='#0d0a05';ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.fill();
+  // Inner shadow
+  ctx.fillStyle='#1a1408';ctx.beginPath();ctx.arc(hx+hr,hy,hr-8,Math.PI,0);ctx.fill();
+  // Hole rim (worn edge)
+  ctx.strokeStyle='rgba(80,60,30,.4)';ctx.lineWidth=3;
+  ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.stroke();
+  // Crack in baseboard from hole
+  ctx.strokeStyle='rgba(60,40,20,.25)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(hx-3,hy);ctx.lineTo(hx-25,hy-5);ctx.lineTo(hx-40,hy-3);ctx.stroke();
 
-  // Thimble table left side
-  var tx=dx+40,ty=dy+155;
-  ctx.fillStyle='#c0c0c0';ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx+25,ty);
-  ctx.quadraticCurveTo(tx+25,ty-30,tx+12,ty-30);ctx.quadraticCurveTo(tx,ty-30,tx,ty);ctx.fill();
-  ctx.fillStyle='#a0a0a0';
-  for(var td=0;td<4;td++){ctx.fillRect(tx+4+td*5,ty-20,2,8)}
-  // Tiny plate with cheese crumbs
-  ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(tx+12,ty+2,10,4,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#f5c542';ctx.beginPath();ctx.arc(tx+10,ty+1,2.5,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#e5a820';ctx.beginPath();ctx.arc(tx+15,ty,2,0,Math.PI*2);ctx.fill();
-
-  // Tiny framed picture on wall
-  ctx.fillStyle='#8B6914';ctx.fillRect(dx+330,dy+40,35,30);
-  ctx.fillStyle='#ffe';ctx.fillRect(dx+333,dy+43,29,24);
-  ctx.fillStyle='#8B6914';ctx.beginPath();ctx.arc(dx+347,dy+47,6,0,Math.PI*2);ctx.fill(); // cheese in picture
-
-  // Tiny shelf with stuff
-  ctx.fillStyle='#6B4E0A';ctx.fillRect(dx+45,dy+90,60,5);
-  // Button
-  ctx.fillStyle='#44a';ctx.beginPath();ctx.arc(dx+55,dy+86,4,0,Math.PI*2);ctx.fill();
-  // Pin
-  ctx.fillStyle='#ddd';ctx.fillRect(dx+70,dy+82,1,8);ctx.fillStyle='#f44';ctx.beginPath();ctx.arc(dx+70.5,dy+79,3,0,Math.PI*2);ctx.fill();
-  // Thimble on shelf
-  ctx.fillStyle='#c0c0c0';ctx.beginPath();ctx.moveTo(dx+85,dy+84);ctx.lineTo(dx+95,dy+84);ctx.quadraticCurveTo(dx+95,dy+75,dx+90,dy+75);ctx.quadraticCurveTo(dx+85,dy+75,dx+85,dy+84);ctx.fill();
-
-  ctx.restore();
-
-  // === DOOR FRAME (arch) ===
-  ctx.strokeStyle='#5a3a1a';ctx.lineWidth=6;
-  ctx.beginPath();ctx.moveTo(dx,dy+dh);ctx.lineTo(dx,dy+da);
-  ctx.quadraticCurveTo(dx,dy-6,dx+dw*.5,dy-6);ctx.quadraticCurveTo(dx+dw,dy-6,dx+dw,dy+da);
-  ctx.lineTo(dx+dw,dy+dh);ctx.stroke();
-
-  // Bottom threshold
-  ctx.fillStyle='#5a3a1a';ctx.fillRect(dx-4,dy+dh-4,dw+8,8);
-
-  // === OPEN DOOR (swung to left, seen at angle) ===
-  ctx.save();
-  ctx.beginPath();
-  // door shape - skewed to look like it's open toward viewer
-  ctx.moveTo(dx-10,dy+dh);
-  ctx.lineTo(dx-10,dy+da-30);
-  ctx.quadraticCurveTo(dx-10,dy-60,dx-40,dy-60);
-  ctx.quadraticCurveTo(dx-70,dy-60,dx-70,dy+da-30);
-  ctx.lineTo(dx-70,dy+dh);
-  ctx.closePath();ctx.clip();
-
-  // Door planks skewed
-  for(var p=0;p<3;p++){
-    var px=dx-70+p*20;
-    var plank=ctx.createLinearGradient(px,0,px+20,0);
-    plank.addColorStop(0,'#8B6B3D');plank.addColorStop(.5,'#9C7A4A');plank.addColorStop(1,'#7A5C32');
-    ctx.fillStyle=plank;
-    ctx.fillRect(px,dy-60,22,dh+60);
-  }
-  // grain
-  ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=.5;
-  for(var g=0;g<4;g++){ctx.beginPath();ctx.moveTo(dx-60+g*10,dy+dh-30);ctx.quadraticCurveTo(dx-55+g*10,dy+50,dx-60+g*10,dy-50);ctx.stroke()}
-
-  // Doorknob on open door
-  ctx.fillStyle='#d4a44a';ctx.beginPath();ctx.arc(dx-50,dy+110,6,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#b8892a';ctx.beginPath();ctx.arc(dx-51,dy+109,4,0,Math.PI*2);ctx.fill();
-
-  ctx.restore();
-
-  // Hinges on frame
-  for(var hi=0;hi<2;hi++){
-    ctx.fillStyle='#3a2a15';ctx.fillRect(dx-4,dy+35+hi*150,8,14);
-    ctx.fillStyle='#555';ctx.beginPath();ctx.arc(dx,dy+40+hi*150,2,0,Math.PI*2);ctx.fill();
-  }
+  // Tiny cheese outside hole
+  ctx.fillStyle='#f5c542';ctx.beginPath();ctx.moveTo(hx+hr+15,hy-8);ctx.lineTo(hx+hr+25,hy-18);ctx.lineTo(hx+hr+25,hy-8);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#e5a820';ctx.beginPath();ctx.arc(hx+hr+19,hy-14,1.5,0,Math.PI*2);ctx.fill();
 
   ctx.restore();
 }
