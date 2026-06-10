@@ -228,10 +228,16 @@ h2.section-title span{color:#8b5a3a}
     ctx.fillStyle=spG;ctx.fillRect(BW/2-15,15,30,BH-30);
     ctx.strokeStyle='#0a0300';ctx.lineWidth=2;ctx.strokeRect(BW/2-15,15,30,BH-30);
 
+    // Select pages based on scroll progress
+    var spread=Math.floor(pZoom*3); // 0, 1, or 2
+    if(pInside>.3)spread=3; // Final page when inside
+    spread=Math.min(spread,2);
+    var pgL=spread*2,pgR=spread*2+1;
+
     // Left page
-    drawPage(40,30,BW/2-55,BH-60,true);
+    drawPage(40,30,BW/2-55,BH-60,true,pgL);
     // Right page
-    drawPage(BW/2+15,30,BW/2-55,BH-60,false);
+    drawPage(BW/2+15,30,BW/2-55,BH-60,false,pgR);
 
     // Page stack underneath
     for(var i=0;i<3;i++){
@@ -249,13 +255,13 @@ h2.section-title span{color:#8b5a3a}
     secs.forEach(function(s){s.classList.toggle('show',pInside>.9)});
   }
 
-  function drawPage(x,y,w,h,isLeft){
-    // Page base (aged yellow)
+  function drawPage(x,y,w,h,isLeft,pageNum){
+    // Page base
     var pg=ctx.createLinearGradient(x,y,x,y+h);
     pg.addColorStop(0,'#e8dcc0');pg.addColorStop(.2,'#ddd0b0');pg.addColorStop(.5,'#d4c8a0');pg.addColorStop(.8,'#c8b890');pg.addColorStop(1,'#bfb080');
     ctx.fillStyle=pg;ctx.fillRect(x,y,w,h);
 
-    // Page edge shadow
+    // Edge shadow
     var es=ctx.createLinearGradient(isLeft?x+w:x,0,isLeft?x+w+20:x-20,0);
     if(isLeft){es.addColorStop(0,'rgba(0,0,0,0)');es.addColorStop(1,'rgba(0,0,0,.15)')}
     else{es.addColorStop(0,'rgba(0,0,0,.15)');es.addColorStop(1,'rgba(0,0,0,0)')}
@@ -266,30 +272,64 @@ h2.section-title span{color:#8b5a3a}
       ctx.fillStyle='rgba(139,100,50,'+s.a+')';ctx.beginPath();
       ctx.arc(x+s.x*w,y+s.y*h,s.r*Math.min(w,h),0,Math.PI*2);ctx.fill();
     });
-
-    // Dirt spots
+    // Spots
     spots.forEach(function(s){
       ctx.fillStyle='rgba(100,70,30,.06)';ctx.fillRect(x+s.x*w,y+s.y*h,s.s,s.s);
     });
-
     // Worm holes
-    for(var i=0;i<4;i++){
-      ctx.fillStyle='#8a7050';ctx.beginPath();
-      ctx.arc(x+Math.random()*w,y+Math.random()*h,1+Math.random()*2,0,Math.PI*2);ctx.fill();
-    }
+    for(var i=0;i<3;i++){ctx.fillStyle='#8a7050';ctx.beginPath();ctx.arc(x+Math.random()*w,y+Math.random()*h,1+Math.random()*2,0,Math.PI*2);ctx.fill()}
 
-    // Ancient text lines
-    ctx.fillStyle='rgba(60,35,15,.5)';
-    var lh=18,cols=isLeft?1:1;
-    for(var row=0;row<Math.floor(h/lh)-2;row++){
-      var tx=x+25,ty=y+30+row*lh;
-      var lineW=w-50;
-      // Wavy text simulation with small varied rectangles
-      for(var c=0;c<20;c++){
-        var cx=tx+(c/20)*lineW,cy=ty+Math.sin(c+row)*1.5;
-        ctx.fillRect(cx,cy,Math.random()*lineW/20+3,1.5+Math.random());
+    // === STORY TEXT ===
+    var stories=[
+      // Left page 1
+      ['📜 THE LEGEND OF','','A N O N Y M O U S E','','In the shadowed corners','of the Great Kitchen,','where cheese flows like','golden rivers and crumbs','fall like manna from','above — there lived a','mouse unlike any other.','','His name was whispered','in the walls: ANON.','','By day, a humble mouse.','By night... a shadow','that struck fear into','the hearts of the','CHEESE CARTEL.'],
+      // Right page 1
+      ['The Cartel ruled the','kitchen with an iron','paw. Led by the tyrant','KING RATTUS and his','lieutenant SLICK WHISKERS,','they hoarded the finest','aged gouda and taxed','every crumb that fell.','','No mouse dared defy them.','Those who tried...','vanished into the','ventilation shaft.','','But Anon was different.','He had the POWER.','The power of the BLOCK.'],
+      // Left page 2
+      ['Anon discovered the','ancient art of CHAIN','MANIPULATION. By weaving','strands of digital gold,','he could move faster than','any cat, hide deeper','than any shadow, and','strike without warning.','','His mask: a crumb of','parmesan, hardened by','the fires of the oven.','','His weapon: a toothpick','dipped in ghost pepper','extract — the BURNING','STRIKE technique.'],
+      // Right page 2
+      ['The final battle took','place atop the GREAT','CHEESE WHEEL of the','pantry — a wheel so vast','it could feed a thousand','mice for a thousand moons.','','Anon faced Rattus and','Slick in a duel of wits,','speed, and CHAIN POWER.','','With one swift move, Anon','redirected the Cartel''s','own cheese supply back','to the colony. The wheel','was FREE. The mice were FREE.'],
+      // Left page 3
+      ['Today, Anon remains in','the shadows, watching.','The Cartel still lingers','in the dark corners,','plotting their return.','','But the mice now know:','they have a protector.','','Anonymouse — the masked','avenger of the kitchen,','wielder of the CHAIN,','guardian of the CHEESE.','','🐭 "In cheese we trust."'],
+      // Right page 3 (ending)
+      ['COMING SOON','','10,000 uniquely generated','Anonymouse heroes.','','Each one on-chain.','Each one a legend.','','The Cartel prepares.','Will YOU answer the call?','','⛓️ MINT INCOMING ⛓️','','The story is just','beginning...','','— The Ancient Tome','  of Anonymouse']
+    ];
+
+    var lines=stories[pageNum]||[];
+    ctx.fillStyle='#3a2010';
+    ctx.font='bold 14px serif';
+    ctx.textBaseline='top';
+    var lx=x+30,ly=y+25,lh=21;
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];
+      if(l==='')continue;
+      // Title lines
+      if(l.startsWith('📜')||l.startsWith('THE LEGEND')||l.startsWith('A N O N')||l.startsWith('COMING SOON')){
+        ctx.font='bold 18px serif';
+        ctx.fillStyle='#5c2a0a';
+        ctx.fillText(l,lx+w/2,ly+i*lh);
+        ctx.font='bold 14px serif';
+        ctx.fillStyle='#3a2010';
+      } else if(l.startsWith('⛓️')||l.startsWith('🐭')){
+        ctx.font='bold 16px serif';
+        ctx.fillStyle='#6b3a1a';
+        ctx.fillText(l,lx+w/2,ly+i*lh);
+        ctx.font='bold 14px serif';
+        ctx.fillStyle='#3a2010';
+      } else if(l.includes('KING RATTUS')||l.includes('SLICK WHISKERS')||l.includes('ANON')||l.includes('CHAIN')||l.includes('BURNING')||l.includes('BLOCK')||l.includes('CHEESE CARTEL')||l.includes('FREE')||l.includes('POWER')){
+        ctx.font='bold italic 14px serif';
+        ctx.fillStyle='#4a1a08';
+        ctx.fillText(l,lx+w/2,ly+i*lh);
+        ctx.font='bold 14px serif';
+        ctx.fillStyle='#3a2010';
+      } else {
+        ctx.fillText(l,lx+w/2,ly+i*lh);
       }
     }
+
+    // Page number
+    ctx.fillStyle='rgba(60,30,10,.3)';ctx.font='11px serif';
+    ctx.fillText('— '+(pageNum+1)+' —',x+w/2,y+h-18);
   }
 
   function scroll(){
