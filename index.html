@@ -10,7 +10,7 @@
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:auto}
-body{background:#0a0a0a;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6}
+body{background:#1a1510;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6}
 
 #scene{position:fixed;inset:0;z-index:0;pointer-events:none}
 #scene canvas{display:block;width:100%;height:100%}
@@ -31,8 +31,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.9)
 
 #spacer{height:500vh}
 
-section{padding:6rem 2rem;text-align:center;position:relative;z-index:1;opacity:0;transition:opacity .8s}
-section.show{opacity:1}
+section{padding:6rem 2rem;text-align:center;position:relative;z-index:1}
 .section-inner{max-width:900px;margin:0 auto}
 section h1{font-size:4rem;font-weight:700;letter-spacing:4px;color:#d4c5a0;text-shadow:0 0 30px rgba(180,140,80,.2)}
 section .tagline{font-size:1.3rem;color:rgba(200,180,140,.55);margin-top:.8rem;max-width:520px;margin-left:auto;margin-right:auto;font-style:italic}
@@ -252,7 +251,6 @@ h2.section-title span{color:#8b5a3a}
     if(pInside>.5){var a=(pInside-.5)/.5;ctx.fillStyle='rgba(2,1,0,'+(a*.25)+')';ctx.fillRect(0,0,W,H)}
     if(pInside>.85)document.getElementById('scene').style.opacity=1-(pInside-.85)*7;
     else document.getElementById('scene').style.opacity=1;
-    secs.forEach(function(s){s.classList.toggle('show',pInside>.9)});
   }
 
   function drawPage(x,y,w,h,isLeft,pageNum){
