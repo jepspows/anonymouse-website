@@ -193,10 +193,14 @@ function draw(){
   ctx.fillStyle=spG;ctx.fillRect(BW/2-12,12,24,BH-24);
   ctx.strokeStyle='#050100';ctx.lineWidth=1.5;ctx.strokeRect(BW/2-12,12,24,BH-24);
 
+  // Select spread based on zoom progress
+  var spread=Math.min(Math.floor(t*3.5),2);
+  var pgL=spread*2,pgR=spread*2+1;
+
   // === LEFT PAGE ===
-  drawPage(30,20,BW/2-50,BH-40,true,0);
+  drawPage(30,20,BW/2-50,BH-40,true,pgL);
   // === RIGHT PAGE ===
-  drawPage(BW/2+20,20,BW/2-50,BH-40,false,1);
+  drawPage(BW/2+20,20,BW/2-50,BH-40,false,pgR);
 
   // Page stack
   for(var i=0;i<4;i++){var o=i*2;ctx.fillStyle='rgba(160,140,100,'+(.06-i*.01)+')';ctx.fillRect(30-o,20+o,BW/2-50+o,BH-40-o);ctx.fillRect(BW/2+20,20+o,BW/2-50-o,BH-40-o)}
@@ -226,34 +230,64 @@ function drawPage(x,y,w,h,isLeft,pageNum){
   // Tiny spots
   for(var i=0;i<15;i++){seed=(seed*16807)%2147483647;ctx.fillStyle='rgba(80,50,20,.05)';ctx.fillRect(x+((seed%1000)/1000)*w,y+((seed%1000)/1000)*h,2,2)}
 
-  // === STORY TEXT ===
+  // === ANCIENT TEXT ===
   var stories=[
-    ['📜 THE LEGEND OF','','A N O N Y M O U S E','','In the shadowed corners of','the Great Kitchen, where','cheese flows like golden','rivers — there lived a','mouse unlike any other.','','His name was whispered','in the walls: ANON.','','By day, a humble mouse.','By night... a shadow that','struck fear into the','CHEESE CARTEL.','','The Cartel, led by the','tyrant KING RATTUS and','SLICK WHISKERS, hoarded','the finest aged gouda.'],
-    ['Anon discovered the','ancient art of CHAIN','MANIPULATION. Weaving','strands of digital gold,','he moved faster than any','cat, struck without','warning.','','His weapon: a toothpick','dipped in ghost pepper —','the BURNING STRIKE.','','The final battle atop','the GREAT CHEESE WHEEL.','Anon faced Rattus in a','duel of CHAIN POWER.','','The wheel was FREE.','The mice were FREE.'],
-    ['Today, Anon watches','from the shadows. The','Cartel lingers, plotting.','','But the mice know: they','have a protector.','','🐭 ANONYMOUSE 🐭','Wielder of the CHAIN,','Guardian of the CHEESE.','','"In cheese we trust."','','COMING SOON','10,000 on-chain heroes.','Will YOU answer the call?','','— The Ancient Tome']
+    // Spread 0: Left page - The Legend Begins
+    ['📜 THE BOOK OF ANON','','In the age before ages,','when the Great Kitchen','was new and the first','cheese wheel had not yet','aged — there came a mouse.','','A mouse of humble birth,','born in the walls behind','the pantry, where dust','and darkness reigned.','','His mother named him Anon,','for he was small and quiet,','easily forgotten by the','world above. But fate had','other plans for this mouse.','','For Anon was born under','the Sign of the Cheddar,','and the ancients foretold','that one such as he would','rise to challenge the','darkness that crept ever','closer to the sacred','wheels of the kitchen.'],
+    // Spread 0: Right page - The Cartel Rises
+    ['In those dark days, the','CHEESE CARTEL ruled with','an iron paw. Their leader,','KING RATTUS, was a beast','of immense size, his fur','matted with the grease of','a thousand stolen meals.','','Beside him stood SLICK','WHISKERS, a cunning rogue','whose charm masked a','heart of pure malice.','','Together, they hoarded','every wheel of aged gouda,','every wedge of parmesan,','every crumb of cheddar.','The mice of the kitchen','starved while the Cartel','feasted in their fortress','of discarded cardboard.'],
+    // Spread 1: Left page - The Awakening
+    ['It was on the Night of','the Full Refrigerator that','Anon discovered his gift.','','As Rattus''s thugs cornered','him behind the flour sack,','something awakened within.','The ancient power of the','CHAIN surged through his','tiny body.','','Golden strands of energy','wove around his paws — the','same energy that binds the','universe together, that','flows through every block','of the great chain of','existence.','','Anon had become something','more than a mouse. He had','become a force of nature.'],
+    // Spread 1: Right page - Training
+    ['For seven moons, Anon','trained in secret beneath','the floorboards. He learned','to harness the CHAIN — to','move faster than thought,','to strike with the force','of a thousand crumbs.','','He forged his mask from a','shard of aged parmesan,','hardened in the fires of','the oven''s pilot light.','','His weapon: a single','toothpick, dipped in the','essence of ghost pepper —','known to the ancients as','the BURNING STRIKE. One','touch and even Rattus','would know true pain.','','The time for hiding was','over. The time for war','had begun.'],
+    // Spread 2: Left page - The Battle
+    ['The final confrontation','took place atop the GREAT','CHEESE WHEEL — a monument','so vast it cast shadows','across the entire pantry.','','Rattus and his lieutenants','surrounded Anon, their','eyes gleaming with malice.','But Anon stood firm, the','CHAIN crackling around him','like golden lightning.','','One by one, the Cartel''s','fighters fell before the','BURNING STRIKE. None could','match the speed of one who','moved between the blocks','of reality itself.','','At last, only Rattus and','Slick remained.'],
+    // Spread 2: Right page - Victory & Legacy
+    ['The duel was swift. Anon','redirected the Cartel''s own','cheese supply back to the','starving colony — a feat','of CHAIN manipulation that','would be sung of for','generations.','','The wheel was FREE. The','mice were FREE.','','🐭 ANONYMOUSE 🐭','','Now he watches from the','shadows, guardian of the','kitchen, wielder of the','CHAIN, protector of all','who dwell in the walls.','','"In cheese we trust."','','THE ANCIENT TOME FORETELLS:','10,000 heroes shall rise.','On-chain. Eternal. Unstoppable.','The Cartel prepares its return.','WILL YOU ANSWER THE CALL?']
   ];
 
   var lines=stories[pageNum]||[];
   ctx.textBaseline='top';
-  var lx=x+20,ly=y+25,lh=20;
+  var lx=x+15,ly=y+20,lh=18.5;
+
+  // Decorative top border
+  ctx.strokeStyle='rgba(80,40,15,.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(lx+20,ly-2);ctx.lineTo(x+w-20,ly-2);ctx.stroke();
 
   for(var i=0;i<lines.length;i++){
     var l=lines[i];if(l==='')continue;
-    if(l.startsWith('📜')||l.indexOf('A N O N')===0||l==='COMING SOON'){
-      ctx.font='bold 17px serif';ctx.fillStyle='#5c2a0a';
-    }else if(l.startsWith('🐭')||l.indexOf('ANONYMOUSE')===2){
-      ctx.font='bold 15px serif';ctx.fillStyle='#6b3a1a';
-    }else if(l.indexOf('KING')>=0||l.indexOf('SLICK')>=0||l.indexOf('CHAIN')>=0||l.indexOf('BURNING')>=0||l.indexOf('FREE')>=0||l.indexOf('CHEESE CARTEL')>=0||l.indexOf('POWER')>=0){
-      ctx.font='italic bold 13px serif';ctx.fillStyle='#4a1a08';
-    }else{
-      ctx.font='bold 13px serif';ctx.fillStyle='#3a2010';
-    }
+
+    // Carved stone effect: dark text with light shadow (chiseled look)
+    var isTitle=l.startsWith('📜')||l.indexOf('A N O N')===0||l==='COMING SOON'||l.indexOf('THE BOOK')===0;
+    var isBig=l.startsWith('🐭')||l.indexOf('ANONYMOUSE')===2||l.indexOf('THE ANCIENT')===0||l.indexOf('WILL YOU')===0;
+    var isKey=l.indexOf('KING')>=0||l.indexOf('SLICK')>=0||l.indexOf('CHAIN')>=0||l.indexOf('BURNING')>=0||l.indexOf('FREE')>=0||l.indexOf('CHEESE CARTEL')>=0||l.indexOf('POWER')>=0||l.indexOf('GREAT CHEESE')>=0||l.indexOf('CARV')>=0;
+
+    // Shadow layer (carved depth)
+    ctx.fillStyle='rgba(0,0,0,.15)';
+    if(isTitle){ctx.font='bold 19px serif'}
+    else if(isBig){ctx.font='bold 16px serif'}
+    else{ctx.font='bold 13px serif'}
+    ctx.fillText(l,lx+w/2+1,ly+i*lh+1);
+
+    // Main text layer
+    if(isTitle){ctx.fillStyle='#3a1805';ctx.font='bold 19px serif'}
+    else if(isBig){ctx.fillStyle='#4a1a08';ctx.font='bold 16px serif'}
+    else if(isKey){ctx.fillStyle='#4a1805';ctx.font='italic bold 13px serif'}
+    else{ctx.fillStyle='#2a1005';ctx.font='bold 13px serif'}
     ctx.fillText(l,lx+w/2,ly+i*lh);
+
+    // Subtle highlight on top (carved edge catch light)
+    ctx.fillStyle='rgba(255,240,200,.06)';
+    ctx.fillText(l,lx+w/2-0.5,ly+i*lh-0.5);
   }
 
-  // Page number
-  ctx.fillStyle='rgba(60,30,10,.25)';ctx.font='10px serif';
-  ctx.fillText('— '+(pageNum+1)+' —',x+w/2,y+h-15);
+  // Decorative bottom border
+  ctx.strokeStyle='rgba(80,40,15,.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(lx+20,y+h-18);ctx.lineTo(x+w-20,y+h-18);ctx.stroke();
+
+  // Page number with ornaments
+  ctx.fillStyle='rgba(60,30,10,.3)';ctx.font='11px serif';
+  ctx.fillText('◆ '+(pageNum+1)+' ◆',x+w/2,y+h-12);
 }
 
 function onScroll(){draw()}
