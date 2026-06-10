@@ -10,64 +10,50 @@
 @font-face { font-family:'Milkway'; src:url('assets/fonts/Milkway.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-/* ---------- INSIDE THE BURROW ---------- */
 body {
-  background:
-    radial-gradient(ellipse 800px 400px at 50% 20%, rgba(60,30,10,.3) 0%, transparent 70%),
-    radial-gradient(ellipse 600px 600px at 20% 60%, rgba(50,25,8,.2) 0%, transparent 60%),
-    radial-gradient(ellipse 500px 500px at 80% 40%, rgba(50,25,8,.15) 0%, transparent 60%),
-    linear-gradient(180deg, #1a0f05 0%, #241510 30%, #1a0f05 60%, #120a03 100%);
-  color:#d4c5b0; min-height:100vh;
+  background:#fffef9;
+  color:#111; min-height:100vh;
   font-family:'Milkway',cursive;
   line-height:1.6; overflow-x:hidden;
 }
 
-/* ---------- ROOT BEAM NAV ---------- */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:linear-gradient(180deg, #3a2210 0%, #2d8a4e 50%, #1f6b35 100%);
-  border-bottom:2px solid #1a0f05;
-  box-shadow:0 4px 20px rgba(0,0,0,.5);
-  display:flex; align-items:center; justify-content:center;
-  padding:0 2rem; height:64px;
+  background:#2d8a4e; border-bottom:1px solid rgba(255,255,255,.12);
+  display:flex; align-items:center; justify-content:center; padding:0 2rem; height:64px;
 }
 .nav-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:1200px; }
 .logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; }
-.logo-area img { height:40px; width:40px; border-radius:8px; }
-.logo-area span { font-size:1.6rem; font-weight:700; color:#f5e6c8; letter-spacing:.5px; text-shadow:0 1px 4px rgba(0,0,0,.5); }
+.logo-area span { font-size:1.6rem; font-weight:700; color:#fff; letter-spacing:.5px; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
-.nav-links a { color:rgba(245,230,200,.65); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
-.nav-links a:hover { color:#f5e6c8; }
+.nav-links a { color:rgba(255,255,255,.72); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
+.nav-links a:hover { color:#fff; }
 .nav-actions { display:flex; align-items:center; gap:12px; }
-.social-link { color:rgba(245,230,200,.5); text-decoration:none; font-size:.95rem; transition:color .2s; }
-.social-link:hover { color:#f5e6c8; }
-.btn-lang { background:none; border:1px solid rgba(245,230,200,.3); color:rgba(245,230,200,.7); padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
-.btn-lang:hover { background:rgba(245,230,200,.15); color:#f5e6c8; }
-.btn-connect { background:#e8a840; color:#1a0f05; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(232,168,64,.25); }
-.btn-connect:hover { background:#f0c060; box-shadow:0 0 30px rgba(232,168,64,.5); transform:translateY(-1px); }
-
-/* ---------- TUNNEL DIVIDERS ---------- */
-#types, #about, #history { border-top:3px solid #1a0f05; }
+.social-link { color:rgba(255,255,255,.55); text-decoration:none; font-size:.95rem; transition:color .2s; }
+.social-link:hover { color:#fff; }
+.btn-lang { background:none; border:1px solid rgba(255,255,255,.45); color:#fff; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.btn-lang:hover { background:#fff; color:#2d8a4e; }
+.btn-connect { background:#fff; color:#2d8a4e; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.2); }
+.btn-connect:hover { background:#3cb864; color:#fff; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
 
 section { padding:6rem 2rem; text-align:center; position:relative; }
 .section-inner { max-width:1000px; margin:0 auto; }
 
-/* ---------- HERO — main chamber ---------- */
+/* ---------- HERO ---------- */
 .hero {
-  padding-top:140px; min-height:100vh;
+  padding-top:120px; min-height:100vh;
   display:flex; align-items:center; justify-content:center;
   position:relative; overflow:hidden;
+  background:linear-gradient(180deg, #e8f5e9 0%, #fffef9 60%);
 }
-/* Remove old SVG scene */
-.hero-scene { display:none; }
-.hero-inner { text-align:center; position:relative; z-index:1; }
+.hero-scene {
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:600px; height:420px; z-index:0;
+}
+.hero-inner { text-align:center; position:relative; z-index:2; padding-bottom:340px; }
 .hero-logo-wrap { position:relative; display:inline-block; }
 
-.speech-bubble {
-  position:fixed; background:#3d2b15; color:#f5e6c8; padding:10px 16px; border-radius:16px;
-  font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,.4); z-index:50; font-size:1rem;
-  line-height:1.3; white-space:nowrap; border:1px solid rgba(245,230,200,.1);
-}
+.speech-bubble { position:fixed; background:#fff; color:#111; padding:10px 16px; border-radius:16px; font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,.08); z-index:50; font-size:1rem; line-height:1.3; white-space:nowrap; border:1px solid rgba(0,0,0,.04); }
 .sb1 { top:20px; right:20px; } .sb2 { top:65px; left:20px; }
 .sb3 { top:110px; right:20px; } .sb4 { top:155px; left:20px; }
 .sb5 { top:200px; right:20px; } .sb6 { top:245px; left:20px; }
@@ -75,93 +61,75 @@ section { padding:6rem 2rem; text-align:center; position:relative; }
 .sb9 { top:380px; right:20px; } .sb10 { top:425px; left:20px; }
 .sb11 { top:470px; right:20px; } .sb12 { top:515px; left:20px; }
 
-.hero-logo { width:200px; height:200px; border-radius:50%; margin-bottom:2rem; border:4px solid #e8a840; object-fit:cover; box-shadow:0 0 60px rgba(232,168,64,.3), 0 0 120px rgba(232,168,64,.1); }
-.hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#f5e6c8; text-shadow:0 0 30px rgba(232,168,64,.4); }
-.hero .tagline { font-size:1.4rem; color:rgba(245,230,200,.55); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
-.hero .description { font-size:1.1rem; color:rgba(245,230,200,.4); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
-.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2.5rem; }
-.stat { text-align:center; }
-.stat-num { font-size:2.8rem; font-weight:700; color:#e8a840; text-shadow:0 0 20px rgba(232,168,64,.3); }
-.stat-label { font-size:.9rem; color:rgba(245,230,200,.4); text-transform:uppercase; letter-spacing:1px; }
+.hero-logo { width:160px; height:160px; border-radius:50%; margin-bottom:1.5rem; border:3px solid #2d8a4e; object-fit:cover; }
+.hero h1 { font-size:3.5rem; font-weight:700; letter-spacing:-1px; color:#2d8a4e; }
+.hero .tagline { font-size:1.3rem; color:rgba(0,0,0,.48); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero .description { font-size:1.05rem; color:rgba(0,0,0,.38); max-width:600px; margin:1.2rem auto 0; line-height:1.7; }
+.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2rem; }
+.stat-num { font-size:2.6rem; font-weight:700; color:#2d8a4e; }
+.stat-label { font-size:.85rem; color:rgba(0,0,0,.38); text-transform:uppercase; letter-spacing:1px; }
 
-/* ---------- CHAMBERS ---------- */
-#types { background:linear-gradient(180deg, rgba(40,20,8,.6) 0%, rgba(30,15,5,.4) 100%); }
-#about { background:linear-gradient(180deg, rgba(30,15,5,.4) 0%, rgba(40,20,8,.6) 100%); }
-#history { background:linear-gradient(180deg, rgba(40,20,8,.6) 0%, rgba(30,15,5,.4) 100%); }
-#gallery { background:rgba(35,18,6,.5); }
-
+/* ---------- SECTIONS ---------- */
+#types, #about, #history { border-top:1px solid rgba(45,138,78,.12); }
 .types-grid { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
-.type-card {
-  background:linear-gradient(180deg, rgba(60,35,15,.7) 0%, rgba(45,25,10,.7) 100%);
-  border:1px solid rgba(232,168,64,.2); border-radius:14px;
-  padding:2rem 2.5rem; cursor:pointer; transition:all .3s;
-  min-width:180px; text-align:center;
-  box-shadow:0 4px 20px rgba(0,0,0,.3);
-}
-.type-card:hover { border-color:#e8a840; transform:translateY(-4px); box-shadow:0 8px 30px rgba(232,168,64,.15); }
-.type-card h3 { font-size:1.4rem; color:#f5e6c8; margin-bottom:.3rem; }
-.type-card .count { font-size:1rem; color:rgba(245,230,200,.3); }
+.type-card { background:#fff; border:1px solid #d8e8d4; border-radius:14px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
+.type-card:hover { border-color:#2d8a4e; background:rgba(45,138,78,.03); transform:translateY(-4px); box-shadow:0 8px 30px rgba(45,138,78,.1); }
+.type-card h3 { font-size:1.4rem; color:#111; margin-bottom:.3rem; }
+.type-card .count { font-size:1rem; color:rgba(0,0,0,.32); }
 
 .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; max-width:900px; margin:2.5rem auto 0; }
-.gallery-item {
-  background:rgba(60,35,15,.5); border:1px solid rgba(232,168,64,.15); border-radius:12px;
-  overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1;
-  display:flex; align-items:center; justify-content:center; position:relative;
-  box-shadow:0 4px 20px rgba(0,0,0,.3);
-}
-.gallery-item:hover { border-color:#e8a840; transform:translateY(-3px); box-shadow:0 12px 40px rgba(232,168,64,.12); }
+.gallery-item { background:#fff; border:1px solid #d8e8d4; border-radius:12px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
+.gallery-item:hover { border-color:#2d8a4e; transform:translateY(-3px); box-shadow:0 12px 40px rgba(45,138,78,.1); }
 .gallery-item img { width:100%; height:100%; object-fit:cover; }
 .gallery-blur { filter:blur(20px); pointer-events:none; user-select:none; }
-.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.8); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#f5e6c8; font-weight:600; }
+.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.7); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fff; font-weight:600; }
 
-.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#e8a840; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; text-shadow:0 0 20px rgba(232,168,64,.5); }
+.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#2d8a4e; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
 
-.about-text { max-width:650px; margin:2rem auto 0; color:rgba(245,230,200,.5); font-size:1.1rem; line-height:1.8; }
-.about-text strong { color:#f5e6c8; }
+.about-text { max-width:650px; margin:2rem auto 0; color:rgba(0,0,0,.52); font-size:1.1rem; line-height:1.8; }
+.about-text strong { color:#111; }
 
 .timeline { max-width:700px; margin:2.5rem auto 0; text-align:left; }
-.timeline-item { border-left:2px solid rgba(232,168,64,.2); padding:1.5rem 0 1.5rem 2rem; position:relative; }
-.timeline-item::before { content:''; position:absolute; left:-6px; top:2rem; width:10px; height:10px; border-radius:50%; background:#e8a840; box-shadow:0 0 12px rgba(232,168,64,.5); }
-.timeline-item h3 { font-size:1.3rem; color:#f5e6c8; margin-bottom:.3rem; }
-.timeline-item p { color:rgba(245,230,200,.4); font-size:1.05rem; line-height:1.7; }
-.timeline-item .date { font-size:.9rem; color:#e8a840; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
+.timeline-item { border-left:2px solid rgba(45,138,78,.28); padding:1.5rem 0 1.5rem 2rem; position:relative; }
+.timeline-item::before { content:''; position:absolute; left:-6px; top:2rem; width:10px; height:10px; border-radius:50%; background:#2d8a4e; box-shadow:0 0 10px rgba(45,138,78,.4); }
+.timeline-item h3 { font-size:1.3rem; color:#111; margin-bottom:.3rem; }
+.timeline-item p { color:rgba(0,0,0,.42); font-size:1.05rem; line-height:1.7; }
+.timeline-item .date { font-size:.9rem; color:#2d8a4e; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
 
 .search-row { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
-.search-row input { background:rgba(60,35,15,.6); border:1px solid rgba(232,168,64,.2); color:#f5e6c8; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
-.search-row input::placeholder { color:rgba(245,230,200,.25); }
-.search-row input:focus { border-color:#e8a840; }
-.search-row button { background:#e8a840; color:#1a0f05; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(232,168,64,.25); }
-.search-row button:hover { background:#f0c060; }
+.search-row input { background:#fff; border:1px solid #d8e8d4; color:#111; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
+.search-row input:focus { border-color:#2d8a4e; }
+.search-row button { background:#2d8a4e; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(45,138,78,.2); }
+.search-row button:hover { background:#3cb864; }
 
-/* ---------- FOOTER — deepest chamber ---------- */
-footer { background:#120a03; border-top:3px solid #1a0f05; padding:3rem 2rem; text-align:center; }
+footer { background:#2d8a4e; padding:3rem 2rem; text-align:center; }
 footer .footer-links { display:flex; gap:2rem; justify-content:center; list-style:none; margin-bottom:1rem; }
-footer .footer-links a { color:rgba(245,230,200,.3); text-decoration:none; font-size:1rem; transition:color .2s; }
-footer .footer-links a:hover { color:#e8a840; }
-footer .copy { color:rgba(245,230,200,.15); font-size:.95rem; }
+footer .footer-links a { color:rgba(255,255,255,.55); text-decoration:none; font-size:1rem; transition:color .2s; }
+footer .footer-links a:hover { color:#fff; }
+footer .copy { color:rgba(255,255,255,.3); font-size:.95rem; }
 
-.modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
+.modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-.modal { background:#2a180a; border:1px solid rgba(232,168,64,.25); border-radius:16px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; box-shadow:0 0 60px rgba(0,0,0,.5); }
-.modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(245,230,200,.3); font-size:1.5rem; cursor:pointer; transition:color .2s; }
-.modal-close:hover { color:#e8a840; }
-.modal img { width:160px; height:160px; border-radius:12px; margin-bottom:1rem; border:2px solid rgba(232,168,64,.3); }
-.modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#f5e6c8; }
-.modal .trait { color:rgba(245,230,200,.4); font-size:1rem; margin:.2rem 0; }
-.modal .trait span { color:#e8a840; font-weight:600; }
+.modal { background:#fff; border:1px solid rgba(45,138,78,.3); border-radius:16px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; }
+.modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(0,0,0,.4); font-size:1.5rem; cursor:pointer; transition:color .2s; }
+.modal-close:hover { color:#2d8a4e; }
+.modal img { width:160px; height:160px; border-radius:12px; margin-bottom:1rem; }
+.modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#111; }
+.modal .trait { color:rgba(0,0,0,.45); font-size:1rem; margin:.2rem 0; }
+.modal .trait span { color:#2d8a4e; font-weight:600; }
 
-h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#f5e6c8; text-shadow:0 0 20px rgba(232,168,64,.2); }
-h2.section-title span { color:#e8a840; }
+h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#2d8a4e; }
+h2.section-title span { color:#2d8a4e; }
 
 @media(max-width:768px) {
-  .hero-scene { display:none; }
+  .hero-inner { padding-bottom:200px; }
+  .hero-scene { max-width:100%; height:280px; }
   .nav-links { display:none; }
   .nav-inner { padding:0 10px; }
   .logo-area span { font-size:1.2rem; }
   .btn-connect { padding:6px 14px; font-size:.75rem; }
   .btn-lang { font-size:.7rem; padding:3px 8px; }
   .social-link { font-size:.75rem; }
-
   .hero { padding-top:100px; min-height:auto; padding-bottom:2rem; }
   .hero h1 { font-size:2rem; }
   .hero .tagline { font-size:1rem; max-width:90%; }
@@ -170,35 +138,28 @@ h2.section-title span { color:#e8a840; }
   .stat-num { font-size:1.5rem; }
   .stat-label { font-size:.65rem; }
   .hero-logo { width:120px; height:120px; }
-
   .speech-bubble { display:none; }
-
   section { padding:3rem 1rem; }
   .section-inner { max-width:100%; }
   h2.section-title { font-size:1.6rem; }
   .about-text { font-size:.9rem; padding:0 5px; }
   .about-text p { text-align:left; }
-
   .types-grid { flex-direction:column; align-items:center; gap:0.8rem; }
   .type-card { min-width:auto; width:80%; padding:1.2rem 1.5rem; }
   .type-card h3 { font-size:1.1rem; }
-
   .gallery-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:0.5rem; margin:1.5rem auto 0; }
   .coming-soon-overlay { font-size:1.3rem; letter-spacing:3px; }
   .search-row input { width:160px; font-size:.85rem; }
   .search-row button { padding:8px 16px; font-size:.85rem; }
-
   .timeline { padding-left:0; }
   .timeline-item { padding:1rem 0 1rem 1.5rem; }
   .timeline-item h3 { font-size:1rem; }
   .timeline-item p { font-size:.8rem; }
   .timeline-item .date { font-size:.7rem; }
-
   footer { padding:2rem 1rem; }
   footer .footer-links { gap:1rem; }
   footer .footer-links a, footer .footer-links span { font-size:.75rem; }
   footer .copy { font-size:.7rem; }
-
   .modal { padding:1.5rem; max-width:90%; }
   .modal h2 { font-size:1.2rem; }
   .modal .trait { font-size:.8rem; }
@@ -221,7 +182,7 @@ h2.section-title span { color:#e8a840; }
     </ul>
     <div class="nav-actions">
       <a href="https://x.com/anonymouseoneth" target="_blank" class="social-link">X</a>
-      <span style="color:rgba(245,230,200,.2);font-size:.85rem;cursor:default;">Discord</span>
+      <span style="color:rgba(255,255,255,.3);font-size:.85rem;cursor:default;">Discord</span>
       <button class="btn-lang" onclick="toggleLang()" data-i18n="nav.lang">日本語</button>
       <button class="btn-connect" data-i18n="nav.connect">Coming Soon</button>
     </div>
@@ -229,84 +190,70 @@ h2.section-title span { color:#e8a840; }
 </nav>
 
 <section class="hero" id="home">
-  <svg class="hero-scene" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <!-- Sky -->
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#87CEEB"/>
-        <stop offset="60%" stop-color="#B0E0F0"/>
-        <stop offset="100%" stop-color="#E8F5E9"/>
-      </linearGradient>
-      <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#4a7c4f"/>
-        <stop offset="100%" stop-color="#2d5a30"/>
-      </linearGradient>
-      <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#5c8a5f"/>
-        <stop offset="100%" stop-color="#3d6b40"/>
-      </linearGradient>
-    </defs>
-    <rect width="1200" height="900" fill="url(#sky)"/>
-    <!-- Sun -->
-    <circle cx="950" cy="120" r="55" fill="#FFF9C4" opacity="0.9"/>
-    <circle cx="950" cy="120" r="45" fill="#FFEB3B" opacity="0.7"/>
-    <!-- Clouds -->
-    <g fill="white" opacity="0.7">
-      <ellipse cx="200" cy="100" rx="70" ry="25"/><ellipse cx="260" cy="90" rx="50" ry="20"/><ellipse cx="150" cy="95" rx="45" ry="18"/>
-      <ellipse cx="700" cy="140" rx="60" ry="22"/><ellipse cx="760" cy="130" rx="45" ry="18"/>
-    </g>
-    <!-- Far mountains -->
-    <polygon points="0,380 150,240 300,350 450,200 600,380" fill="url(#mtn1)" opacity="0.6"/>
-    <polygon points="300,380 500,260 650,340 800,220 950,330 1100,250 1200,380" fill="url(#mtn1)" opacity="0.5"/>
-    <!-- Near mountains -->
-    <polygon points="-50,450 100,320 250,420 400,290 550,400 700,340 850,430 1000,310 1150,420 1250,350" fill="url(#mtn2)"/>
-    <!-- Rice terraces -->
-    <rect x="0" y="430" width="1200" height="35" fill="#6db36d" rx="2"/>
-    <rect x="0" y="465" width="1200" height="35" fill="#5ea85e" rx="2"/>
-    <rect x="0" y="500" width="1200" height="35" fill="#4d9c4d" rx="2"/>
-    <rect x="0" y="535" width="1200" height="40" fill="#3d8b3d" rx="2"/>
-    <rect x="0" y="575" width="1200" height="40" fill="#2d7a2d" rx="2"/>
-    <!-- Terrace water lines -->
-    <rect x="0" y="430" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
-    <rect x="0" y="465" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
-    <rect x="0" y="500" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
-    <rect x="0" y="535" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
-    <rect x="0" y="575" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
-    <!-- Mouse burrow hole in the hillside -->
-    <ellipse cx="550" cy="500" rx="45" ry="35" fill="#1a0f05"/>
-    <ellipse cx="550" cy="498" rx="42" ry="32" fill="#2a1a0a"/>
-    <ellipse cx="550" cy="496" rx="38" ry="28" fill="#1a0a00"/>
-    <!-- Dirt mound around hole -->
-    <ellipse cx="550" cy="508" rx="55" ry="18" fill="#6b4a2a"/>
-    <ellipse cx="550" cy="506" rx="52" ry="15" fill="#7d5a35"/>
-    <!-- Little grass tufts around the burrow -->
-    <g stroke="#3d7a3d" stroke-width="2.5" fill="none" stroke-linecap="round">
-      <path d="M495,505 Q490,485 495,475"/><path d="M500,508 Q498,488 503,478"/>
-      <path d="M600,505 Q605,485 600,475"/><path d="M595,508 Q597,488 592,478"/>
-      <path d="M520,515 Q515,495 520,488"/><path d="M580,515 Q585,495 580,488"/>
-    </g>
-    <!-- Tiny path/trail leading into the hole -->
-    <path d="M550,530 Q540,560 530,590 Q520,620 540,660 Q560,700 580,740" fill="none" stroke="#9b8c70" stroke-width="12" opacity="0.5" stroke-linecap="round"/>
-    <!-- Rice stalks in foreground -->
-    <g stroke="#3d6b3d" stroke-width="2" fill="none" opacity="0.8">
-      <path d="M50,750 Q55,700 48,660"/><path d="M55,750 Q60,705 65,670"/>
-      <path d="M150,750 Q145,695 152,650"/><path d="M155,750 Q160,700 158,660"/>
-      <path d="M850,750 Q845,700 852,660"/><path d="M855,750 Q860,705 858,670"/>
-      <path d="M950,750 Q945,695 952,650"/><path d="M955,750 Q960,700 958,660"/>
-      <path d="M1050,750 Q1045,700 1052,660"/><path d="M1055,750 Q1060,705 1058,670"/>
-      <path d="M350,750 Q345,700 352,660"/><path d="M355,750 Q360,705 358,670"/>
-      <path d="M650,750 Q645,700 652,660"/><path d="M655,750 Q660,705 658,670"/>
-      <path d="M750,750 Q745,700 752,660"/><path d="M755,750 Q760,705 758,670"/>
-    </g>
-    <!-- Foreground grass -->
-    <rect x="0" y="615" width="1200" height="300" fill="#1d5a1d"/>
-    <!-- Bottom fade to content -->
-    <rect x="0" y="750" width="1200" height="150" fill="url(#sky)" opacity="0.95"/>
+  <svg class="hero-scene" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <!-- Grass ground -->
+    <rect x="0" y="360" width="600" height="60" fill="#7cbd7c" rx="0"/>
+    <ellipse cx="300" cy="360" rx="320" ry="20" fill="#6db36d"/>
+    <!-- House body - cute rounded shape -->
+    <rect x="170" y="180" width="260" height="180" fill="#f5e6c8" rx="20"/>
+    <rect x="170" y="180" width="260" height="180" fill="none" stroke="#5c3a1a" stroke-width="4" rx="20"/>
+    <!-- Roof -->
+    <polygon points="140,190 300,60 460,190" fill="#c0392b"/>
+    <polygon points="140,190 300,60 460,190" fill="none" stroke="#5c3a1a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Roof shingle lines -->
+    <line x1="220" y1="145" x2="380" y2="145" stroke="rgba(0,0,0,.08)" stroke-width="2"/>
+    <line x1="260" y1="105" x2="340" y2="105" stroke="rgba(0,0,0,.08)" stroke-width="2"/>
+    <!-- Chimney -->
+    <rect x="370" y="80" width="30" height="50" fill="#e8d5b0" rx="2"/>
+    <rect x="370" y="80" width="30" height="50" fill="none" stroke="#5c3a1a" stroke-width="3" rx="2"/>
+    <!-- Smoke puffs -->
+    <circle cx="395" cy="65" r="10" fill="white" opacity="0.6"/>
+    <circle cx="405" cy="48" r="13" fill="white" opacity="0.5"/>
+    <circle cx="395" cy="30" r="16" fill="white" opacity="0.35"/>
+    <!-- Mouse hole door (arch) -->
+    <path d="M270,360 L270,300 Q300,250 330,300 L330,360 Z" fill="#3d2b15"/>
+    <path d="M270,360 L270,300 Q300,250 330,300 L330,360 Z" fill="none" stroke="#5c3a1a" stroke-width="3"/>
+    <!-- Door frame highlight -->
+    <path d="M275,355 L275,300 Q300,258 325,300 L325,355" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2"/>
+    <!-- Window (round) -->
+    <circle cx="230" cy="260" r="25" fill="#87CEEB"/>
+    <circle cx="230" cy="260" r="25" fill="none" stroke="#5c3a1a" stroke-width="3"/>
+    <line x1="230" y1="235" x2="230" y2="285" stroke="#5c3a1a" stroke-width="2"/>
+    <line x1="205" y1="260" x2="255" y2="260" stroke="#5c3a1a" stroke-width="2"/>
+    <!-- Small window -->
+    <circle cx="370" cy="260" r="20" fill="#87CEEB"/>
+    <circle cx="370" cy="260" r="20" fill="none" stroke="#5c3a1a" stroke-width="3"/>
+    <line x1="370" y1="240" x2="370" y2="280" stroke="#5c3a1a" stroke-width="2"/>
+    <line x1="350" y1="260" x2="390" y2="260" stroke="#5c3a1a" stroke-width="2"/>
+    <!-- Welcome mat -->
+    <rect x="275" y="360" width="50" height="8" fill="#8B7355" rx="1"/>
+    <!-- Little flowers -->
+    <circle cx="120" cy="355" r="6" fill="#f9e076"/>
+    <circle cx="120" cy="355" r="3" fill="#e8a840"/>
+    <circle cx="480" cy="350" r="5" fill="#f9e076"/>
+    <circle cx="480" cy="350" r="2.5" fill="#e8a840"/>
+    <circle cx="500" cy="358" r="4" fill="#f5a0a0"/>
+    <circle cx="500" cy="358" r="2" fill="#e87070"/>
+    <!-- Fence -->
+    <rect x="90" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="90" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
+    <rect x="112" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="112" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
+    <rect x="134" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="134" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
+    <rect x="90" y="325" width="50" height="5" fill="#d4b896" rx="1"/><rect x="90" y="325" width="50" height="5" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
+    <rect x="90" y="345" width="50" height="5" fill="#d4b896" rx="1"/><rect x="90" y="345" width="50" height="5" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
+    <!-- Bush -->
+    <ellipse cx="140" cy="365" rx="30" ry="18" fill="#5ea85e"/>
+    <ellipse cx="125" cy="362" rx="20" ry="14" fill="#6db36d"/>
+    <ellipse cx="155" cy="362" rx="20" ry="14" fill="#4d9c4d"/>
+    <!-- Sign post -->
+    <rect x="440" y="300" width="4" height="60" fill="#8B7355"/>
+    <rect x="420" y="295" width="45" height="25" fill="#f5e6c8" rx="3"/>
+    <rect x="420" y="295" width="45" height="25" fill="none" stroke="#5c3a1a" stroke-width="2" rx="3"/>
+    <text x="442" y="312" font-size="9" fill="#5c3a1a" text-anchor="middle" font-weight="bold" font-family="sans-serif">HOME</text>
   </svg>
   <div class="hero-inner section-inner">
     <div class="hero-logo-wrap">
     </div>
-    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" style="width:180px;height:180px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #e8a840;">
+    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" style="width:180px;height:180px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #2d8a4e;">
     <h1>ANONYMOUSE</h1>
     <div class="speech-bubble sb1">Simon: Bro. We're an NFT now.</div>
     <div class="speech-bubble sb2">Stuart: Wait what. Like... a jpeg?!</div>
@@ -393,9 +340,9 @@ h2.section-title span { color:#e8a840; }
 <footer>
   <ul class="footer-links">
     <li><a href="https://x.com/anonymouseoneth" target="_blank">X</a></li>
-    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem;">Discord</span></li>
-    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem;">OpenSea</span></li>
-    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem;">Etherscan</span></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Discord</span></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">OpenSea</span></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Etherscan</span></li>
   </ul>
   <p class="copy" data-i18n="footer.copy">Anonymouse &copy; 2026. All rights reserved.</p>
 </footer>
