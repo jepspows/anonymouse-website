@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anonymouse | Home</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+@font-face { font-family:'Milkway'; src:url('assets/fonts/Milkway.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
   background:#fff;
   color:#111; min-height:100vh;
-  font-family:'Caveat',cursive;
+  font-family:'Milkway',cursive;
   line-height:1.6; overflow-x:hidden;
 }
 
@@ -118,12 +120,64 @@ h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; colo
 h2.section-title span { color:#2d8a4e; }
 
 @media(max-width:768px) {
+  /* Nav */
   .nav-links { display:none; }
-  .hero h1 { font-size:2.2rem; }
-  .hero-logo { width:140px; height:140px; }
-  .hero-stats { gap:1.5rem; }
-  .stat-num { font-size:1.8rem; }
-  .types-grid { flex-direction:column; align-items:center; }
+  .nav-inner { padding:0 10px; }
+  .logo-area span { font-size:1.2rem; }
+  .btn-connect { padding:6px 14px; font-size:.75rem; }
+  .btn-lang { font-size:.7rem; padding:3px 8px; }
+  .social-link { font-size:.75rem; }
+
+  /* Hero */
+  .hero { padding-top:100px; min-height:auto; padding-bottom:2rem; }
+  .hero h1 { font-size:2rem; }
+  .hero .tagline { font-size:1rem; max-width:90%; }
+  .hero .description { font-size:.85rem; max-width:90%; padding:0 10px; }
+  .hero-stats { gap:1rem; flex-wrap:wrap; }
+  .stat-num { font-size:1.5rem; }
+  .stat-label { font-size:.65rem; }
+  .hero-logo { width:120px; height:120px; }
+  .hero-logo-wrap { margin:0 auto; }
+
+  /* Speech bubbles - hide on mobile to prevent overlap */
+  .speech-bubble { display:none; }
+
+  /* Sections */
+  section { padding:3rem 1rem; }
+  .section-inner { max-width:100%; }
+  h2.section-title { font-size:1.6rem; }
+  .about-text { font-size:.9rem; padding:0 5px; }
+  .about-text p { text-align:left; }
+
+  /* Types */
+  .types-grid { flex-direction:column; align-items:center; gap:0.8rem; }
+  .type-card { min-width:auto; width:80%; padding:1.2rem 1.5rem; }
+  .type-card h3 { font-size:1.1rem; }
+
+  /* Gallery */
+  .gallery-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:0.5rem; margin:1.5rem auto 0; }
+  .coming-soon-overlay { font-size:1.3rem; letter-spacing:3px; }
+  .search-row input { width:160px; font-size:.85rem; }
+  .search-row button { padding:8px 16px; font-size:.85rem; }
+
+  /* Timeline */
+  .timeline { padding-left:0; }
+  .timeline-item { padding:1rem 0 1rem 1.5rem; }
+  .timeline-item h3 { font-size:1rem; }
+  .timeline-item p { font-size:.8rem; }
+  .timeline-item .date { font-size:.7rem; }
+
+  /* Footer */
+  footer { padding:2rem 1rem; }
+  footer .footer-links { gap:1rem; }
+  footer .footer-links a, footer .footer-links span { font-size:.75rem; }
+  footer .copy { font-size:.7rem; }
+
+  /* Modal */
+  .modal { padding:1.5rem; max-width:90%; }
+  .modal h2 { font-size:1.2rem; }
+  .modal .trait { font-size:.8rem; }
+  .modal img { width:100px; height:100px; }
 }
 </style>
 </head>
@@ -171,7 +225,7 @@ h2.section-title span { color:#2d8a4e; }
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
       <div class="stat"><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
-      <div class="stat"><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.price">Price</div></div>
+      <div class="stat"><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
     </div>
     <p class="description" data-i18n="hero.desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon — join the community.</p>
   </div>
@@ -267,7 +321,7 @@ var I18N = {
     "nav.lang":"日本語","nav.connect":"Coming Soon",
     
     "hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.",
-    "hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"Price",
+    "hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH",
     "hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.",
     "types.heading":"Types of Mouse",
     "gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!",
@@ -287,7 +341,7 @@ var I18N = {
     "nav.lang":"English","nav.connect":"近日公開",
     
     "hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。",
-    "hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"価格",
+    "hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH",
     "hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。",
     "types.heading":"マウスの種類",
     "gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！",
