@@ -13,7 +13,7 @@ html{scroll-behavior:smooth}
 body{background:#0d0804;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden}
 
 #scroll-zone{height:300vh}
-#book-canvas{position:fixed;inset:0;z-index:0;display:block}
+#book-canvas{position:fixed;inset:0;z-index:5;display:block;background:#0d0804}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,6,3,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(140,110,60,.1);display:flex;align-items:center;justify-content:center;padding:0 1.5rem;height:56px}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:.5rem}
@@ -26,8 +26,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,6,3,.92);
 .btn-sm{background:none;border:1px solid rgba(140,110,60,.18);color:rgba(200,180,140,.45);padding:3px 8px;border-radius:3px;font-size:.65rem;cursor:pointer;white-space:nowrap;font-family:inherit}
 .btn-cta{background:#4a2010;color:#d4c5a0;border:1px solid #6a3a20;padding:5px 14px;border-radius:3px;font-weight:700;font-size:.7rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-family:inherit}
 
-/* ANCIENT TOME PAGES */
-#tome{max-width:750px;margin:0 auto;padding:110px 1.5rem 3rem}
+#tome{display:none}
 .page{background:linear-gradient(180deg,rgba(20,12,8,.95),rgba(15,10,5,.9));border:1px solid rgba(140,110,60,.15);border-radius:2px;padding:3rem 2.5rem;margin-bottom:3rem;position:relative;overflow:hidden}
 .page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(200,160,100,.04),transparent 50%),radial-gradient(ellipse at 70% 70%,rgba(140,100,60,.03),transparent 50%);pointer-events:none}
 .page-title{font-size:2rem;text-align:center;color:#c8a860;margin-bottom:2rem;letter-spacing:4px;font-weight:700;font-family:serif}
