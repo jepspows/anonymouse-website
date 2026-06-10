@@ -10,7 +10,10 @@
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:#1a1208;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden}
+body{background:#0d0804;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden}
+
+#scroll-zone{height:300vh}
+#book-canvas{position:fixed;inset:0;z-index:0;display:block}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,6,3,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(140,110,60,.1);display:flex;align-items:center;justify-content:center;padding:0 1.5rem;height:56px}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:.5rem}
@@ -93,6 +96,9 @@ h2.section-title span{color:#8b5a3a}
 </style>
 </head>
 <body>
+
+<canvas id="book-canvas"></canvas>
+<div id="scroll-zone"></div>
 
 <nav>
   <div class="nav-inner">
@@ -230,6 +236,85 @@ h2.section-title span{color:#8b5a3a}
 <footer><ul class="footer-links"><li><a href="https://x.com/anonymouseoneth">X</a></li><li><span style="color:rgba(200,180,140,.06);font-size:.75rem">Discord</span></li><li><span style="color:rgba(200,180,140,.06);font-size:.75rem">OpenSea</span></li></ul><p class="copy">Anonymouse &copy; 2026</p></footer>
 
 <script>
+// ===== SCROLL BOOK ANIMATION =====
+(function(){
+  var C=document.getElementById('book-canvas'),ctx=C.getContext('2d');
+  if(!ctx)return; // Safety check
+
+  var W=1,H=1;
+  function rs(){
+    W=C.width=window.innerWidth||1;
+    H=C.height=window.innerHeight||1;
+  }
+  rs();
+  window.addEventListener('resize',function(){rs();draw()});
+
+  var BW=1200,BH=850,TX=BW*.62,TY=BH*.45;
+  var stories=[
+    [['📜 THE BOOK OF ANON','In the age before ages, when the','Great Kitchen was new — there came','a mouse of humble birth, born in','the walls behind the pantry. His','mother named him ANON, for he was','small and quiet. But fate had','other plans. Born under the Sign','of the Cheddar, the ancients told','that he would rise to challenge','the darkness at the sacred wheels.'],
+     ['In those dark days, the CHEESE','CARTEL ruled with an iron paw.','Their leader KING RATTUS was a','beast of immense size. Beside him','stood SLICK WHISKERS, cunning and','malicious. They hoarded every wheel','of gouda, every wedge of parmesan.','The mice starved while the Cartel','feasted in their fortress of','discarded cardboard.']],
+    [['It was on the Night of the Full','Refrigerator that Anon discovered','the ancient power of the CHAIN.','Golden strands of energy wove','around his paws — the energy that','binds the universe, flowing through','every block of existence. Anon had','become more than a mouse. He had','become a force of nature.'],
+     ['For seven moons, Anon trained in','secret beneath the floorboards. He','forged his mask from aged parmesan.','His weapon: a toothpick dipped in','ghost pepper — the BURNING STRIKE.','He learned to move faster than','thought. The time for hiding was','over. The time for war had begun.']],
+    [['The final battle took place atop','the GREAT CHEESE WHEEL — a monument','so vast it cast shadows across','the entire pantry. Rattus and his','army surrounded Anon. But Anon','stood firm, the CHAIN crackling','like golden lightning. One by one,','the Cartel fell before the might','of the BURNING STRIKE.'],
+     ['The duel was swift. Anon redirected','the Cartel cheese back to the colony.','The wheel was FREE. The mice were','FREE. Now ANONYMOUSE watches from','the shadows — guardian of the cheese,','wielder of the CHAIN. "In cheese we','trust." The Ancient Tome foretells:','10,000 heroes shall rise. On-chain.','Eternal. WILL YOU ANSWER THE CALL?']]
+  ];
+
+  function draw(){
+    var st=window.scrollY;
+    var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
+    var t=Math.min(Math.max(st/maxScroll,0),1)||0;
+
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0d0804';ctx.fillRect(0,0,W,H);
+
+    var zoom=1+t*12;
+    var bx=W/2-TX*zoom,by=H/2-TY*zoom;
+    ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
+
+    // Leather cover bg
+    var cov=ctx.createLinearGradient(0,0,0,BH);
+    cov.addColorStop(0,'#2a1205');cov.addColorStop(.5,'#1a0a02');cov.addColorStop(1,'#0d0400');
+    ctx.fillStyle=cov;
+    ctx.beginPath();ctx.moveTo(20,10);ctx.lineTo(BW-20,10);
+    ctx.quadraticCurveTo(BW+35,10,BW+35,BH/2);ctx.quadraticCurveTo(BW+35,BH,BW-20,BH-10);
+    ctx.lineTo(20,BH-10);ctx.quadraticCurveTo(-35,BH,-35,BH/2);ctx.quadraticCurveTo(-35,10,20,10);
+    ctx.closePath();ctx.fill();
+
+    // Spine
+    var sp=ctx.createLinearGradient(BW/2-10,0,BW/2+10,0);
+    sp.addColorStop(0,'#1a0a02');sp.addColorStop(.5,'#050100');sp.addColorStop(1,'#1a0a02');
+    ctx.fillStyle=sp;ctx.fillRect(BW/2-10,10,20,BH-20);
+
+    var spread=Math.min(Math.floor(t*3.5),2);
+    drawPg(30,20,BW/2-50,BH-40,stories[spread][0]);
+    drawPg(BW/2+20,20,BW/2-50,BH-40,stories[spread][1]);
+
+    ctx.restore();
+    if(t>.5){var a=(t-.5)/.5;var v=ctx.createRadialGradient(W/2,H/2,W*.35,W/2,H/2,W);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(0,0,0,'+(a*.35)+')');ctx.fillStyle=v;ctx.fillRect(0,0,W,H)}
+  }
+
+  function drawPg(x,y,w,h,lines){
+    var pg=ctx.createLinearGradient(x,y,x,y+h);
+    pg.addColorStop(0,'#e8dcc0');pg.addColorStop(.4,'#d8cba0');pg.addColorStop(1,'#beb080');
+    ctx.fillStyle=pg;ctx.fillRect(x,y,w,h);
+    // Stains
+    for(var i=0;i<6;i++){var sx=x+20+Math.random()*(w-40),sy=y+20+Math.random()*(h-40);ctx.fillStyle='rgba(100,60,30,.04)';ctx.beginPath();ctx.arc(sx,sy,15+Math.random()*30,0,Math.PI*2);ctx.fill()}
+    // Text
+    ctx.textBaseline='top';ctx.fillStyle='#2a1005';ctx.font='bold 14px serif';
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i],tx=x+w/2,ty=y+22+i*19.5;
+      if(i===0){ctx.fillStyle='#3a1805';ctx.font='bold 18px serif';ctx.fillText(l,tx,ty);ctx.font='bold 14px serif';ctx.fillStyle='#2a1005'}
+      else if(l.indexOf('KING')>=0||l.indexOf('SLICK')>=0||l.indexOf('CHAIN')>=0||l.indexOf('BURNING')>=0||l.indexOf('FREE')>=0||l.indexOf('CHEESE')>=0){ctx.fillStyle='#4a1805';ctx.font='italic bold 14px serif';ctx.fillText(l,tx,ty);ctx.font='bold 14px serif';ctx.fillStyle='#2a1005'}
+      else{ctx.fillText(l,tx,ty)}
+    }
+    ctx.fillStyle='rgba(60,30,10,.2)';ctx.font='10px serif';ctx.fillText('◆',x+w/2,y+h-12);
+  }
+
+  window.addEventListener('scroll',draw,{passive:true});
+  setTimeout(draw,100);
+})();
+
+// Gallery
 var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
 function sr(s){var d=s;return function(){d=(d*16807)%2147483647;return(d-1)/2147483646}}function pk(a,r){return a[Math.floor(r()*a.length)]}
 var MC=[];for(var i=1;i<=20;i++){var rd=sr(i*1337+42);MC.push({id:i,type:pk(TRAITS.type,rd),bg:pk(TRAITS.bg,rd),fur:pk(TRAITS.fur,rd),eyes:pk(TRAITS.eyes,rd),head:pk(TRAITS.head,rd)})}
