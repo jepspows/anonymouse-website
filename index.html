@@ -241,151 +241,252 @@ h2.section-title span{color:#2d8a4e}
   function o(x,y,rx,ry,c,sw,sc){ctx.fillStyle=c;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();if(sc){ctx.strokeStyle=sc;ctx.lineWidth=sw||1;ctx.stroke()}}
   function L(x1,y1,x2,y2,c,w){ctx.strokeStyle=c;ctx.lineWidth=w||2;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
   function T(x,y,t,c,s,al){ctx.fillStyle=c;ctx.font=(s||14)+'px monospace';ctx.textAlign=al||'center';ctx.textBaseline='middle';ctx.fillText(t,x,y)}
-  function hole(x,y,r){var g=ctx.createRadialGradient(x-1,y-1,r*.1,x,y,r);g.addColorStop(0,'#2a1505');g.addColorStop(.7,'#110500');g.addColorStop(1,'#050100');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7a5510';ctx.lineWidth=1.5;ctx.stroke()}
-  function holeSmall(x,y,r){var g=ctx.createRadialGradient(x-1,y-1,0,x,y,r);g.addColorStop(0,'#4a3018');g.addColorStop(1,'#1a0800');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#8a6010';ctx.lineWidth=1;ctx.stroke()}
+  function hole(x,y,r){var g=ctx.createRadialGradient(x-2,y-2,r*.05,x,y,r);g.addColorStop(0,'#1a0800');g.addColorStop(.5,'#0d0300');g.addColorStop(1,'#000');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b4a10';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.arc(x+2,y+2,r*.55,0,Math.PI*2);ctx.fill()}
+  function holeSmall(x,y,r){var g=ctx.createRadialGradient(x-1,y-1,0,x,y,r);g.addColorStop(0,'#3a2010');g.addColorStop(1,'#0d0300');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7a5510';ctx.lineWidth=1;ctx.stroke()}
+  function gradRect(x,y,w,h,rad,c1,c2,sw,sc){
+    var g=ctx.createLinearGradient(x,y,x,y+h);g.addColorStop(0,c1);g.addColorStop(1,c2);
+    ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(x+rad,y);ctx.lineTo(x+w-rad,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+rad);ctx.lineTo(x+w,y+h-rad);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-rad,y+h);ctx.lineTo(x+rad,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-rad);ctx.lineTo(x,y+rad);
+    ctx.quadraticCurveTo(x,y,x+rad,y);ctx.closePath();ctx.fill();
+    if(sc){ctx.strokeStyle=sc;ctx.lineWidth=sw||1;ctx.stroke()}
+  }
 
   function draw(t){
     ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,W,H);
+    var bgG=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H));
+    bgG.addColorStop(0,'#252540');bgG.addColorStop(1,'#0d0d1a');
+    ctx.fillStyle=bgG;ctx.fillRect(0,0,W,H);
 
-    // Fridge dimensions (in world coords)
     var FW=1000,FH=1200;
-    var cheeseCX=FW*.52,cheeseCY=FH*.42,cheeseW=150,cheeseH=110;
-    var holeHX=cheeseCX+cheeseW*.42,holeHY=cheeseCY+cheeseH*.48,holeHR=32;
+    var cheeseCX=FW*.5,cheeseCY=FH*.43,cheeseW=155,cheeseH=115;
+    var holeHX=cheeseCX+cheeseW*.4,holeHY=cheeseCY+cheeseH*.45,holeHR=33;
 
-    // Phases
-    var pFridge=Math.min(t/.35,1);       // 0-35%: view fridge
-    var pZoom=t<.35?0:Math.min((t-.35)/.35,1);  // 35-70%: zoom to cheese hole
-    var pInside=t<.7?0:Math.min((t-.7)/.3,1);   // 70-100%: inside hole
-
-    var zoom=1;
-    if(pZoom>0) zoom=1+pZoom*15;
-    if(pInside>0) zoom=16+pInside*4;
+    var pZoom=t<.35?0:Math.min((t-.35)/.35,1);
+    var pInside=t<.7?0:Math.min((t-.7)/.3,1);
+    var zoom=1;if(pZoom>0)zoom=1+pZoom*15;if(pInside>0)zoom=16+pInside*4;
 
     var bx=W/2-holeHX*zoom,by=H/2-holeHY*zoom;
     ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
 
     if(pInside<.5){
-      // ---- REFRIGERATOR ----
-      // Outer body
-      rr(-20,-20,FW+40,FH+40,20,'#e0dcd5',3,'#999');
-      // Inner
-      rr(25,15,FW-50,FH-30,12,'#3d3d4d',2,'#555');
-      // Light strip top
-      r(FW/2-60,18,120,8,'#ffffdd',0);o(FW/2,22,50,10,'rgba(255,255,200,.15)',0);
-      // Shelves
-      for(var i=0;i<5;i++){var sy=100+i*200;r(40,sy,FW-80,10,'#d8d4cc',1,'#bbb')}
-      // ---- FOOD ----
-      // Shelf 1 (top): milk, butter
-      rr(80,55,50,65,6,'#fff',2,'#ccc');T(105,90,'MILK','#444',10); // milk
-      rr(200,65,55,45,6,'#f5e6a0',2,'#d4c070');T(227,88,'BUTTER','#8a7010',9); // butter
-      // Shelf 2: veggies
-      o(100,230,30,22,'#5a8a2a',2,'#3a6a10');o(170,235,28,20,'#ff6347',2,'#cc4430');
-      o(240,228,25,22,'#ffa500',2,'#cc8000');r(310,210,50,60,'#8B4513',2,'#5c2d0a');
-      // Shelf 3 (middle shelf): the CHEESE + other items
-      rr(80,415,45,60,6,'#4682B4',2,'#2a5a8a');  // blue container
-      rr(340,420,40,55,6,'#9370db',2,'#6a4aaa');  // purple jar
-      rr(410,410,55,50,6,'#ff69b4',2,'#cc4490');  // pink box
-      o(500,440,28,20,'#8B6914',2,'#5c3a0a');     // potato
-      // CHEESE drawn at cheeseCX,cheeseCY
-      // Shelf 4: drinks
-      r(80,620,30,65,'#32cd32',2,'#1a8c1a');r(140,625,30,60,'#ff4500',2,'#cc3800');
-      r(220,618,35,65,'#1e90ff',2,'#1060cc');r(300,622,30,60,'#ffd700',2,'#cca000');
-      // Door sides (open)
-      r(-25,0,20,FH,'#ccc',2,'#aaa');r(FW+5,0,20,FH,'#ccc',2,'#aaa');
+      // ---- FRIDGE EXTERIOR ----
+      var extG=ctx.createLinearGradient(0,0,0,FH+40);
+      extG.addColorStop(0,'#f0ede8');extG.addColorStop(.5,'#e8e4dc');extG.addColorStop(1,'#d8d4cc');
+      rr(-20,-20,FW+40,FH+40,20,extG,2,'#b0aca5');
+      // Fridge brand
+      T(FW/2,8,'SAMSUNG','#aaa',11);
 
-      // ---- CHEESE BLOCK ----
-      var g=ctx.createLinearGradient(cheeseCX,cheeseCY,cheeseCX,cheeseCY+cheeseH);
-      g.addColorStop(0,'#fef4d0');g.addColorStop(.4,'#fde8a0');g.addColorStop(.7,'#f5d870');g.addColorStop(1,'#e0b820');
-      rr(cheeseCX,cheeseCY,cheeseW,cheeseH,10,g,2.5,'#c89820');
+      // ---- FRIDGE INTERIOR ----
+      var intG=ctx.createLinearGradient(25,15,25,FH-15);
+      intG.addColorStop(0,'#4a4a5a');intG.addColorStop(.5,'#3a3a4a');intG.addColorStop(1,'#2a2a3a');
+      rr(25,15,FW-50,FH-30,8,intG,1.5,'#3a3a4a');
+
+      // Interior light glow
+      var lightG=ctx.createRadialGradient(FW/2,40,20,FW/2,40,600);
+      lightG.addColorStop(0,'rgba(255,255,240,.12)');lightG.addColorStop(.5,'rgba(255,255,200,.04)');lightG.addColorStop(1,'transparent');
+      ctx.fillStyle=lightG;ctx.fillRect(25,15,FW-50,FH-30);
+
+      // Glass shelves with edge highlight
+      for(var i=0;i<5;i++){
+        var sy=100+i*200;
+        var shG=ctx.createLinearGradient(0,sy,0,sy+10);
+        shG.addColorStop(0,'#d8d4cc');shG.addColorStop(.2,'#f0ede8');shG.addColorStop(.5,'#e8e4dc');shG.addColorStop(.8,'#d0ccc4');shG.addColorStop(1,'#c0bcb4');
+        rr(35,sy,FW-70,10,3,shG,1,'#b0aca5');
+      }
+
+      // ---- FOOD ITEMS (more realistic) ----
+      // Shelf 1: Milk carton + eggs
+      gradRect(80,55,52,68,8,'#fafafa','#e0dcd5',1.5,'#ccc');
+      T(106,82,'MILK','#333',11);T(106,95,'Whole','#777',9);
+      // Egg carton
+      rr(200,60,70,45,6,'#d4c8b0',1.5,'#b0a090');
+      o(218,82,12,9,'#faf5e8',1,'#d8c8a8');o(238,82,12,9,'#faf5e8',1,'#d8c8a8');
+      o(228,92,12,9,'#faf5e8',1,'#d8c8a8');o(248,92,12,9,'#faf5e8',1,'#d8c8a8');
+
+      // Butter
+      gradRect(310,65,58,50,6,'#fef4c0','#e8d898',1.5,'#d4c070');
+      T(339,90,'BUTTER','#8a7010',10);
+
+      // Shelf 2: Vegetables
+      // Lettuce
+      o(100,225,32,24,'#6b9e3a',1.5,'#4a7a20');o(100,220,28,20,'#7ab84a',1,'#5a9030');
+      // Tomato
+      o(175,228,30,25,'#e04040',1.5,'#b02020');o(170,220,15,10,'#4a8a2a',1,'#3a6a10');
+      // Bell pepper
+      o(255,228,28,22,'#ff8c00',1.5,'#cc6a00');o(250,215,10,5,'#4a8a2a',1,'#3a6a10');
+      // Carrots
+      r(320,195,12,55,'#ff7f30',1.5,'#cc5a20');r(338,198,12,52,'#ff7f30',1.5,'#cc5a20');
+      T(326,220,'β','#4a2a00',8);T(344,220,'β','#4a2a00',8);
+
+      // Shelf 3: Middle shelf - CHEESE + items
+      // Blue Tupperware
+      gradRect(80,410,50,65,8,'#5a9ad4','#3a6aaa',1.5,'#2a5a9a');
+      T(105,442,'🍝','#fff',14);
+      // Mason jar
+      gradRect(340,415,45,60,8,'rgba(180,160,220,.5)','rgba(120,100,160,.5)',1.5,'#6a4aaa');
+      T(362,445,'🍯','#fff',14);
+      // Pink storage box  
+      gradRect(415,410,60,55,8,'#ff80b0','#e05080',1.5,'#cc4070');
+      // Potato
+      o(545,440,32,22,'#a07840',1.5,'#7a5830');o(535,435,8,6,'#8a6840',1,'#6a4820');
+      // Yogurt cup
+      gradRect(600,415,38,55,6,'#fafafa','#e0dcd5',1.5,'#ccc');
+      T(619,442,'YO','#4488cc',10);
+
+      // ---- CHEESE ----
+      // Shadow under cheese
+      o(cheeseCX+cheeseW/2,cheeseCY+cheeseH+3,cheeseW/2+5,6,'rgba(0,0,0,.2)',0);
+      // Main cheese block
+      var cg=ctx.createLinearGradient(cheeseCX,cheeseCY,cheeseCX,cheeseCY+cheeseH);
+      cg.addColorStop(0,'#fef8e0');cg.addColorStop(.25,'#fef0c8');cg.addColorStop(.5,'#fde8a0');cg.addColorStop(.75,'#f5d870');cg.addColorStop(1,'#e0b820');
+      rr(cheeseCX,cheeseCY,cheeseW,cheeseH,12,cg,2.5,'#c89820');
+      // Cheese texture speckles
+      ctx.fillStyle='rgba(220,180,80,.15)';
+      for(var si=0;si<15;si++){var sx=cheeseCX+10+Math.random()*(cheeseW-20),syy=cheeseCY+10+Math.random()*(cheeseH-20);ctx.beginPath();ctx.arc(sx,syy,2+Math.random()*4,0,Math.PI*2);ctx.fill()}
       // Small holes
-      holeSmall(cheeseCX+22,cheeseCY+20,12);
-      holeSmall(cheeseCX+cheeseW-28,cheeseCY+22,14);
-      holeSmall(cheeseCX+18,cheeseCY+cheeseH-18,9);
-      holeSmall(cheeseCX+cheeseW-20,cheeseCY+cheeseH-22,10);
-      // Main entrance hole
+      holeSmall(cheeseCX+25,cheeseCY+22,14);
+      holeSmall(cheeseCX+cheeseW-30,cheeseCY+24,16);
+      holeSmall(cheeseCX+20,cheeseCY+cheeseH-20,10);
+      holeSmall(cheeseCX+cheeseW-22,cheeseCY+cheeseH-24,12);
+      holeSmall(cheeseCX+60,cheeseCY+cheeseH-26,8);
+      // Main hole
       hole(holeHX,holeHY,holeHR);
 
-    } else {
-      // ---- INSIDE THE CHEESE: HACKER MOUSE DEN ----
-      var cx=holeHX,cy=holeHY,denR=holeHR*5;
-      // Cave walls (cheese interior glowing)
-      var wallG=ctx.createRadialGradient(cx,cy,denR*.2,cx,cy,denR);
-      wallG.addColorStop(0,'#1a0f05');wallG.addColorStop(.6,'#2d1a0a');wallG.addColorStop(1,'#e8b830');
-      ctx.fillStyle=wallG;ctx.beginPath();ctx.arc(cx,cy,denR,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='#d4a020';ctx.lineWidth=3;ctx.stroke();
+      // Shelf 4: Drinks
+      // Cola can
+      gradRect(80,618,35,68,5,'#e03030','#a01010',1.5,'#800808');
+      T(97,652,'COLA','#fff',9);
+      // Green soda
+      gradRect(140,618,35,68,5,'#40c040','#208020',1.5,'#106010');
+      T(157,652,'SODA','#fff',9);
+      // Water bottle
+      gradRect(220,615,32,72,8,'rgba(200,220,255,.6)','rgba(150,180,230,.4)',1.2,'rgba(100,140,200,.5)');
+      T(236,651,'H₂O','#4488cc',10);
+      // Juice
+      gradRect(300,618,40,68,5,'#ffa030','#d07010',1.5,'#a05008');
+      T(320,652,'JUICE','#fff',9);
 
-      // === HACKER GEAR ===
+      // Door sides
+      var doorG=ctx.createLinearGradient(0,0,FW+40,0);
+      doorG.addColorStop(0,'#d8d4cc');doorG.addColorStop(.5,'#f0ede8');doorG.addColorStop(1,'#d8d4cc');
+      r(-25,0,20,FH,doorG,1.5,'#b0aca5');
+      r(FW+5,0,20,FH,doorG,1.5,'#b0aca5');
+      // Door handles
+      r(FW-15,FH/2-30,6,60,'#c0c0c0',1,'#999');
+      r(-19,FH/2-30,6,60,'#c0c0c0',1,'#999');
+
+    } else {
+      // ---- INSIDE CHEESE: HACKER MOUSE DEN ----
+      var cx=holeHX,cy=holeHY,denR=holeHR*5;
+      var wallG=ctx.createRadialGradient(cx,cy,denR*.15,cx,cy,denR);
+      wallG.addColorStop(0,'#120800');wallG.addColorStop(.4,'#1f0e04');wallG.addColorStop(.75,'#3d2510');wallG.addColorStop(.95,'#d4a020');wallG.addColorStop(1,'#e8b830');
+      ctx.fillStyle=wallG;ctx.beginPath();ctx.arc(cx,cy,denR,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#c89820';ctx.lineWidth=3.5;ctx.stroke();
+
+      // Warm inner glow
+      var glowG=ctx.createRadialGradient(cx,cy-denR*.1,denR*.05,cx,cy,denR*.8);
+      glowG.addColorStop(0,'rgba(255,220,150,.08)');glowG.addColorStop(1,'transparent');
+      ctx.fillStyle=glowG;ctx.beginPath();ctx.arc(cx,cy,denR*.8,0,Math.PI*2);ctx.fill();
+
       // Desk
       var dx=cx-denR*.45,dy=cy+denR*.15,dw=denR*.85,dh=denR*.12;
-      rr(dx,dy,dw,dh,5,'#6b4a20',2,'#4a2a08');
+      var deskG=ctx.createLinearGradient(dx,dy,dx,dy+dh);
+      deskG.addColorStop(0,'#7a5a30');deskG.addColorStop(.5,'#6b4a20');deskG.addColorStop(1,'#4a2a08');
+      rr(dx,dy,dw,dh,5,deskG,2,'#3a1a00');
+
       // Monitor
       var mx=cx-denR*.15,my=dy-denR*.35,mw=denR*.5,mh=denR*.3;
-      rr(mx,my,mw,mh,6,'#1a1a1a',2,'#444');
-      rr(mx+6,my+6,mw-12,mh-12,3,'#0a0a0a',1,'#222');
-      // Code on screen
+      gradRect(mx,my,mw,mh,6,'#2a2a2a','#0a0a0a',2,'#555');
+      rr(mx+8,my+8,mw-16,mh-16,4,'#050505',1,'#1a1a1a');
+      // Screen glow
+      ctx.fillStyle='rgba(0,255,0,.08)';ctx.fillRect(mx+9,my+9,mw-18,mh-18);
+      // Code
       ctx.fillStyle='#0f0';ctx.font='7px monospace';ctx.textAlign='center';
-      for(var i=0;i<5;i++){ctx.fillText('$ sudo rm -rf /'+['chain','mint','gas','block','nft'][i],cx,my+14+i*10)}
+      ctx.fillText('┌─[root@anon]─[~/hacks]',cx,my+22);
+      ctx.fillText('│ ./exploit_chain.sh',cx,my+32);
+      ctx.fillText('│ [+] Target: 0xDEAD...',cx,my+42);
+      ctx.fillText('│ [+] Gas optimized ✓',cx,my+52);
+      ctx.fillText('└─ $ _',cx,my+62);
       // Monitor stand
-      r(cx-4,dy-dh*.2,mw+8,dh*.2,'#333',1,'#555');
+      gradRect(cx-6,dy-dh*.3,mw+12,dh*.3,2,'#3a3a3a','#1a1a1a',1,'#444');
+
       // Keyboard
       var kx=cx-denR*.25,ky=dy+dh+6,kw=denR*.45,kh=denR*.07;
-      rr(kx,ky,kw,kh,3,'#ddd',1,'#aaa');
-      for(var j=0;j<8;j++){r(kx+3+j*(kw/8),ky+3,kw/10,kh-6,'#999',0)}
+      gradRect(kx,ky,kw,kh,3,'#e8e8e8','#c8c8c8',1,'#aaa');
+      for(var j=0;j<8;j++){var keyW=kw/10;rr(kx+2+j*(kw/8),ky+3,keyW,kh-6,1.5,'#aaa',0)}
 
       // Computer mouse
-      o(cx+denR*.3,ky+kh+8,denR*.06,denR*.05,'#5c3a1a',1,'#3a1a05');
-      L(cx+denR*.3,ky+kh+8,cx+denR*.1,ky+kh,'#333',1);
+      var msx=cx+denR*.3,msy=ky+kh+9;
+      o(msx,msy,denR*.07,denR*.055,'#4a3020',1.2,'#2a1005');
+      o(msx-3,msy-2,2,1.5,'#888',0);
+      L(msx,msy,cx+denR*.1,ky+kh,'#555',1.2);
 
       // Server rack
       var srw=denR*.18,srh=denR*.05,sx=cx+denR*.5;
       for(var k=0;k<3;k++){
-        rr(sx,my+k*srh*2.5,srw,srh,3,'#3a3a3a',1,'#555');
-        o(sx+5,my+k*srh*2.5+srh/2,2.5,2.5,k%2?'#0f0':'#0a0',0);
-        o(sx+12,my+k*srh*2.5+srh/2,2.5,2.5,(k+1)%2?'#0f0':'#0a0',0);
+        var sry=my+k*srh*2.8;
+        gradRect(sx,sry,srw,srh,3,'#444','#1a1a1a',1,'#666');
+        // Blink lights
+        o(sx+5,sry+srh/2,2.5,2.5,k%2?'#0f0':'#060',0);
+        o(sx+12,sry+srh/2,2.5,2.5,(k+1)%2?'#0f0':'#060',0);
+        o(sx+19,sry+srh/2,2,2,'#ff0',0);
+        T(sx+srw/2,sry-6,'NODE-'+(k+1),'rgba(255,255,255,.4)',6);
       }
 
-      // Cables
-      ctx.setLineDash([3,2]);ctx.strokeStyle='#00cc00';ctx.lineWidth=1;
-      L(cx+denR*.5,my,cx+denR*.3,ky+kh+6);L(cx+denR*.5,my+srh*2.5,cx+denR*.3,ky+kh+4);
-      L(cx+denR*.5,my+srh*5,cx,ky+kh+2);ctx.setLineDash([]);
+      // Ethernet cables
+      ctx.setLineDash([3,2]);ctx.strokeStyle='#00cc00';ctx.lineWidth=1.2;
+      L(sx,my,cx+denR*.3,ky+kh+7);L(sx+srw,my+srh*2.8,cx+denR*.3,ky+kh+5);
+      L(sx,my+srh*5.6,cx,ky+kh+3);ctx.setLineDash([]);
+
+      // Power strip
+      rr(cx-denR*.55,cy+denR*.05,denR*.15,denR*.28,4,'#ddd',1.2,'#aaa');
+      r(cx-denR*.55+3,cy+denR*.05+5,denR*.15-6,denR*.06,'#333',1,'#555');
+      T(cx-denR*.55+denR*.075,cy+denR*.05+denR*.06+6,'⚡','#ff0',10);
 
       // ETH poster
-      rr(cx-denR*.55,cy-denR*.35,denR*.22,denR*.16,3,'#fff',1,'#c89820');
-      T(cx-denR*.55+denR*.11,cy-denR*.35+denR*.08,'ΞTH','#000',10);
+      rr(cx-denR*.55,cy-denR*.4,denR*.22,denR*.18,3,'#fafafa',1,'#c89820');
+      T(cx-denR*.55+denR*.11,cy-denR*.4+denR*.04,'ETHEREUM','#222',8);
+      T(cx-denR*.55+denR*.11,cy-denR*.4+denR*.09,'Ξ','#627eea',16);
+
       // BTC poster
-      rr(cx+denR*.35,cy-denR*.45,denR*.2,denR*.14,3,'#f7931a',1,'#c86800');
-      T(cx+denR*.35+denR*.1,cy-denR*.45+denR*.07,'₿TC','#fff',9);
+      rr(cx+denR*.35,cy-denR*.5,denR*.2,denR*.16,3,'#1a1a1a',1,'#f7931a');
+      T(cx+denR*.35+denR*.1,cy-denR*.5+denR*.04,'BITCOIN','#f7931a',8);
+      T(cx+denR*.35+denR*.1,cy-denR*.5+denR*.08,'₿','#f7931a',16);
 
-      // Lamp (LED on matchstick)
+      // Lamp
       var lx=cx-denR*.65,ly=cy-denR*.25;
-      r(lx,ly,2.5,denR*.28,'#8B6914',0);
-      o(lx+1,ly-6,7,5,'#ffff88',0);o(lx+1,ly-6,4.5,3,'#ffeb3b',1,'#c89820');
+      r(lx,ly,3,denR*.28,'#8B6914',0);
+      var lampG=ctx.createRadialGradient(lx+1.5,ly-8,2,lx+1.5,ly-8,18);
+      lampG.addColorStop(0,'rgba(255,255,200,.4)');lampG.addColorStop(.5,'rgba(255,255,150,.1)');lampG.addColorStop(1,'transparent');
+      ctx.fillStyle=lampG;ctx.beginPath();ctx.arc(lx+1.5,ly-8,18,0,Math.PI*2);ctx.fill();
+      o(lx+1.5,ly-6,8,6,'#ffeb3b',1,'#c89820');
 
-      // Coffee cup (thimble)
-      rr(cx-denR*.42,ky+kh+12,denR*.1,denR*.13,3,'#bbb',1,'#888');
-      o(cx-denR*.42+denR*.05,ky+kh+12,3,2,'#3a2010',0);
+      // Coffee (thimble)
+      var cpx=cx-denR*.42,cpy=ky+kh+12;
+      gradRect(cpx,cpy,denR*.1,denR*.13,3,'#c8c8c8','#909090',1,'#777');
+      o(cpx+denR*.05,cpy,3,2,'#3a2010',0);
+      var steamG=ctx.createRadialGradient(cpx+denR*.05,cpy-5,1,cpx+denR*.05,cpy-5,6);
+      steamG.addColorStop(0,'rgba(255,255,255,.15)');steamG.addColorStop(1,'transparent');
+      ctx.fillStyle=steamG;ctx.beginPath();ctx.arc(cpx+denR*.05,cpy-5,6,0,Math.PI*2);ctx.fill();
 
-      // Cheese crumbs
-      o(cx+denR*.15,cy+denR*.4,4,3,'#e8b830',0);o(cx-denR*.25,cy+denR*.35,3,2,'#e8b830',0);
-      o(cx+denR*.35,cy+denR*.25,5,3,'#f0c840',0);
+      // Cheese crumbs on desk
+      o(cx+denR*.15,cy+denR*.42,4,3,'#e8b830',0);o(cx-denR*.25,cy+denR*.38,3,2.5,'#e8b830',0);
+      o(cx+denR*.38,cy+denR*.28,5,3,'#f0c840',0);o(cx,cy+denR*.5,2.5,2,'#d4a020',0);
 
-      // Squeaky clean note
-      T(cx,cy-denR*.55,'// secure the cheese','rgba(0,255,0,.3)',8);
+      // Green matrix text on wall
+      ctx.fillStyle='rgba(0,255,0,.12)';ctx.font='9px monospace';
+      ctx.fillText('CHEESE SECURED // BLOCK 21,000,000',cx,cy-denR*.62);
+      ctx.fillText('mouse@anon:~$ whoami // root',cx,cy-denR*.55);
     }
 
     ctx.restore();
 
-    // Darken when inside
-    if(pInside>.5){
-      var a=(pInside-.5)/.5;
-      ctx.fillStyle='rgba(5,2,10,'+(a*.25)+')';ctx.fillRect(0,0,W,H);
-    }
-    // Fade scene out at very end
-    if(pInside>.9) document.getElementById('scene').style.opacity=1-(pInside-.9)*10;
+    if(pInside>.5){var a=(pInside-.5)/.5;ctx.fillStyle='rgba(5,2,10,'+(a*.2)+')';ctx.fillRect(0,0,W,H)}
+    if(pInside>.9)document.getElementById('scene').style.opacity=1-(pInside-.9)*10;
     else document.getElementById('scene').style.opacity=1;
-
-    secs.forEach(function(s){s.classList.toggle('show',pInside>.95)});
+    secs.forEach(function(s){s.classList.toggle('show',pInside>.95)})
   }
 
   function scroll(){
