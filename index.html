@@ -5,300 +5,231 @@
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anonymouse | The Tome</title>
+<title>Anonymouse | The Ancient Tome</title>
 <style>
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:auto}
-body{font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden;background:#0a0500}
+html{scroll-behavior:smooth}
+body{background:#1a1208;color:#d4c5a0;font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden}
 
-canvas{position:fixed;inset:0;z-index:0;display:block}
-
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,3,0,.88);backdrop-filter:blur(6px);border-bottom:1px solid rgba(180,140,80,.1);display:flex;align-items:center;justify-content:center;padding:0 2rem;height:60px}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:1rem}
-.nav-brand{font-size:1.4rem;font-weight:700;color:#d4c5a0;letter-spacing:3px;text-decoration:none}
-.nav-links{display:flex;gap:1.5rem;list-style:none}
-.nav-links a{color:rgba(200,180,140,.5);text-decoration:none;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;transition:color .2s}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,6,3,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(140,110,60,.1);display:flex;align-items:center;justify-content:center;padding:0 1.5rem;height:56px}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:.5rem}
+.nav-brand{font-size:1.3rem;font-weight:700;color:#d4c5a0;letter-spacing:3px;text-decoration:none}
+.nav-links{display:flex;gap:1.2rem;list-style:none}
+.nav-links a{color:rgba(200,180,140,.5);text-decoration:none;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;transition:color .2s}
 .nav-links a:hover{color:#d4c5a0}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.nav-x{color:rgba(200,180,140,.3);text-decoration:none;font-size:.78rem;transition:color .2s}
-.nav-x:hover{color:#d4c5a0}
-.btn{background:none;border:1px solid rgba(180,150,100,.2);color:rgba(200,180,140,.5);padding:4px 10px;border-radius:4px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
-.btn:hover{background:rgba(200,180,140,.08);color:#d4c5a0}
-.btn-cta{background:#5c2a0a;color:#d4c5a0;border:1px solid #7a4a2a;padding:6px 16px;border-radius:4px;font-weight:700;font-size:.78rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px}
-.btn-cta:hover{background:#7a3a1a}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-x{color:rgba(200,180,140,.3);text-decoration:none;font-size:.7rem}.nav-x:hover{color:#d4c5a0}
+.btn-sm{background:none;border:1px solid rgba(140,110,60,.18);color:rgba(200,180,140,.45);padding:3px 8px;border-radius:3px;font-size:.65rem;cursor:pointer;white-space:nowrap;font-family:inherit}
+.btn-cta{background:#4a2010;color:#d4c5a0;border:1px solid #6a3a20;padding:5px 14px;border-radius:3px;font-weight:700;font-size:.7rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-family:inherit}
 
-#spacer{height:400vh}
+/* ANCIENT TOME PAGES */
+#tome{max-width:750px;margin:0 auto;padding:110px 1.5rem 3rem}
+.page{background:linear-gradient(180deg,rgba(20,12,8,.95),rgba(15,10,5,.9));border:1px solid rgba(140,110,60,.15);border-radius:2px;padding:3rem 2.5rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(200,160,100,.04),transparent 50%),radial-gradient(ellipse at 70% 70%,rgba(140,100,60,.03),transparent 50%);pointer-events:none}
+.page-title{font-size:2rem;text-align:center;color:#c8a860;margin-bottom:2rem;letter-spacing:4px;font-weight:700;font-family:serif}
+.page-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.page-col{font-size:.95rem;line-height:2;color:rgba(190,160,120,.7);font-family:serif}
+.page-col em{color:#c8a860;font-style:italic;font-weight:700}
+.page-col strong{color:#d4c5a0;font-weight:700}
+.page-col .big{font-size:1.3rem;color:#b89850;display:block;text-align:center;margin:.5rem 0}
+.page-num{text-align:center;color:rgba(160,130,80,.2);font-size:.8rem;margin-top:2rem;letter-spacing:2px;font-family:serif}
+.stain{position:absolute;border-radius:50%;background:rgba(120,80,40,.05);pointer-events:none}
 
-section{padding:6rem 2rem;text-align:center;position:relative;z-index:1}
-.section-inner{max-width:900px;margin:0 auto;background:rgba(10,8,5,.75);border-radius:8px;padding:2.5rem}
-section h1{font-size:3.5rem;font-weight:700;letter-spacing:3px;color:#d4c5a0}
-.hero-logo{width:150px;height:150px;border-radius:50%;margin-bottom:1.5rem;border:2px solid #6b3a1a;object-fit:cover;filter:sepia(.4) brightness(.8)}
-.tagline{font-size:1.2rem;color:rgba(200,180,140,.5);font-style:italic;margin-top:.5rem}
+section{padding:5rem 1.5rem;text-align:center;position:relative;z-index:1}
+.section-inner{max-width:900px;margin:0 auto;background:rgba(15,10,5,.8);border-radius:8px;padding:2.5rem}
+section h1{font-size:3rem;font-weight:700;letter-spacing:3px;color:#d4c5a0}
+.hero-logo{width:140px;height:140px;border-radius:50%;margin-bottom:1.5rem;border:2px solid #5a2a10;object-fit:cover;filter:sepia(.4) brightness(.8)}
+.tagline{font-size:1.1rem;color:rgba(200,180,140,.45);font-style:italic;margin-top:.5rem}
 .hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:2rem}
-.stat-num{font-size:2.5rem;font-weight:700;color:#8b5a3a}.stat-label{font-size:.8rem;color:rgba(200,180,140,.3);text-transform:uppercase;letter-spacing:2px}
-.desc{font-size:1.05rem;color:rgba(200,180,140,.4);max-width:600px;margin:1.5rem auto 0;line-height:1.8}
+.stat-num{font-size:2.2rem;font-weight:700;color:#8b5a3a}.stat-label{font-size:.75rem;color:rgba(200,180,140,.3);text-transform:uppercase;letter-spacing:2px}
+.desc{font-size:1rem;color:rgba(200,180,140,.35);max-width:600px;margin:1.5rem auto 0;line-height:1.8}
 .types-grid{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem}
-.type-card{background:rgba(30,20,10,.5);border:1px solid rgba(139,90,58,.18);border-radius:8px;padding:1.8rem 2rem;cursor:pointer;transition:all .3s;min-width:170px}
+.type-card{background:rgba(30,20,10,.5);border:1px solid rgba(139,90,58,.15);border-radius:8px;padding:1.8rem 2rem;cursor:pointer;transition:all .3s;min-width:160px}
 .type-card:hover{border-color:#8b5a3a;transform:translateY(-3px)}
-.type-card h3{font-size:1.3rem;color:#d4c5a0}.type-card .count{color:rgba(200,180,140,.2)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem;max-width:900px;margin:2.5rem auto 0}
-.gallery-item{background:rgba(30,20,10,.4);border:1px solid rgba(139,90,58,.12);border-radius:8px;overflow:hidden;transition:all .3s;cursor:pointer;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
+.type-card h3{font-size:1.2rem;color:#d4c5a0}.type-card .count{color:rgba(200,180,140,.18)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;max-width:900px;margin:2.5rem auto 0}
+.gallery-item{background:rgba(30,20,10,.4);border:1px solid rgba(139,90,58,.1);border-radius:8px;overflow:hidden;transition:all .3s;cursor:pointer;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
 .gallery-item:hover{border-color:#8b5a3a;transform:translateY(-3px)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.8)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.75)}
 .gallery-blur{filter:blur(20px);pointer-events:none;user-select:none}
-.gallery-item .id-tag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(10,5,0,.9);padding:2px 10px;border-radius:3px;font-size:.7rem;color:#d4c5a0}
-.coming-soon-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2.2rem;font-weight:700;color:#8b5a3a;letter-spacing:10px;text-transform:uppercase;pointer-events:none;z-index:10}
-.about-text{max-width:650px;margin:2rem auto 0;color:rgba(200,180,140,.4);font-size:1.05rem;line-height:1.9}
+.gallery-item .id-tag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(10,5,0,.9);padding:2px 8px;border-radius:2px;font-size:.65rem;color:#d4c5a0}
+.coming-soon-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;font-weight:700;color:#8b5a3a;letter-spacing:10px;text-transform:uppercase;pointer-events:none;z-index:10}
+.about-text{max-width:650px;margin:2rem auto 0;color:rgba(200,180,140,.35);font-size:1rem;line-height:1.9}
 .about-text strong{color:#d4c5a0}
 .timeline{max-width:700px;margin:2.5rem auto 0;text-align:left}
-.timeline-item{border-left:2px solid rgba(139,90,58,.18);padding:1.5rem 0 1.5rem 2rem;position:relative}
-.timeline-item::before{content:'';position:absolute;left:-5px;top:1.8rem;width:8px;height:8px;border-radius:50%;background:#8b5a3a}
+.timeline-item{border-left:2px solid rgba(139,90,58,.15);padding:1.5rem 0 1.5rem 2rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-4px;top:1.8rem;width:6px;height:6px;border-radius:50%;background:#8b5a3a}
 .timeline-item h3{font-size:1.2rem;color:#d4c5a0;margin-bottom:.3rem}
-.timeline-item p{color:rgba(200,180,140,.32);font-size:1rem;line-height:1.7}
-.timeline-item .date{font-size:.75rem;color:#8b5a3a;text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem}
+.timeline-item p{color:rgba(200,180,140,.28);font-size:.95rem;line-height:1.7}
+.timeline-item .date{font-size:.7rem;color:#8b5a3a;text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem}
 .search-row{display:flex;gap:8px;justify-content:center;margin-top:2rem}
-.search-row input{background:rgba(30,20,10,.4);border:1px solid rgba(139,90,58,.18);color:#d4c5a0;padding:11px 16px;border-radius:6px;width:250px;font-size:1rem;outline:none;font-family:inherit}
+.search-row input{background:rgba(30,20,10,.4);border:1px solid rgba(139,90,58,.15);color:#d4c5a0;padding:10px 14px;border-radius:6px;width:240px;font-size:1rem;outline:none;font-family:inherit}
 .search-row input:focus{border-color:#8b5a3a}
-.search-row button{background:#5c2a0a;color:#d4c5a0;border:1px solid #7a4a2a;padding:11px 24px;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
-.search-row button:hover{background:#7a3a1a}
-footer{background:#050200;padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(139,90,58,.08)}
+.search-row button{background:#4a2010;color:#d4c5a0;border:1px solid #6a3a20;padding:10px 22px;border-radius:6px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit}
+.search-row button:hover{background:#6a3020}
+footer{background:#080400;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid rgba(139,90,58,.06)}
 .footer-links{display:flex;gap:2rem;justify-content:center;list-style:none;margin-bottom:1rem}
-.footer-links a{color:rgba(200,180,140,.2);text-decoration:none;font-size:.85rem;transition:color .2s}
+.footer-links a{color:rgba(200,180,140,.15);text-decoration:none;font-size:.8rem;transition:color .2s}
 .footer-links a:hover{color:#8b5a3a}
-footer .copy{color:rgba(200,180,140,.1);font-size:.8rem}
-h2.section-title{font-size:2.4rem;font-weight:700;letter-spacing:2px;color:#d4c5a0}
+footer .copy{color:rgba(200,180,140,.08);font-size:.75rem}
+h2.section-title{font-size:2.2rem;font-weight:700;letter-spacing:2px;color:#d4c5a0}
 h2.section-title span{color:#8b5a3a}
 
 @media(max-width:768px){
-  .nav-links{display:none}.nav-inner{padding:0 5px}.nav-brand{font-size:1.1rem}
-  .btn-cta{padding:5px 10px;font-size:.7rem}.btn{font-size:.65rem;padding:3px 8px}
-  section{padding:3rem 1rem}section h1{font-size:2rem}.hero-logo{width:110px;height:110px}
-  .hero-stats{gap:1.5rem}.stat-num{font-size:1.8rem}.section-inner{padding:1.5rem;max-width:100%}
-  h2.section-title{font-size:1.6rem}.types-grid{flex-direction:column;align-items:center}.type-card{width:85%;padding:1.5rem}
-  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem}
-  .coming-soon-overlay{font-size:1.4rem;letter-spacing:6px}
-  .search-row input{width:170px;font-size:.85rem}.search-row button{padding:10px 18px;font-size:.85rem}
-  .timeline{padding-left:0}.timeline-item{padding:1rem 0 1rem 1.5rem}
-  .timeline-item h3{font-size:1rem}.timeline-item p{font-size:.8rem}
-  footer{padding:2rem 1rem}.footer-links{gap:1.2rem}
+  .nav-links{display:none}.nav-inner{padding:0 3px}.nav-brand{font-size:1rem}
+  .btn-cta{padding:4px 8px;font-size:.6rem}.btn-sm{font-size:.6rem;padding:2px 6px}
+  #tome{padding:90px .8rem 2rem}.page{padding:2rem 1rem}.page-grid{grid-template-columns:1fr;gap:1.5rem}
+  .page-title{font-size:1.4rem;margin-bottom:1.5rem}.page-col{font-size:.85rem;line-height:1.8}
+  section{padding:3rem 1rem}section h1{font-size:2rem}.hero-logo{width:100px;height:100px}
+  .hero-stats{gap:1.5rem}.stat-num{font-size:1.6rem}.section-inner{padding:1.5rem;max-width:100%}
+  h2.section-title{font-size:1.5rem}.types-grid{flex-direction:column;align-items:center}.type-card{width:85%;padding:1.3rem}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.5rem}
+  .coming-soon-overlay{font-size:1.3rem;letter-spacing:5px}
+  .search-row input{width:160px;font-size:.8rem}.search-row button{padding:8px 16px;font-size:.8rem}
+  .timeline{padding-left:0}.timeline-item{padding:1rem 0 1rem 1.2rem}
+  footer{padding:1.5rem 1rem}.footer-links{gap:1rem}
 }
 </style>
 </head>
 <body>
 
-<canvas id="c"></canvas>
-
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-brand">ANONYMOUSE</a>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li><li><a href="#gallery">Gallery</a></li>
+      <li><a href="#tome">Tome</a></li><li><a href="#gallery">Gallery</a></li>
       <li><a href="#about">About</a></li><li><a href="#history">Story</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="https://x.com/anonymouseoneth" target="_blank" class="nav-x">X</a>
-      <span style="color:rgba(200,180,140,.1);font-size:.7rem">Discord</span>
-      <button class="btn">日本語</button>
+      <a href="https://x.com/anonymouseoneth" class="nav-x">X</a>
+      <span style="color:rgba(200,180,140,.08);font-size:.65rem">Discord</span>
+      <button class="btn-sm">日本語</button>
       <button class="btn-cta">Coming Soon</button>
     </div>
   </div>
 </nav>
 
-<div id="spacer"></div>
+<!-- ===== ANCIENT TOME ===== -->
+<div id="tome">
 
-<section id="home"><div class="section-inner">
-  <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
-  <h1>ANONYMOUSE</h1>
-  <p class="tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
-  <div class="hero-stats"><div><div class="stat-num">10K</div><div class="stat-label">Supply</div></div><div><div class="stat-num">—</div><div class="stat-label">Mint Date</div></div><div><div class="stat-num">0.015</div><div class="stat-label">ETH</div></div></div>
-  <p class="desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Minting soon — join the community.</p>
-</div></section>
+  <!-- SPREAD 1 -->
+  <div class="page">
+    <div class="stain" style="width:100px;height:100px;top:-25px;left:8%"></div>
+    <div class="stain" style="width:60px;height:60px;bottom:15px;right:12%"></div>
+    <div class="page-title">📜 THE BOOK OF ANON</div>
+    <div class="page-grid">
+      <div class="page-col">
+        <p>In the age before ages, when the Great Kitchen was new and the first cheese wheel had not yet aged — <em>there came a mouse</em>.</p>
+        <p style="margin-top:.8rem">A mouse of humble birth, born in the walls behind the pantry, where dust and darkness reigned.</p>
+        <p style="margin-top:.8rem">His mother named him <strong>Anon</strong>, for he was small and quiet, easily forgotten by the world above. But fate had other plans.</p>
+        <p style="margin-top:.8rem">For Anon was born under the <em>Sign of the Cheddar</em>, and the ancients foretold that one such as he would rise to challenge the darkness creeping toward the sacred wheels of the kitchen.</p>
+      </div>
+      <div class="page-col">
+        <p>In those dark days, the <strong>CHEESE CARTEL</strong> ruled with an iron paw.</p>
+        <p style="margin-top:.8rem">Their leader, <strong>KING RATTUS</strong>, was a beast of immense size, his fur matted with the grease of a thousand stolen meals.</p>
+        <p style="margin-top:.8rem">Beside him stood <strong>SLICK WHISKERS</strong>, a cunning rogue whose charm masked a heart of pure malice.</p>
+        <p style="margin-top:.8rem">Together, they hoarded every wheel of aged gouda, every wedge of parmesan, every crumb of cheddar. The mice starved while the Cartel feasted in their fortress of discarded cardboard.</p>
+      </div>
+    </div>
+    <div class="page-num">◆ 1 ◆</div>
+  </div>
+
+  <!-- SPREAD 2 -->
+  <div class="page">
+    <div class="stain" style="width:80px;height:80px;top:30px;right:15%"></div>
+    <div class="page-title">⚡ THE AWAKENING</div>
+    <div class="page-grid">
+      <div class="page-col">
+        <p>It was on the <em>Night of the Full Refrigerator</em> that Anon discovered his gift.</p>
+        <p style="margin-top:.8rem">As Rattus's thugs cornered him behind the flour sack, something awakened within. The ancient power of the <strong>CHAIN</strong> surged through his tiny body.</p>
+        <p style="margin-top:.8rem">Golden strands of energy wove around his paws — the same energy that binds the universe together, flowing through every block of the great chain of existence.</p>
+        <p style="margin-top:.8rem"><span class="big">Anon had become something more.</span></p>
+      </div>
+      <div class="page-col">
+        <p>For seven moons, Anon trained in secret beneath the floorboards. He learned to harness the CHAIN — to move <em>faster than thought</em>, to strike with the force of a thousand crumbs.</p>
+        <p style="margin-top:.8rem">He forged his mask from a shard of aged parmesan, hardened in the fires of the oven's pilot light.</p>
+        <p style="margin-top:.8rem">His weapon: a single toothpick, dipped in ghost pepper essence — known to the ancients as the <strong>BURNING STRIKE</strong>.</p>
+      </div>
+    </div>
+    <div class="page-num">◆ 2 ◆</div>
+  </div>
+
+  <!-- SPREAD 3 -->
+  <div class="page">
+    <div class="stain" style="width:110px;height:110px;bottom:-30px;left:10%"></div>
+    <div class="page-title">⚔️ THE BATTLE OF THE WHEEL</div>
+    <div class="page-grid">
+      <div class="page-col">
+        <p>The final confrontation took place atop the <strong>GREAT CHEESE WHEEL</strong> — a monument so vast it cast shadows across the entire pantry.</p>
+        <p style="margin-top:.8rem">Rattus and his lieutenants surrounded Anon, their eyes gleaming with malice. But Anon stood firm, the CHAIN crackling around him like <em>golden lightning</em>.</p>
+        <p style="margin-top:.8rem">One by one, the Cartel's fighters fell before the BURNING STRIKE. None could match the speed of one who moved between the blocks of reality itself.</p>
+      </div>
+      <div class="page-col">
+        <p>The duel was swift. Anon redirected the Cartel's own cheese supply back to the starving colony — a feat of CHAIN manipulation sung of for <em>generations</em>.</p>
+        <p style="margin-top:.8rem"><span class="big">The wheel was FREE.</span><span class="big">The mice were FREE.</span></p>
+        <p style="margin-top:.8rem"><strong>🐭 ANONYMOUSE 🐭</strong></p>
+        <p style="margin-top:.8rem">Now he watches from the shadows, guardian of the kitchen, wielder of the CHAIN, protector of all who dwell in the walls.</p>
+        <p style="margin-top:1rem"><em>"In cheese we trust."</em></p>
+      </div>
+    </div>
+    <div class="page-num">◆ 3 ◆</div>
+  </div>
+
+  <!-- SPREAD 4 — THE CALL -->
+  <div class="page">
+    <div class="stain" style="width:70px;height:70px;top:20px;left:20%"></div>
+    <div class="page-title">🛡️ THE ANCIENT TOME FORETELLS</div>
+    <div class="page-grid">
+      <div class="page-col">
+        <p>The Cartel still lingers in the dark corners, <em>plotting their return</em>. Rattus survived the fall. Slick Whiskers escaped into the ventilation shafts. The war is not over.</p>
+        <p style="margin-top:.8rem">But a new generation rises. <strong>10,000 heroes</strong> shall emerge from the blockchain — each one unique, each one on-chain, each one eternal.</p>
+        <p style="margin-top:.8rem"><span class="big">On-chain. Unstoppable.</span></p>
+      </div>
+      <div class="page-col">
+        <p>The ancients speak of a <em>Great Mint</em> — a moment when the CHAIN opens and 10,000 Anonymouse are born into the digital realm.</p>
+        <p style="margin-top:.8rem">Each one carrying the legacy of Anon. Each one a guardian of the cheese. Each one a warrior against the Cartel.</p>
+        <p style="margin-top:1.2rem"><span class="big">WILL YOU ANSWER THE CALL?</span></p>
+        <p style="margin-top:.8rem">The story is just beginning...</p>
+        <p style="margin-top:.8rem"><em>— The Ancient Tome of Anonymouse</em></p>
+      </div>
+    </div>
+    <div class="page-num">◆ 4 ◆</div>
+  </div>
+</div>
+
+<section id="home">
+  <div class="section-inner">
+    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
+    <h1>ANONYMOUSE</h1>
+    <p class="tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
+    <div class="hero-stats"><div><div class="stat-num">10K</div><div class="stat-label">Supply</div></div><div><div class="stat-num">—</div><div class="stat-label">Mint Date</div></div><div><div class="stat-num">0.015</div><div class="stat-label">ETH</div></div></div>
+    <p class="desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract.</p>
+  </div>
+</section>
 
 <section id="types"><div class="section-inner">
   <h2 class="section-title">Types of Mouse</h2>
   <div class="types-grid"><div class="type-card"><h3>Genesis</h3><div class="count">—</div></div><div class="type-card"><h3>Evolved</h3><div class="count">—</div></div><div class="type-card"><h3>Legendary</h3><div class="count">—</div></div><div class="type-card"><h3>Mythic</h3><div class="count">—</div></div></div>
 </div></section>
 
-<section id="gallery"><div class="section-inner" style="position:relative">
-  <h2 class="section-title"><span>Meet</span> <span>the Mouse</span></h2>
+<section id="gallery"><div class="section-inner" style="position:relative"><h2 class="section-title"><span>Meet</span> <span>the Mouse</span></h2>
   <div class="search-row"><input type="text" placeholder="Search by ID..." id="searchInput"><button onclick="searchMouse()">Find</button></div>
   <div class="gallery-blur"><div class="gallery-grid" id="galleryGrid"></div></div>
   <div class="coming-soon-overlay">COMING SOON!</div>
 </div></section>
 
-<section id="about"><div class="section-inner">
-  <h2 class="section-title"><span>About</span> Anonymouse</h2>
+<section id="about"><div class="section-inner"><h2 class="section-title"><span>About</span> Anonymouse</h2>
   <div class="about-text"><p>Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> — art, metadata, and traits stored directly in the smart contract.</p><p style="margin-top:1rem">Every Anonymouse is procedurally generated from a pool of traits. No two alike. Fair mint, fair launch.</p><p style="margin-top:1rem">Stake your Anonymouse to earn tokens. Build your colony.</p></div>
 </div></section>
 
-<section id="history"><div class="section-inner">
-  <h2 class="section-title"><span>The</span> <span>Story</span></h2>
+<section id="history"><div class="section-inner"><h2 class="section-title"><span>The</span> <span>Story</span></h2>
   <div class="timeline"><div class="timeline-item"><div class="date">Coming Soon</div><h3>The Mint</h3><p>10,000 Anonymouse released in a fair, transparent mint.</p></div><div class="timeline-item"><div class="date">Post-Mint</div><h3>Community Takes Over</h3><p>Staking live. Earn tokens. Trade, collect, grow.</p></div><div class="timeline-item"><div class="date">Roadmap</div><h3>Building the Colony</h3><p>Token economy, evolutions, community-driven lore.</p></div></div>
 </div></section>
 
-<footer>
-  <ul class="footer-links"><li><a href="https://x.com/anonymouseoneth">X</a></li><li><span style="color:rgba(200,180,140,.06);font-size:.8rem">Discord</span></li><li><span style="color:rgba(200,180,140,.06);font-size:.8rem">OpenSea</span></li></ul>
-  <p class="copy">Anonymouse &copy; 2026</p>
-</footer>
+<footer><ul class="footer-links"><li><a href="https://x.com/anonymouseoneth">X</a></li><li><span style="color:rgba(200,180,140,.06);font-size:.75rem">Discord</span></li><li><span style="color:rgba(200,180,140,.06);font-size:.75rem">OpenSea</span></li></ul><p class="copy">Anonymouse &copy; 2026</p></footer>
 
 <script>
-(function(){
-var C=document.getElementById('c'),ctx=C.getContext('2d');
-var W,H;
-
-function resize(){
-  W=C.width=window.innerWidth;
-  H=C.height=window.innerHeight;
-}
-resize();window.addEventListener('resize',function(){resize();draw()});
-
-// Book world coords
-var BW=1200,BH=850;
-// Zoom target: center of right page
-var TX=BW*.62,TY=BH*.45;
-
-function draw(){
-  var st=window.scrollY;
-  var maxH=document.getElementById('spacer').offsetHeight;
-  var maxScroll=Math.max(maxH-H,1);
-  var t=Math.min(Math.max(st/maxScroll,0),1);
-  t=isNaN(t)?0:t;
-
-  ctx.clearRect(0,0,W,H);
-
-  // Safety: draw visible background
-  ctx.fillStyle='#0a0500';ctx.fillRect(0,0,W,H);
-
-  // Dark ambient background
-  var bgG=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H));
-  bgG.addColorStop(0,'#1a1208');bgG.addColorStop(1,'#050100');
-  ctx.fillStyle=bgG;ctx.fillRect(0,0,W,H);
-
-  // Zoom
-  var zoom=1+t*12;
-  var bx=W/2-TX*zoom,by=H/2-TY*zoom;
-  ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
-
-  // === LEATHER COVER (behind pages) ===
-  var covG=ctx.createLinearGradient(0,0,0,BH);
-  covG.addColorStop(0,'#3a1a08');covG.addColorStop(.5,'#2a1005');covG.addColorStop(1,'#1a0800');
-  ctx.fillStyle=covG;
-  ctx.beginPath();ctx.moveTo(20,10);ctx.lineTo(BW-20,10);
-  ctx.quadraticCurveTo(BW+40,10,BW+40,BH/2);ctx.quadraticCurveTo(BW+40,BH,BW-20,BH-10);
-  ctx.lineTo(20,BH-10);ctx.quadraticCurveTo(-40,BH,-40,BH/2);ctx.quadraticCurveTo(-40,10,20,10);
-  ctx.closePath();ctx.fill();
-  ctx.strokeStyle='#100500';ctx.lineWidth=3;ctx.stroke();
-
-  // Spine
-  var spG=ctx.createLinearGradient(BW/2-12,0,BW/2+12,0);
-  spG.addColorStop(0,'#2a1005');spG.addColorStop(.5,'#0a0200');spG.addColorStop(1,'#2a1005');
-  ctx.fillStyle=spG;ctx.fillRect(BW/2-12,12,24,BH-24);
-  ctx.strokeStyle='#050100';ctx.lineWidth=1.5;ctx.strokeRect(BW/2-12,12,24,BH-24);
-
-  // Select spread based on zoom progress
-  var spread=Math.min(Math.floor(t*3.5),2);
-  var pgL=spread*2,pgR=spread*2+1;
-
-  // === LEFT PAGE ===
-  drawPage(30,20,BW/2-50,BH-40,true,pgL);
-  // === RIGHT PAGE ===
-  drawPage(BW/2+20,20,BW/2-50,BH-40,false,pgR);
-
-  // Page stack
-  for(var i=0;i<4;i++){var o=i*2;ctx.fillStyle='rgba(160,140,100,'+(.06-i*.01)+')';ctx.fillRect(30-o,20+o,BW/2-50+o,BH-40-o);ctx.fillRect(BW/2+20,20+o,BW/2-50-o,BH-40-o)}
-
-  ctx.restore();
-
-  // Dark vignette at edges when zoomed in
-  if(t>.5){var a=(t-.5)/.5;var v=ctx.createRadialGradient(W/2,H/2,W*.4,W/2,H/2,W);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(0,0,0,'+(a*.4)+')');ctx.fillStyle=v;ctx.fillRect(0,0,W,H)}
-}
-
-function drawPage(x,y,w,h,isLeft,pageNum){
-  // Page bg
-  var pg=ctx.createLinearGradient(x,y,x,y+h);
-  pg.addColorStop(0,'#e8dcc0');pg.addColorStop(.3,'#ddd0b0');pg.addColorStop(.6,'#d4c8a0');pg.addColorStop(1,'#c0b080');
-  ctx.fillStyle=pg;ctx.fillRect(x,y,w,h);
-
-  // Edge shadow
-  var ex=isLeft?x+w:x-16;
-  var eg=ctx.createLinearGradient(ex,0,isLeft?ex+16:ex+16,0);
-  if(isLeft){eg.addColorStop(0,'rgba(0,0,0,0)');eg.addColorStop(1,'rgba(0,0,0,.12)')}
-  else{eg.addColorStop(0,'rgba(0,0,0,.12)');eg.addColorStop(1,'rgba(0,0,0,0)')}
-  ctx.fillStyle=eg;ctx.fillRect(ex,y,16,h);
-
-  // Random stains
-  var seed=pageNum*137;
-  for(var i=0;i<5;i++){seed=(seed*16807)%2147483647;var sx=x+10+((seed%1000)/1000)*(w-20);seed=(seed*16807)%2147483647;var sy=y+10+((seed%1000)/1000)*(h-20);seed=(seed*16807)%2147483647;var sr=15+((seed%1000)/1000)*40;ctx.fillStyle='rgba(120,80,40,.04)';ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fill()}
-  // Tiny spots
-  for(var i=0;i<15;i++){seed=(seed*16807)%2147483647;ctx.fillStyle='rgba(80,50,20,.05)';ctx.fillRect(x+((seed%1000)/1000)*w,y+((seed%1000)/1000)*h,2,2)}
-
-  // === ANCIENT TEXT ===
-  var stories=[
-    // Spread 0: Left page - The Legend Begins
-    ['📜 THE BOOK OF ANON','','In the age before ages,','when the Great Kitchen','was new and the first','cheese wheel had not yet','aged — there came a mouse.','','A mouse of humble birth,','born in the walls behind','the pantry, where dust','and darkness reigned.','','His mother named him Anon,','for he was small and quiet,','easily forgotten by the','world above. But fate had','other plans for this mouse.','','For Anon was born under','the Sign of the Cheddar,','and the ancients foretold','that one such as he would','rise to challenge the','darkness that crept ever','closer to the sacred','wheels of the kitchen.'],
-    // Spread 0: Right page - The Cartel Rises
-    ['In those dark days, the','CHEESE CARTEL ruled with','an iron paw. Their leader,','KING RATTUS, was a beast','of immense size, his fur','matted with the grease of','a thousand stolen meals.','','Beside him stood SLICK','WHISKERS, a cunning rogue','whose charm masked a','heart of pure malice.','','Together, they hoarded','every wheel of aged gouda,','every wedge of parmesan,','every crumb of cheddar.','The mice of the kitchen','starved while the Cartel','feasted in their fortress','of discarded cardboard.'],
-    // Spread 1: Left page - The Awakening
-    ['It was on the Night of','the Full Refrigerator that','Anon discovered his gift.','','As Rattus''s thugs cornered','him behind the flour sack,','something awakened within.','The ancient power of the','CHAIN surged through his','tiny body.','','Golden strands of energy','wove around his paws — the','same energy that binds the','universe together, that','flows through every block','of the great chain of','existence.','','Anon had become something','more than a mouse. He had','become a force of nature.'],
-    // Spread 1: Right page - Training
-    ['For seven moons, Anon','trained in secret beneath','the floorboards. He learned','to harness the CHAIN — to','move faster than thought,','to strike with the force','of a thousand crumbs.','','He forged his mask from a','shard of aged parmesan,','hardened in the fires of','the oven''s pilot light.','','His weapon: a single','toothpick, dipped in the','essence of ghost pepper —','known to the ancients as','the BURNING STRIKE. One','touch and even Rattus','would know true pain.','','The time for hiding was','over. The time for war','had begun.'],
-    // Spread 2: Left page - The Battle
-    ['The final confrontation','took place atop the GREAT','CHEESE WHEEL — a monument','so vast it cast shadows','across the entire pantry.','','Rattus and his lieutenants','surrounded Anon, their','eyes gleaming with malice.','But Anon stood firm, the','CHAIN crackling around him','like golden lightning.','','One by one, the Cartel''s','fighters fell before the','BURNING STRIKE. None could','match the speed of one who','moved between the blocks','of reality itself.','','At last, only Rattus and','Slick remained.'],
-    // Spread 2: Right page - Victory & Legacy
-    ['The duel was swift. Anon','redirected the Cartel''s own','cheese supply back to the','starving colony — a feat','of CHAIN manipulation that','would be sung of for','generations.','','The wheel was FREE. The','mice were FREE.','','🐭 ANONYMOUSE 🐭','','Now he watches from the','shadows, guardian of the','kitchen, wielder of the','CHAIN, protector of all','who dwell in the walls.','','"In cheese we trust."','','THE ANCIENT TOME FORETELLS:','10,000 heroes shall rise.','On-chain. Eternal. Unstoppable.','The Cartel prepares its return.','WILL YOU ANSWER THE CALL?']
-  ];
-
-  var lines=stories[pageNum]||[];
-  ctx.textBaseline='top';
-  var lx=x+15,ly=y+20,lh=18.5;
-
-  // Decorative top border
-  ctx.strokeStyle='rgba(80,40,15,.3)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(lx+20,ly-2);ctx.lineTo(x+w-20,ly-2);ctx.stroke();
-
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i];if(l==='')continue;
-
-    // Carved stone effect: dark text with light shadow (chiseled look)
-    var isTitle=l.startsWith('📜')||l.indexOf('A N O N')===0||l==='COMING SOON'||l.indexOf('THE BOOK')===0;
-    var isBig=l.startsWith('🐭')||l.indexOf('ANONYMOUSE')===2||l.indexOf('THE ANCIENT')===0||l.indexOf('WILL YOU')===0;
-    var isKey=l.indexOf('KING')>=0||l.indexOf('SLICK')>=0||l.indexOf('CHAIN')>=0||l.indexOf('BURNING')>=0||l.indexOf('FREE')>=0||l.indexOf('CHEESE CARTEL')>=0||l.indexOf('POWER')>=0||l.indexOf('GREAT CHEESE')>=0||l.indexOf('CARV')>=0;
-
-    // Shadow layer (carved depth)
-    ctx.fillStyle='rgba(0,0,0,.15)';
-    if(isTitle){ctx.font='bold 19px serif'}
-    else if(isBig){ctx.font='bold 16px serif'}
-    else{ctx.font='bold 13px serif'}
-    ctx.fillText(l,lx+w/2+1,ly+i*lh+1);
-
-    // Main text layer
-    if(isTitle){ctx.fillStyle='#3a1805';ctx.font='bold 19px serif'}
-    else if(isBig){ctx.fillStyle='#4a1a08';ctx.font='bold 16px serif'}
-    else if(isKey){ctx.fillStyle='#4a1805';ctx.font='italic bold 13px serif'}
-    else{ctx.fillStyle='#2a1005';ctx.font='bold 13px serif'}
-    ctx.fillText(l,lx+w/2,ly+i*lh);
-
-    // Subtle highlight on top (carved edge catch light)
-    ctx.fillStyle='rgba(255,240,200,.06)';
-    ctx.fillText(l,lx+w/2-0.5,ly+i*lh-0.5);
-  }
-
-  // Decorative bottom border
-  ctx.strokeStyle='rgba(80,40,15,.3)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(lx+20,y+h-18);ctx.lineTo(x+w-20,y+h-18);ctx.stroke();
-
-  // Page number with ornaments
-  ctx.fillStyle='rgba(60,30,10,.3)';ctx.font='11px serif';
-  ctx.fillText('◆ '+(pageNum+1)+' ◆',x+w/2,y+h-12);
-}
-
-function onScroll(){draw()}
-window.addEventListener('scroll',onScroll,{passive:true});
-draw();
-})();
-
-// Gallery
 var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
 function sr(s){var d=s;return function(){d=(d*16807)%2147483647;return(d-1)/2147483646}}function pk(a,r){return a[Math.floor(r()*a.length)]}
 var MC=[];for(var i=1;i<=20;i++){var rd=sr(i*1337+42);MC.push({id:i,type:pk(TRAITS.type,rd),bg:pk(TRAITS.bg,rd),fur:pk(TRAITS.fur,rd),eyes:pk(TRAITS.eyes,rd),head:pk(TRAITS.head,rd)})}
