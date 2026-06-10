@@ -181,28 +181,32 @@ function drawPg(x,y,w,h,lines){
   // Torn edge
   ctx.fillStyle='rgba(180,150,100,.1)';ctx.fillRect(x+w-3,y,3,h);
 
-  // === CARVED STONE TEXT ===
-  if(!lines)return;
+  // === CARVED STONE INSCRIPTIONS ===
   ctx.textBaseline='top';
-  var lh=20;
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i];if(!l)continue;
-    var tx=x+w/2,ty=y+18+i*lh;
-    var isTitle=i===0||l.indexOf('THE ANCIENT')===0||l.indexOf('WILL YOU')===0;
-    var isKey=l.indexOf('KING')>=0||l.indexOf('SLICK')>=0||l.indexOf('CHAIN')>=0||l.indexOf('BURNING')>=0||l.indexOf('FREE')>=0||l.indexOf('CHEESE')>=0||l.indexOf('ANON')>=0;
+  // Generate random carved marks varying by page
+  var seed=pageNum||0;
+  for(var row=0;row<28;row++){
+    var sy=y+12+row*18;
+    if(row%7===0)continue; // paragraph break every 7 lines
+    var markW=20+((seed*137+row*73)%40); // varied line length
+    var sx=x+15+((seed*row)%(w-30-markW));
+    var shade=((seed+row)%3)*.04;
 
-    // Shadow (carved depth)
-    ctx.fillStyle='rgba(0,0,0,.12)';
-    ctx.font=(isTitle?'bold 18px':'bold 13px')+' serif';
-    ctx.fillText(l,tx+1,ty+1);
+    // Carved groove shadow
+    ctx.fillStyle='rgba(0,0,0,'+(.1+shade)+')';
+    ctx.font='bold 14px serif';
+    var marks='';
+    var count=3+((seed+row)%8);
+    for(var m=0;m<count;m++)marks+='— ';
+    ctx.fillText(marks,sx+1,sy+1);
 
-    // Main text
-    ctx.fillStyle=isTitle?'#2a1005':isKey?'#3a1505':'#1a0a03';
-    ctx.fillText(l,tx,ty);
+    // Main carved groove
+    ctx.fillStyle='rgba(30,10,3,'+(.6+shade)+')';
+    ctx.fillText(marks,sx,sy);
 
-    // Light catch (carved edge)
-    ctx.fillStyle='rgba(255,250,240,.08)';
-    ctx.fillText(l,tx-.5,ty-.5);
+    // Catch light on top edge
+    ctx.fillStyle='rgba(255,250,240,.06)';
+    ctx.fillText(marks,sx-.5,sy-.5);
   }
 
   // Page number
