@@ -9,230 +9,116 @@
 <style>
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
+body{background:#1a1a2e;color:#f5e6c8;font-family:'Milkway',cursive;line-height:1.6}
 
-:root{
-  --cream:#fef9f0;
-  --cheese:#f5e0a0;
-  --rind:#d4a030;
-  --dark:#3a2a10;
-  --green:#2d8a4e;
-  --white:#fffef9;
-  --gray:rgba(58,42,16,.06);
-  --text:#3a2a10;
-  --muted:rgba(58,42,16,.5);
-}
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none}
+#scene canvas{display:block;width:100%;height:100%}
 
-body{
-  background:var(--cream);
-  color:var(--text);
-  font-family:'Milkway',cursive;
-  line-height:1.7;
-  min-height:100vh;
-}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,26,46,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;padding:0 2rem;height:64px}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:1rem}
+.nav-brand{font-size:1.5rem;font-weight:700;color:#f5e6c8;letter-spacing:.5px;text-decoration:none;white-space:nowrap}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:rgba(245,230,200,.6);text-decoration:none;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;transition:color .2s}
+.nav-links a:hover{color:#f5e6c8}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-x{color:rgba(245,230,200,.45);text-decoration:none;font-size:.85rem;transition:color .2s}
+.nav-x:hover{color:#f5e6c8}
+.btn-lang{background:none;border:1px solid rgba(245,230,200,.3);color:rgba(245,230,200,.7);padding:5px 12px;border-radius:6px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-lang:hover{background:rgba(245,230,200,.1);color:#f5e6c8}
+.btn-cta{background:#2d8a4e;color:#fff;border:none;padding:7px 18px;border-radius:6px;font-weight:700;font-size:.85rem;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;white-space:nowrap}
+.btn-cta:hover{background:#3cb864;transform:translateY(-1px)}
 
-/* Nav */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  padding:0 2rem;height:64px;
-  box-shadow:0 2px 20px rgba(0,0,0,.1);
-}
-.nav-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  width:100%;max-width:1200px;
-}
-.nav-brand{
-  display:flex;align-items:center;gap:10px;
-  font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:.5px;
-  text-decoration:none;
-}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{
-  color:rgba(255,255,255,.72);text-decoration:none;
-  font-size:.95rem;font-weight:700;text-transform:uppercase;
-  letter-spacing:1px;transition:color .2s;
-}
-.nav-links a:hover{color:#fff}
-.nav-actions{display:flex;align-items:center;gap:12px}
-.nav-x{color:rgba(255,255,255,.5);text-decoration:none;font-size:.9rem;transition:color .2s}
-.nav-x:hover{color:#fff}
-.nav-discord{color:rgba(255,255,255,.25);font-size:.85rem}
-.btn-lang{
-  background:none;border:1px solid rgba(255,255,255,.4);color:#fff;
-  padding:5px 14px;border-radius:6px;font-size:.85rem;font-weight:700;
-  cursor:pointer;transition:all .2s;
-}
-.btn-lang:hover{background:#fff;color:var(--green)}
-.btn-cta{
-  background:#fff;color:var(--green);border:none;
-  padding:8px 22px;border-radius:6px;font-weight:700;font-size:.9rem;
-  cursor:pointer;text-transform:uppercase;letter-spacing:.5px;
-  transition:all .2s;box-shadow:0 0 16px rgba(0,0,0,.1);
-}
-.btn-cta:hover{background:#e8f5e9;transform:translateY(-1px);box-shadow:0 4px 24px rgba(0,0,0,.15)}
+#spacer{height:500vh}
 
-/* Sections */
-section{padding:7rem 2rem;text-align:center}
+section{padding:6rem 2rem;text-align:center;position:relative;z-index:1;opacity:0;transition:opacity .6s}
+section.show{opacity:1}
 .section-inner{max-width:960px;margin:0 auto}
+section h1{font-size:4rem;font-weight:700;letter-spacing:-1px;color:#f5e6c8;text-shadow:0 0 30px rgba(45,138,78,.3)}
+section .tagline{font-size:1.3rem;color:rgba(245,230,200,.6);margin-top:.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+section .desc{font-size:1.05rem;color:rgba(245,230,200,.45);max-width:600px;margin:1.5rem auto 0;line-height:1.8}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:2.5rem}
+.stat-num{font-size:2.8rem;font-weight:700;color:#2d8a4e}
+.stat-label{font-size:.85rem;color:rgba(245,230,200,.45);text-transform:uppercase;letter-spacing:2px;margin-top:2px}
+.hero-logo{width:180px;height:180px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #2d8a4e;object-fit:cover;box-shadow:0 0 40px rgba(45,138,78,.2)}
 
-/* Hero */
-#home{padding-top:160px;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.hero-logo{width:200px;height:200px;border-radius:50%;margin-bottom:2rem;border:4px solid var(--rind);object-fit:cover}
-#home h1{font-size:4.5rem;font-weight:700;letter-spacing:-2px;color:var(--dark)}
-#home .tagline{font-size:1.3rem;color:var(--muted);margin-top:.5rem;max-width:520px;margin-left:auto;margin-right:auto}
-#home .desc{font-size:1.05rem;color:var(--muted);max-width:600px;margin:1.5rem auto 0;line-height:1.8;opacity:.7}
-.hero-stats{display:flex;gap:4rem;justify-content:center;margin-top:3rem}
-.stat-num{font-size:3rem;font-weight:700;color:var(--green)}
-.stat-label{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
-
-/* Dividers */
-.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gray),transparent);max-width:900px;margin:0 auto}
-
-/* Types */
-#types{background:var(--white)}
 .types-grid{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:3rem}
-.type-card{
-  background:var(--cream);border:1px solid var(--gray);
-  border-radius:16px;padding:2.5rem 2rem;cursor:pointer;
-  transition:all .3s;min-width:190px;text-align:center;
-}
-.type-card:hover{
-  border-color:var(--rind);transform:translateY(-4px);
-  box-shadow:0 12px 40px rgba(200,160,50,.12);
-}
-.type-card h3{font-size:1.5rem;color:var(--dark);margin-bottom:.3rem}
-.type-card .count{font-size:.95rem;color:var(--muted);opacity:.5}
+.type-card{background:rgba(30,30,50,.7);backdrop-filter:blur(8px);border:1px solid rgba(45,138,78,.25);border-radius:16px;padding:2rem 2.5rem;cursor:pointer;transition:all .3s;min-width:180px;text-align:center}
+.type-card:hover{border-color:#2d8a4e;transform:translateY(-4px);box-shadow:0 8px 30px rgba(45,138,78,.15)}
+.type-card h3{font-size:1.4rem;color:#f5e6c8;margin-bottom:.3rem}
+.type-card .count{font-size:.95rem;color:rgba(245,230,200,.3)}
 
-/* Gallery */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;max-width:900px;margin:3rem auto 0}
-.gallery-item{
-  background:var(--white);border:1px solid var(--gray);
-  border-radius:14px;overflow:hidden;transition:all .3s;
-  cursor:pointer;aspect-ratio:1;display:flex;
-  align-items:center;justify-content:center;position:relative;
-}
-.gallery-item:hover{
-  border-color:var(--rind);transform:translateY(-3px);
-  box-shadow:0 12px 40px rgba(200,160,50,.1);
-}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;max-width:900px;margin:3rem auto 0}
+.gallery-item{background:rgba(30,30,50,.5);border:1px solid rgba(45,138,78,.2);border-radius:14px;overflow:hidden;transition:all .3s;cursor:pointer;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
+.gallery-item:hover{border-color:#2d8a4e;transform:translateY(-3px);box-shadow:0 12px 40px rgba(45,138,78,.1)}
 .gallery-item img{width:100%;height:100%;object-fit:cover}
 .gallery-blur{filter:blur(20px);pointer-events:none;user-select:none}
-.gallery-item .id-tag{
-  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,.75);padding:3px 12px;border-radius:4px;
-  font-size:.75rem;color:var(--cream);font-weight:600;
-}
-.coming-soon-overlay{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  font-size:2.5rem;font-weight:700;color:var(--rind);
-  letter-spacing:10px;text-transform:uppercase;
-  pointer-events:none;z-index:10;
-}
+.gallery-item .id-tag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);padding:2px 10px;border-radius:4px;font-size:.7rem;color:#f5e6c8;font-weight:600}
+.coming-soon-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2.5rem;font-weight:700;color:#2d8a4e;letter-spacing:10px;text-transform:uppercase;pointer-events:none;z-index:10}
 
-/* About */
-.about-text{max-width:650px;margin:2.5rem auto 0;color:var(--muted);font-size:1.1rem;line-height:1.9}
-.about-text strong{color:var(--dark)}
+.about-text{max-width:650px;margin:2.5rem auto 0;color:rgba(245,230,200,.5);font-size:1.1rem;line-height:1.9}
+.about-text strong{color:#f5e6c8}
 
-/* Timeline */
-#history{background:var(--white)}
 .timeline{max-width:700px;margin:3rem auto 0;text-align:left}
-.timeline-item{
-  border-left:2px solid rgba(212,160,48,.25);
-  padding:1.5rem 0 1.5rem 2.5rem;position:relative;
-}
-.timeline-item::before{
-  content:'';position:absolute;left:-6px;top:2rem;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--rind);box-shadow:0 0 10px rgba(212,160,48,.4);
-}
-.timeline-item h3{font-size:1.4rem;color:var(--dark);margin-bottom:.3rem}
-.timeline-item p{color:var(--muted);font-size:1.05rem;line-height:1.7;opacity:.75}
-.timeline-item .date{font-size:.85rem;color:var(--rind);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;font-weight:700}
+.timeline-item{border-left:2px solid rgba(45,138,78,.25);padding:1.5rem 0 1.5rem 2.5rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-6px;top:2rem;width:10px;height:10px;border-radius:50%;background:#2d8a4e;box-shadow:0 0 10px rgba(45,138,78,.4)}
+.timeline-item h3{font-size:1.3rem;color:#f5e6c8;margin-bottom:.3rem}
+.timeline-item p{color:rgba(245,230,200,.4);font-size:1.05rem;line-height:1.7}
+.timeline-item .date{font-size:.85rem;color:#2d8a4e;text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;font-weight:700}
 
-/* Search */
 .search-row{display:flex;gap:8px;justify-content:center;margin-top:2.5rem}
-.search-row input{
-  background:var(--white);border:1px solid var(--gray);
-  color:var(--dark);padding:12px 18px;border-radius:8px;
-  width:260px;font-size:1rem;outline:none;transition:border .2s;
-  font-family:inherit;
-}
-.search-row input:focus{border-color:var(--rind)}
-.search-row button{
-  background:var(--rind);color:#fff;border:none;
-  padding:12px 28px;border-radius:8px;font-weight:700;
-  font-size:1rem;cursor:pointer;transition:all .2s;
-  font-family:inherit;
-}
-.search-row button:hover{background:#c89020}
+.search-row input{background:rgba(30,30,50,.6);border:1px solid rgba(45,138,78,.25);color:#f5e6c8;padding:12px 18px;border-radius:8px;width:260px;font-size:1rem;outline:none;transition:border .2s;font-family:inherit}
+.search-row input:focus{border-color:#2d8a4e}
+.search-row button{background:#2d8a4e;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.search-row button:hover{background:#3cb864}
 
-/* Footer */
-footer{
-  background:var(--dark);padding:3rem 2rem;text-align:center;
-}
+footer{background:#0d0d1a;padding:3rem 2rem;text-align:center;border-top:2px solid rgba(45,138,78,.15)}
 footer .footer-links{display:flex;gap:2.5rem;justify-content:center;list-style:none;margin-bottom:1.5rem}
-footer .footer-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:.95rem;transition:color .2s}
-footer .footer-links a:hover{color:var(--rind)}
-footer .copy{color:rgba(255,255,255,.2);font-size:.9rem}
+footer .footer-links a{color:rgba(245,230,200,.3);text-decoration:none;font-size:.9rem;transition:color .2s}
+footer .footer-links a:hover{color:#2d8a4e}
+footer .copy{color:rgba(245,230,200,.15);font-size:.85rem}
 
-/* Headings */
-h2.section-title{font-size:2.8rem;font-weight:700;letter-spacing:-1px;color:var(--dark)}
-h2.section-title span{color:var(--rind)}
+h2.section-title{font-size:2.6rem;font-weight:700;letter-spacing:-.5px;color:#f5e6c8}
+h2.section-title span{color:#2d8a4e}
 
-/* Modal */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:200;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center;
-}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
-.modal{
-  background:var(--white);border:1px solid rgba(212,160,48,.25);
-  border-radius:18px;padding:2.5rem;max-width:500px;width:90%;
-  text-align:center;position:relative;
-}
-.modal-close{
-  position:absolute;top:14px;right:18px;background:none;
-  border:none;color:var(--muted);font-size:1.5rem;
-  cursor:pointer;transition:color .2s;
-}
-.modal-close:hover{color:var(--rind)}
-.modal img{width:160px;height:160px;border-radius:14px;margin-bottom:1.2rem}
-.modal h2{font-size:1.8rem;margin-bottom:.5rem;color:var(--dark)}
-.modal .trait{color:var(--muted);font-size:1rem;margin:.3rem 0;opacity:.75}
-.modal .trait span{color:var(--rind);font-weight:600}
+.modal{background:#1a1a2e;border:1px solid rgba(45,138,78,.25);border-radius:18px;padding:2.5rem;max-width:500px;width:90%;text-align:center;position:relative}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;color:rgba(245,230,200,.3);font-size:1.5rem;cursor:pointer;transition:color .2s}
+.modal-close:hover{color:#2d8a4e}
+.modal img{width:160px;height:160px;border-radius:14px;margin-bottom:1rem}
+.modal h2{font-size:1.7rem;margin-bottom:.5rem;color:#f5e6c8}
+.modal .trait{color:rgba(245,230,200,.4);font-size:1rem;margin:.3rem 0}
+.modal .trait span{color:#2d8a4e;font-weight:600}
 
 @media(max-width:768px){
   .nav-links{display:none}
-  .nav-inner{padding:0 10px}
-  .nav-brand{font-size:1.2rem}
-  .btn-cta{padding:6px 14px;font-size:.75rem}
-  .btn-lang{font-size:.7rem;padding:3px 8px}
+  .nav-inner{padding:0 5px}
+  .nav-brand{font-size:1.1rem}
+  .btn-cta{padding:5px 12px;font-size:.7rem}
+  .btn-lang{font-size:.7rem;padding:4px 8px}
   .nav-x{font-size:.75rem}
-  #home{padding-top:110px;min-height:auto;padding-bottom:3rem}
-  #home h1{font-size:2.2rem}
-  .hero-logo{width:130px;height:130px}
-  #home .tagline{font-size:1rem}
-  #home .desc{font-size:.85rem;padding:0 10px}
-  .hero-stats{gap:2rem;flex-wrap:wrap}
-  .stat-num{font-size:2rem}
+  section{padding:3rem 1rem}
+  section h1{font-size:2rem}
+  .hero-logo{width:120px;height:120px}
+  section .tagline{font-size:1rem}
+  section .desc{font-size:.85rem;padding:0 10px}
+  .hero-stats{gap:1.5rem;flex-wrap:wrap}
+  .stat-num{font-size:1.8rem}
   .stat-label{font-size:.7rem}
-  section{padding:3.5rem 1rem}
   .section-inner{max-width:100%}
-  h2.section-title{font-size:1.8rem}
+  h2.section-title{font-size:1.6rem}
   .about-text{font-size:.9rem;padding:0 5px}
   .types-grid{flex-direction:column;align-items:center;gap:.8rem}
   .type-card{min-width:auto;width:85%;padding:1.5rem}
   .type-card h3{font-size:1.2rem}
-  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem}
-  .coming-soon-overlay{font-size:1.5rem;letter-spacing:6px}
-  .search-row input{width:180px;font-size:.85rem}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.6rem}
+  .coming-soon-overlay{font-size:1.4rem;letter-spacing:5px}
+  .search-row input{width:170px;font-size:.85rem}
   .search-row button{padding:10px 20px;font-size:.85rem}
   .timeline{padding-left:0}
   .timeline-item{padding:1rem 0 1rem 1.5rem}
-  .timeline-item h3{font-size:1.1rem}
+  .timeline-item h3{font-size:1rem}
   .timeline-item p{font-size:.85rem}
   .timeline-item .date{font-size:.75rem}
   footer{padding:2rem 1rem}
@@ -247,6 +133,7 @@ h2.section-title span{color:var(--rind)}
 </style>
 </head>
 <body>
+<div id="scene"><canvas id="c"></canvas></div>
 
 <nav>
   <div class="nav-inner">
@@ -259,97 +146,71 @@ h2.section-title span{color:var(--rind)}
     </ul>
     <div class="nav-actions">
       <a href="https://x.com/anonymouseoneth" target="_blank" class="nav-x">X</a>
-      <span class="nav-discord">Discord</span>
+      <span style="color:rgba(245,230,200,.2);font-size:.8rem">Discord</span>
       <button class="btn-lang" onclick="toggleLang()" data-i18n="nav.lang">日本語</button>
       <button class="btn-cta" data-i18n="nav.connect">Coming Soon</button>
     </div>
   </div>
 </nav>
 
-<section id="home">
-  <div class="section-inner">
-    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
-    <h1>ANONYMOUSE</h1>
-    <p class="tagline" data-i18n="hero.tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
-    <div class="hero-stats">
-      <div><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
-      <div><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
-      <div><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
-    </div>
-    <p class="desc" data-i18n="hero.desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon — join the community.</p>
+<div id="spacer"></div>
+
+<section id="home"><div class="section-inner">
+  <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
+  <h1>ANONYMOUSE</h1>
+  <p class="tagline" data-i18n="hero.tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
+  <div class="hero-stats">
+    <div><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
+    <div><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
+    <div><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
   </div>
-</section>
+  <p class="desc" data-i18n="hero.desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon — join the community.</p>
+</div></section>
 
-<div class="section-divider"></div>
-
-<section id="types">
-  <div class="section-inner">
-    <h2 class="section-title" data-i18n="types.heading">Types of Mouse</h2>
-    <div class="types-grid">
-      <div class="type-card"><h3>Genesis</h3><div class="count">—</div></div>
-      <div class="type-card"><h3>Evolved</h3><div class="count">—</div></div>
-      <div class="type-card"><h3>Legendary</h3><div class="count">—</div></div>
-      <div class="type-card"><h3>Mythic</h3><div class="count">—</div></div>
-    </div>
+<section id="types"><div class="section-inner">
+  <h2 class="section-title" data-i18n="types.heading">Types of Mouse</h2>
+  <div class="types-grid">
+    <div class="type-card"><h3>Genesis</h3><div class="count">—</div></div>
+    <div class="type-card"><h3>Evolved</h3><div class="count">—</div></div>
+    <div class="type-card"><h3>Legendary</h3><div class="count">—</div></div>
+    <div class="type-card"><h3>Mythic</h3><div class="count">—</div></div>
   </div>
-</section>
+</div></section>
 
-<section id="gallery">
-  <div class="section-inner" style="position:relative">
-    <h2 class="section-title"><span data-i18n="gallery.heading">Meet</span> <span data-i18n="gallery.heading2">the Mouse</span></h2>
-    <div class="search-row">
-      <input type="text" placeholder="Search by ID..." id="searchInput" data-i18n-placeholder="gallery.search">
-      <button onclick="searchMouse()" data-i18n="gallery.find">Find</button>
-    </div>
-    <div class="gallery-blur"><div class="gallery-grid" id="galleryGrid"></div></div>
-    <div class="coming-soon-overlay" data-i18n="gallery.coming">COMING SOON!</div>
+<section id="gallery"><div class="section-inner" style="position:relative">
+  <h2 class="section-title"><span data-i18n="gallery.heading">Meet</span> <span data-i18n="gallery.heading2">the Mouse</span></h2>
+  <div class="search-row">
+    <input type="text" placeholder="Search by ID..." id="searchInput" data-i18n-placeholder="gallery.search">
+    <button onclick="searchMouse()" data-i18n="gallery.find">Find</button>
   </div>
-</section>
+  <div class="gallery-blur"><div class="gallery-grid" id="galleryGrid"></div></div>
+  <div class="coming-soon-overlay" data-i18n="gallery.coming">COMING SOON!</div>
+</div></section>
 
-<div class="section-divider"></div>
-
-<section id="about">
-  <div class="section-inner">
-    <h2 class="section-title"><span data-i18n="about.heading">About</span> Anonymouse</h2>
-    <div class="about-text">
-      <p data-i18n="about.p1">Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> — the art, metadata, and traits are stored directly in the smart contract.</p>
-      <p style="margin-top:1.2rem" data-i18n="about.p2">Every Anonymouse is procedurally generated from a pool of traits — backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.</p>
-      <p style="margin-top:1.2rem" data-i18n="about.p3">Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.</p>
-    </div>
+<section id="about"><div class="section-inner">
+  <h2 class="section-title"><span data-i18n="about.heading">About</span> Anonymouse</h2>
+  <div class="about-text">
+    <p data-i18n="about.p1">Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> — the art, metadata, and traits are stored directly in the smart contract.</p>
+    <p style="margin-top:1.2rem" data-i18n="about.p2">Every Anonymouse is procedurally generated from a pool of traits — backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.</p>
+    <p style="margin-top:1.2rem" data-i18n="about.p3">Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.</p>
   </div>
-</section>
+</div></section>
 
-<div class="section-divider"></div>
-
-<section id="history">
-  <div class="section-inner">
-    <h2 class="section-title"><span data-i18n="story.heading">The</span> <span data-i18n="story.heading2">Story</span></h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="date" data-i18n="story.t1date">Coming Soon</div>
-        <h3 data-i18n="story.t1title">The Mint</h3>
-        <p data-i18n="story.t1desc">10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain — no two alike. Be ready.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date" data-i18n="story.t2date">Post-Mint</div>
-        <h3 data-i18n="story.t2title">Community Takes Over</h3>
-        <p data-i18n="story.t2desc">Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date" data-i18n="story.t3date">Roadmap</div>
-        <h3 data-i18n="story.t3title">Building the Colony</h3>
-        <p data-i18n="story.t3desc">Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.</p>
-      </div>
-    </div>
+<section id="history"><div class="section-inner">
+  <h2 class="section-title"><span data-i18n="story.heading">The</span> <span data-i18n="story.heading2">Story</span></h2>
+  <div class="timeline">
+    <div class="timeline-item"><div class="date" data-i18n="story.t1date">Coming Soon</div><h3 data-i18n="story.t1title">The Mint</h3><p data-i18n="story.t1desc">10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain — no two alike. Be ready.</p></div>
+    <div class="timeline-item"><div class="date" data-i18n="story.t2date">Post-Mint</div><h3 data-i18n="story.t2title">Community Takes Over</h3><p data-i18n="story.t2desc">Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.</p></div>
+    <div class="timeline-item"><div class="date" data-i18n="story.t3date">Roadmap</div><h3 data-i18n="story.t3title">Building the Colony</h3><p data-i18n="story.t3desc">Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.</p></div>
   </div>
-</section>
+</div></section>
 
 <footer>
   <ul class="footer-links">
     <li><a href="https://x.com/anonymouseoneth" target="_blank">X (Twitter)</a></li>
-    <li><span style="color:rgba(255,255,255,.15);font-size:.9rem">Discord</span></li>
-    <li><span style="color:rgba(255,255,255,.15);font-size:.9rem">OpenSea</span></li>
-    <li><span style="color:rgba(255,255,255,.15);font-size:.9rem">Etherscan</span></li>
+    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem">Discord</span></li>
+    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem">OpenSea</span></li>
+    <li><span style="color:rgba(245,230,200,.12);font-size:.85rem">Etherscan</span></li>
   </ul>
   <p class="copy" data-i18n="footer.copy">Anonymouse &copy; 2026. All rights reserved.</p>
 </footer>
@@ -368,15 +229,182 @@ h2.section-title span{color:var(--rind)}
 </div>
 
 <script>
-var I18N={en:{"nav.home":"Home","nav.gallery":"Gallery","nav.about":"About","nav.story":"Story","nav.lang":"日本語","nav.connect":"Coming Soon","hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.","hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH","hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.","types.heading":"Types of Mouse","gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!","about.heading":"About","about.p1":"Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> - the art, metadata, and traits are stored directly in the smart contract.","about.p2":"Every Anonymouse is procedurally generated from a pool of traits - backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.","about.p3":"Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.","story.heading":"The","story.heading2":"Story","story.t1date":"Coming Soon","story.t1title":"The Mint","story.t1desc":"10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain - no two alike. Be ready.","story.t2date":"Post-Mint","story.t2title":"Community Takes Over","story.t2desc":"Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.","story.t3date":"Roadmap","story.t3title":"Building the Colony","story.t3desc":"Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.","footer.copy":"Anonymouse &copy; 2026. All rights reserved.","modal.type":"Type","modal.bg":"Background","modal.fur":"Fur","modal.eyes":"Eyes","modal.head":"Headgear"},ja:{"nav.home":"ホーム","nav.gallery":"ギャラリー","nav.about":"概要","nav.story":"ストーリー","nav.lang":"English","nav.connect":"近日公開","hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。","hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH","hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。","types.heading":"マウスの種類","gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！","about.heading":"アノニマウスについて","about.p1":"アノニマウスは、ブロックチェーン上に存在する<strong>10,000体のユニークなマウス</strong>のコレクションです。各マウスは<strong>100%オンチェーン</strong> - アート、メタデータ、特性がスマートコントラクトに直接保存されています。","about.p2":"背景、毛色、目のスタイル、ヘッドギアなど、様々な特性から自動生成されます。同じマウスは二つと存在しません。公平なミントでリリースされ、誰もがコレクションの一部を所有するチャンスを得られます。","about.p3":"アノニマウスをステーキングしてトークンを獲得。保有するほど報酬が増えます。コロニーを築いて報酬を得よう。","story.heading":"","story.heading2":"ストーリー","story.t1date":"近日公開","story.t1title":"ミント開始","story.t1desc":"10,000体のアノニマウスが公平で透明なミントでリリースされます。各マウスはオンチェーンで生成 - 同じものは二つとありません。","story.t2date":"ミント後","story.t2title":"コミュニティの時代","story.t2desc":"ステーキング開始。アノニマウスを保有してトークンを獲得。取引、収集、コロニーの拡大。コミュニティが全てを動かします。","story.t3date":"ロードマップ","story.t3title":"コロニーの拡大","story.t3desc":"ステーキング報酬、トークン経済、進化、コミュニティ主導のロア。保有するマウスごとにトークンを獲得。コロニーは共に成長します。","footer.copy":"アノニマウス &copy; 2026. All rights reserved.","modal.type":"タイプ","modal.bg":"背景","modal.fur":"毛色","modal.eyes":"目","modal.head":"頭装備"}};
-var currentLang="ja";function setLang(lang){currentLang=lang;var t=I18N[lang];document.querySelectorAll("[data-i18n]").forEach(function(el){var k=el.getAttribute("data-i18n");if(t[k]!==undefined)el.innerHTML=t[k]});document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){var k=el.getAttribute("data-i18n-placeholder");if(t[k]!==undefined)el.placeholder=t[k]});localStorage.setItem("anonymouse-lang",lang)}function toggleLang(){setLang(currentLang==="en"?"ja":"en")}
-var saved=localStorage.getItem("anonymouse-lang");saved?setLang(saved):setLang("ja");
+// ============ SCROLL ANIMATION ============
+(function(){
+  var C=document.getElementById('c'),ctx=C.getContext('2d');
+  var W,H,secs=document.querySelectorAll('section');
+  function rs(){var dpr=window.devicePixelRatio||1;W=window.innerWidth;H=window.innerHeight;C.width=W*dpr;C.height=H*dpr;C.style.width=W+'px';C.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+  window.addEventListener('resize',rs);rs();
 
+  function r(x,y,w,h,c,sw,sc){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);if(sc){ctx.strokeStyle=sc;ctx.lineWidth=sw||1;ctx.strokeRect(x,y,w,h)}}
+  function rr(x,y,w,h,rad,c,sw,sc){ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x+rad,y);ctx.lineTo(x+w-rad,y);ctx.quadraticCurveTo(x+w,y,x+w,y+rad);ctx.lineTo(x+w,y+h-rad);ctx.quadraticCurveTo(x+w,y+h,x+w-rad,y+h);ctx.lineTo(x+rad,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-rad);ctx.lineTo(x,y+rad);ctx.quadraticCurveTo(x,y,x+rad,y);ctx.closePath();ctx.fill();if(sc){ctx.strokeStyle=sc;ctx.lineWidth=sw||1;ctx.stroke()}}
+  function o(x,y,rx,ry,c,sw,sc){ctx.fillStyle=c;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();if(sc){ctx.strokeStyle=sc;ctx.lineWidth=sw||1;ctx.stroke()}}
+  function L(x1,y1,x2,y2,c,w){ctx.strokeStyle=c;ctx.lineWidth=w||2;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+  function T(x,y,t,c,s,al){ctx.fillStyle=c;ctx.font=(s||14)+'px monospace';ctx.textAlign=al||'center';ctx.textBaseline='middle';ctx.fillText(t,x,y)}
+  function hole(x,y,r){var g=ctx.createRadialGradient(x-1,y-1,r*.1,x,y,r);g.addColorStop(0,'#2a1505');g.addColorStop(.7,'#110500');g.addColorStop(1,'#050100');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7a5510';ctx.lineWidth=1.5;ctx.stroke()}
+  function holeSmall(x,y,r){var g=ctx.createRadialGradient(x-1,y-1,0,x,y,r);g.addColorStop(0,'#4a3018');g.addColorStop(1,'#1a0800');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#8a6010';ctx.lineWidth=1;ctx.stroke()}
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,W,H);
+
+    // Fridge dimensions (in world coords)
+    var FW=1000,FH=1200;
+    var cheeseCX=FW*.52,cheeseCY=FH*.42,cheeseW=150,cheeseH=110;
+    var holeHX=cheeseCX+cheeseW*.42,holeHY=cheeseCY+cheeseH*.48,holeHR=32;
+
+    // Phases
+    var pFridge=Math.min(t/.35,1);       // 0-35%: view fridge
+    var pZoom=t<.35?0:Math.min((t-.35)/.35,1);  // 35-70%: zoom to cheese hole
+    var pInside=t<.7?0:Math.min((t-.7)/.3,1);   // 70-100%: inside hole
+
+    var zoom=1;
+    if(pZoom>0) zoom=1+pZoom*15;
+    if(pInside>0) zoom=16+pInside*4;
+
+    var bx=W/2-holeHX*zoom,by=H/2-holeHY*zoom;
+    ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
+
+    if(pInside<.5){
+      // ---- REFRIGERATOR ----
+      // Outer body
+      rr(-20,-20,FW+40,FH+40,20,'#e0dcd5',3,'#999');
+      // Inner
+      rr(25,15,FW-50,FH-30,12,'#3d3d4d',2,'#555');
+      // Light strip top
+      r(FW/2-60,18,120,8,'#ffffdd',0);o(FW/2,22,50,10,'rgba(255,255,200,.15)',0);
+      // Shelves
+      for(var i=0;i<5;i++){var sy=100+i*200;r(40,sy,FW-80,10,'#d8d4cc',1,'#bbb')}
+      // ---- FOOD ----
+      // Shelf 1 (top): milk, butter
+      rr(80,55,50,65,6,'#fff',2,'#ccc');T(105,90,'MILK','#444',10); // milk
+      rr(200,65,55,45,6,'#f5e6a0',2,'#d4c070');T(227,88,'BUTTER','#8a7010',9); // butter
+      // Shelf 2: veggies
+      o(100,230,30,22,'#5a8a2a',2,'#3a6a10');o(170,235,28,20,'#ff6347',2,'#cc4430');
+      o(240,228,25,22,'#ffa500',2,'#cc8000');r(310,210,50,60,'#8B4513',2,'#5c2d0a');
+      // Shelf 3 (middle shelf): the CHEESE + other items
+      rr(80,415,45,60,6,'#4682B4',2,'#2a5a8a');  // blue container
+      rr(340,420,40,55,6,'#9370db',2,'#6a4aaa');  // purple jar
+      rr(410,410,55,50,6,'#ff69b4',2,'#cc4490');  // pink box
+      o(500,440,28,20,'#8B6914',2,'#5c3a0a');     // potato
+      // CHEESE drawn at cheeseCX,cheeseCY
+      // Shelf 4: drinks
+      r(80,620,30,65,'#32cd32',2,'#1a8c1a');r(140,625,30,60,'#ff4500',2,'#cc3800');
+      r(220,618,35,65,'#1e90ff',2,'#1060cc');r(300,622,30,60,'#ffd700',2,'#cca000');
+      // Door sides (open)
+      r(-25,0,20,FH,'#ccc',2,'#aaa');r(FW+5,0,20,FH,'#ccc',2,'#aaa');
+
+      // ---- CHEESE BLOCK ----
+      var g=ctx.createLinearGradient(cheeseCX,cheeseCY,cheeseCX,cheeseCY+cheeseH);
+      g.addColorStop(0,'#fef4d0');g.addColorStop(.4,'#fde8a0');g.addColorStop(.7,'#f5d870');g.addColorStop(1,'#e0b820');
+      rr(cheeseCX,cheeseCY,cheeseW,cheeseH,10,g,2.5,'#c89820');
+      // Small holes
+      holeSmall(cheeseCX+22,cheeseCY+20,12);
+      holeSmall(cheeseCX+cheeseW-28,cheeseCY+22,14);
+      holeSmall(cheeseCX+18,cheeseCY+cheeseH-18,9);
+      holeSmall(cheeseCX+cheeseW-20,cheeseCY+cheeseH-22,10);
+      // Main entrance hole
+      hole(holeHX,holeHY,holeHR);
+
+    } else {
+      // ---- INSIDE THE CHEESE: HACKER MOUSE DEN ----
+      var cx=holeHX,cy=holeHY,denR=holeHR*5;
+      // Cave walls (cheese interior glowing)
+      var wallG=ctx.createRadialGradient(cx,cy,denR*.2,cx,cy,denR);
+      wallG.addColorStop(0,'#1a0f05');wallG.addColorStop(.6,'#2d1a0a');wallG.addColorStop(1,'#e8b830');
+      ctx.fillStyle=wallG;ctx.beginPath();ctx.arc(cx,cy,denR,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#d4a020';ctx.lineWidth=3;ctx.stroke();
+
+      // === HACKER GEAR ===
+      // Desk
+      var dx=cx-denR*.45,dy=cy+denR*.15,dw=denR*.85,dh=denR*.12;
+      rr(dx,dy,dw,dh,5,'#6b4a20',2,'#4a2a08');
+      // Monitor
+      var mx=cx-denR*.15,my=dy-denR*.35,mw=denR*.5,mh=denR*.3;
+      rr(mx,my,mw,mh,6,'#1a1a1a',2,'#444');
+      rr(mx+6,my+6,mw-12,mh-12,3,'#0a0a0a',1,'#222');
+      // Code on screen
+      ctx.fillStyle='#0f0';ctx.font='7px monospace';ctx.textAlign='center';
+      for(var i=0;i<5;i++){ctx.fillText('$ sudo rm -rf /'+['chain','mint','gas','block','nft'][i],cx,my+14+i*10)}
+      // Monitor stand
+      r(cx-4,dy-dh*.2,mw+8,dh*.2,'#333',1,'#555');
+      // Keyboard
+      var kx=cx-denR*.25,ky=dy+dh+6,kw=denR*.45,kh=denR*.07;
+      rr(kx,ky,kw,kh,3,'#ddd',1,'#aaa');
+      for(var j=0;j<8;j++){r(kx+3+j*(kw/8),ky+3,kw/10,kh-6,'#999',0)}
+
+      // Computer mouse
+      o(cx+denR*.3,ky+kh+8,denR*.06,denR*.05,'#5c3a1a',1,'#3a1a05');
+      L(cx+denR*.3,ky+kh+8,cx+denR*.1,ky+kh,'#333',1);
+
+      // Server rack
+      var srw=denR*.18,srh=denR*.05,sx=cx+denR*.5;
+      for(var k=0;k<3;k++){
+        rr(sx,my+k*srh*2.5,srw,srh,3,'#3a3a3a',1,'#555');
+        o(sx+5,my+k*srh*2.5+srh/2,2.5,2.5,k%2?'#0f0':'#0a0',0);
+        o(sx+12,my+k*srh*2.5+srh/2,2.5,2.5,(k+1)%2?'#0f0':'#0a0',0);
+      }
+
+      // Cables
+      ctx.setLineDash([3,2]);ctx.strokeStyle='#00cc00';ctx.lineWidth=1;
+      L(cx+denR*.5,my,cx+denR*.3,ky+kh+6);L(cx+denR*.5,my+srh*2.5,cx+denR*.3,ky+kh+4);
+      L(cx+denR*.5,my+srh*5,cx,ky+kh+2);ctx.setLineDash([]);
+
+      // ETH poster
+      rr(cx-denR*.55,cy-denR*.35,denR*.22,denR*.16,3,'#fff',1,'#c89820');
+      T(cx-denR*.55+denR*.11,cy-denR*.35+denR*.08,'ΞTH','#000',10);
+      // BTC poster
+      rr(cx+denR*.35,cy-denR*.45,denR*.2,denR*.14,3,'#f7931a',1,'#c86800');
+      T(cx+denR*.35+denR*.1,cy-denR*.45+denR*.07,'₿TC','#fff',9);
+
+      // Lamp (LED on matchstick)
+      var lx=cx-denR*.65,ly=cy-denR*.25;
+      r(lx,ly,2.5,denR*.28,'#8B6914',0);
+      o(lx+1,ly-6,7,5,'#ffff88',0);o(lx+1,ly-6,4.5,3,'#ffeb3b',1,'#c89820');
+
+      // Coffee cup (thimble)
+      rr(cx-denR*.42,ky+kh+12,denR*.1,denR*.13,3,'#bbb',1,'#888');
+      o(cx-denR*.42+denR*.05,ky+kh+12,3,2,'#3a2010',0);
+
+      // Cheese crumbs
+      o(cx+denR*.15,cy+denR*.4,4,3,'#e8b830',0);o(cx-denR*.25,cy+denR*.35,3,2,'#e8b830',0);
+      o(cx+denR*.35,cy+denR*.25,5,3,'#f0c840',0);
+
+      // Squeaky clean note
+      T(cx,cy-denR*.55,'// secure the cheese','rgba(0,255,0,.3)',8);
+    }
+
+    ctx.restore();
+
+    // Darken when inside
+    if(pInside>.5){
+      var a=(pInside-.5)/.5;
+      ctx.fillStyle='rgba(5,2,10,'+(a*.25)+')';ctx.fillRect(0,0,W,H);
+    }
+    // Fade scene out at very end
+    if(pInside>.9) document.getElementById('scene').style.opacity=1-(pInside-.9)*10;
+    else document.getElementById('scene').style.opacity=1;
+
+    secs.forEach(function(s){s.classList.toggle('show',pInside>.95)});
+  }
+
+  function scroll(){
+    var st=window.scrollY;
+    var mx=document.getElementById('spacer').offsetHeight-window.innerHeight;
+    draw(Math.min(st/mx,1));
+  }
+  window.addEventListener('scroll',scroll,{passive:true});scroll();
+})();
+
+// ===== I18N + GALLERY =====
+var I18N={en:{"nav.home":"Home","nav.gallery":"Gallery","nav.about":"About","nav.story":"Story","nav.lang":"日本語","nav.connect":"Coming Soon","hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.","hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH","hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.","types.heading":"Types of Mouse","gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!","about.heading":"About","about.p1":"Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> - the art, metadata, and traits are stored directly in the smart contract.","about.p2":"Every Anonymouse is procedurally generated from a pool of traits - backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.","about.p3":"Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.","story.heading":"The","story.heading2":"Story","story.t1date":"Coming Soon","story.t1title":"The Mint","story.t1desc":"10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain - no two alike. Be ready.","story.t2date":"Post-Mint","story.t2title":"Community Takes Over","story.t2desc":"Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.","story.t3date":"Roadmap","story.t3title":"Building the Colony","story.t3desc":"Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.","footer.copy":"Anonymouse &copy; 2026. All rights reserved.","modal.type":"Type","modal.bg":"Background","modal.fur":"Fur","modal.eyes":"Eyes","modal.head":"Headgear"},ja:{"nav.home":"ホーム","nav.gallery":"ギャラリー","nav.about":"概要","nav.story":"ストーリー","nav.lang":"English","nav.connect":"近日公開","hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。","hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH","hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。","types.heading":"マウスの種類","gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！","about.heading":"アノニマウスについて","about.p1":"アノニマウスは、ブロックチェーン上に存在する<strong>10,000体のユニークなマウス</strong>のコレクションです。各マウスは<strong>100%オンチェーン</strong> - アート、メタデータ、特性がスマートコントラクトに直接保存されています。","about.p2":"背景、毛色、目のスタイル、ヘッドギアなど、様々な特性から自動生成されます。同じマウスは二つと存在しません。公平なミントでリリースされ、誰もがコレクションの一部を所有するチャンスを得られます。","about.p3":"アノニマウスをステーキングしてトークンを獲得。保有するほど報酬が増えます。コロニーを築いて報酬を得よう。","story.heading":"","story.heading2":"ストーリー","story.t1date":"近日公開","story.t1title":"ミント開始","story.t1desc":"10,000体のアノニマウスが公平で透明なミントでリリースされます。各マウスはオンチェーンで生成 - 同じものは二つとありません。","story.t2date":"ミント後","story.t2title":"コミュニティの時代","story.t2desc":"ステーキング開始。アノニマウスを保有してトークンを獲得。取引、収集、コロニーの拡大。コミュニティが全てを動かします。","story.t3date":"ロードマップ","story.t3title":"コロニーの拡大","story.t3desc":"ステーキング報酬、トークン経済、進化、コミュニティ主導のロア。保有するマウスごとにトークンを獲得。コロニーは共に成長します。","footer.copy":"アノニマウス &copy; 2026. All rights reserved.","modal.type":"タイプ","modal.bg":"背景","modal.fur":"毛色","modal.eyes":"目","modal.head":"頭装備"}};
+var curLang="ja";function setLang(l){curLang=l;var t=I18N[l];document.querySelectorAll("[data-i18n]").forEach(function(e){var k=e.getAttribute("data-i18n");if(t[k]!==undefined)e.innerHTML=t[k]});document.querySelectorAll("[data-i18n-placeholder]").forEach(function(e){var k=e.getAttribute("data-i18n-placeholder");if(t[k]!==undefined)e.placeholder=t[k]});localStorage.setItem("anonymouse-lang",l)}function toggleLang(){setLang(curLang==="en"?"ja":"en")}
+var sv=localStorage.getItem("anonymouse-lang");sv?setLang(sv):setLang("ja");
 var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
-function seedRand(seed){var s=seed;return function(){s=(s*16807)%2147483647;return(s-1)/2147483646}}function pick(arr,rand){return arr[Math.floor(rand()*arr.length)]}
-var MICE=[];for(var i=1;i<=20;i++){var r=seedRand(i*1337+42);MICE.push({id:i,type:pick(TRAITS.type,r),bg:pick(TRAITS.bg,r),fur:pick(TRAITS.fur,r),eyes:pick(TRAITS.eyes,r),head:pick(TRAITS.head,r)})}
-function drawMouse(id){var c=document.createElement("canvas");c.width=200;c.height=200;var ctx=c.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,200,200);return c.toDataURL()}
-function renderGallery(filter){filter=filter||"";var grid=document.getElementById("galleryGrid");grid.innerHTML="";var list=filter?MICE.filter(function(m){return m.id===parseInt(filter)}):MICE;list.forEach(function(m){var d=document.createElement("div");d.className="gallery-item";d.onclick=function(){openModal(m)};var img=document.createElement("img");img.src=drawMouse(m.id);img.alt="Anonymouse #"+m.id;img.loading="lazy";var t=document.createElement("div");t.className="id-tag";t.textContent="#"+m.id;d.appendChild(img);d.appendChild(t);grid.appendChild(d)})}
+function seedRand(s){var d=s;return function(){d=(d*16807)%2147483647;return(d-1)/2147483646}}function pick(a,r){return a[Math.floor(r()*a.length)]}
+var MICE=[];for(var i=1;i<=20;i++){var rd=seedRand(i*1337+42);MICE.push({id:i,type:pick(TRAITS.type,rd),bg:pick(TRAITS.bg,rd),fur:pick(TRAITS.fur,rd),eyes:pick(TRAITS.eyes,rd),head:pick(TRAITS.head,rd)})}
+function drawMouse(id){var c=document.createElement("canvas");c.width=200;c.height=200;var cx=c.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,200,200);return c.toDataURL()}
+function renderGallery(f){f=f||"";var g=document.getElementById("galleryGrid");g.innerHTML="";var list=f?MICE.filter(function(m){return m.id===parseInt(f)}):MICE;list.forEach(function(m){var d=document.createElement("div");d.className="gallery-item";d.onclick=function(){openModal(m)};var img=document.createElement("img");img.src=drawMouse(m.id);img.alt="Anonymouse #"+m.id;img.loading="lazy";var t=document.createElement("div");t.className="id-tag";t.textContent="#"+m.id;d.appendChild(img);d.appendChild(t);g.appendChild(d)})}
 function openModal(m){document.getElementById("modalImg").src=drawMouse(m.id);document.getElementById("modalTitle").textContent="Anonymouse #"+m.id;document.getElementById("modalType").textContent=m.type;document.getElementById("modalBg").textContent=m.bg;document.getElementById("modalFur").textContent=m.fur;document.getElementById("modalEyes").textContent=m.eyes;document.getElementById("modalHead").textContent=m.head;document.getElementById("modal").classList.add("open")}
 function closeModal(){document.getElementById("modal").classList.remove("open")}
 document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});
