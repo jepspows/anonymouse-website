@@ -58,7 +58,7 @@ section h1{font-size:3rem;font-weight:700;letter-spacing:3px;color:#2d8a4e}
 .search-row input:focus{border-color:#2d8a4e}
 .search-row button{background:#2d8a4e;color:#fff;border:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit}
 .search-row button:hover{background:#3cb864}
-footer{background:#f5f5f5;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid #eee}
+footer{background:#f5f5f5;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid #eee;position:relative;z-index:1}
 .footer-links{display:flex;gap:2rem;justify-content:center;list-style:none;margin-bottom:1rem}
 .footer-links a{color:rgba(0,0,0,.3);text-decoration:none;font-size:.8rem}.footer-links a:hover{color:#2d8a4e}
 footer .copy{color:rgba(0,0,0,.15);font-size:.75rem}
@@ -126,23 +126,17 @@ var W=1,H=1;
 function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
 rs();window.addEventListener('resize',function(){rs();draw()});
 
-var SZ=1200; // wall scene size
-
 function draw(){
   var st=window.scrollY;
   var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
   var t=Math.min(Math.max(st/maxScroll,0),1)||0;
 
-  // Fixed-size wall, zoom into mouse hole on scroll
-  var TX=SZ/2,TY=SZ-50; // mouse hole center
-  var zoom=1+t*6;
-  var bx=W/2-TX*zoom,by=H/2-TY*zoom;
+  // Block wall fills the viewport
+  var bw=Math.max(60,Math.min(120,W/10));
+  var bh=bw*.5;
+  var cols=Math.ceil(W/bw)+2,rows=Math.ceil(H/bh)+2;
 
   ctx.fillStyle='#f5f2ec';ctx.fillRect(0,0,W,H);
-  ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
-
-  var bw=80,bh=40;
-  var cols=Math.ceil(SZ/bw)+2,rows=Math.ceil(SZ/bh)+2;
 
   for(var r=0;r<rows;r++){
     var off=(r%2)*bw/2;
@@ -160,12 +154,13 @@ function draw(){
   }
 
   // Baseboard
-  var bbH=40,bbY=SZ-bbH;
-  ctx.fillStyle='#b8a890';ctx.fillRect(0,bbY,SZ,bbH);
-  ctx.fillStyle='#a89880';ctx.fillRect(0,bbY-4,SZ,5);
+  var bbH=Math.max(30,H*.035);
+  ctx.fillStyle='#b8a890';ctx.fillRect(0,H-bbH,W,bbH);
+  ctx.fillStyle='#a89880';ctx.fillRect(0,H-bbH-4,W,5);
 
-  // === MOUSE HOLE ===
-  var hx=SZ/2-40,hy=SZ-2,hr=40;
+  // === MOUSE HOLE (bottom center) ===
+  var hr=Math.max(30,W*.04);
+  var hx=W/2-hr,hy=H;
   ctx.fillStyle='#0d0a05';ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.fill();
   ctx.fillStyle='#1a1408';ctx.beginPath();ctx.arc(hx+hr,hy,hr-8,Math.PI,0);ctx.fill();
   ctx.strokeStyle='rgba(80,60,30,.4)';ctx.lineWidth=3;
@@ -173,8 +168,6 @@ function draw(){
   ctx.strokeStyle='rgba(60,40,20,.25)';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(hx-3,hy);ctx.lineTo(hx-25,hy-5);ctx.lineTo(hx-40,hy-3);ctx.stroke();
   ctx.beginPath();ctx.moveTo(hx+hr*2-20,hy);ctx.lineTo(hx+hr*2-10,hy-8);ctx.stroke();
-
-  ctx.restore();
 }
 
 window.addEventListener('scroll',draw,{passive:true});
