@@ -137,10 +137,11 @@ function draw(){
   if(!img.complete||!img.naturalWidth){setTimeout(draw,200);return}
 
   var iw=img.naturalWidth,ih=img.naturalHeight;
-  // Zoom from fit-to-screen to deep zoom into center
-  var fitScale=Math.min(W/iw,H/ih);
-  var zoom=fitScale+t*(fitScale*10); // from fit to 10x fit
-  var zx=iw/2,zy=ih/2; // zoom into center
+  // Fit image to fill screen (cover)
+  var fitScale=Math.max(W/iw,H/ih);
+  var zoom=fitScale+t*(fitScale*8); // from fit to 8x zoom
+  // Zoom target: center-bottom of image (door below ANONYMOUSE text)
+  var zx=iw*.5,zy=ih*.55;
 
   var bx=W/2-zx*zoom,by=H/2-zy*zoom;
   ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
