@@ -126,63 +126,54 @@ var W=1,H=1;
 function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
 rs();window.addEventListener('resize',function(){rs();draw()});
 
-var DZ=800; // door scene size
-var DTX=400,DTY=680; // zoom target (mouse hole)
-
 function draw(){
   var st=window.scrollY;
   var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
   var t=Math.min(Math.max(st/maxScroll,0),1)||0;
+
+  // Block wall fills entire viewport
+  var bw=Math.max(60,W/14); // block width scales to screen
+  var bh=bw*.5;
+  var cols=Math.ceil(W/bw)+2,rows=Math.ceil(H/bh)+2;
+
   ctx.fillStyle='#f5f2ec';ctx.fillRect(0,0,W,H);
 
-  var zoom=1+t*10;
-  var bx=W/2-DTX*zoom,by=H/2-DTY*zoom;
-  ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
-
-  var bw=80,bh=40; // block size
-  var cols=Math.ceil(DZ/bw)+1,rows=Math.ceil(DZ/bh)+1;
-
-  // Wall of blocks
   for(var r=0;r<rows;r++){
-    var off=(r%2)*bw/2; // staggered rows
+    var off=(r%2)*bw/2;
     for(var c=-1;c<cols;c++){
       var bx2=c*bw+off,by2=r*bh;
-      // Block body
       var bg=ctx.createLinearGradient(bx2,by2,bx2+bw,by2+bh);
       bg.addColorStop(0,'#e8e0d0');bg.addColorStop(.3,'#ddd5c5');bg.addColorStop(1,'#ccc0b0');
       ctx.fillStyle=bg;
       ctx.fillRect(bx2,by2,bw-2,bh-2);
-      // Block edge highlight
+      // Light edge
       ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillRect(bx2,by2,bw-2,2);
       ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(bx2,by2,2,bh-2);
-      // Block edge shadow
+      // Dark edge
       ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillRect(bx2,by2+bh-3,bw-2,2);
       ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(bx2+bw-3,by2,2,bh-2);
     }
   }
 
   // Baseboard
-  ctx.fillStyle='#b8a890';ctx.fillRect(0,DZ-80,DZ,25);
-  ctx.fillStyle='#a89880';ctx.fillRect(0,DZ-83,DZ,5);
+  var bbH=Math.max(25,H*.03);
+  ctx.fillStyle='#b8a890';ctx.fillRect(0,H-bbH,W,bbH);
+  ctx.fillStyle='#a89880';ctx.fillRect(0,H-bbH-3,W,5);
 
-  // === MOUSE HOLE ===
-  var hx=DZ/2-40,hy=DZ-2,hr=35;
+  // === MOUSE HOLE (bottom center) ===
+  var hr=Math.max(30,W*.04);
+  var hx=W/2-hr,hy=H;
   // Dark hole
   ctx.fillStyle='#0d0a05';ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.fill();
   // Inner shadow
   ctx.fillStyle='#1a1408';ctx.beginPath();ctx.arc(hx+hr,hy,hr-8,Math.PI,0);ctx.fill();
-  // Hole rim (worn edge)
+  // Worn rim
   ctx.strokeStyle='rgba(80,60,30,.4)';ctx.lineWidth=3;
   ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.stroke();
-  // Crack in baseboard from hole
+  // Cracks
   ctx.strokeStyle='rgba(60,40,20,.25)';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(hx-3,hy);ctx.lineTo(hx-25,hy-5);ctx.lineTo(hx-40,hy-3);ctx.stroke();
-
-  // Tiny cheese outside hole
-  ctx.fillStyle='#f5c542';ctx.beginPath();ctx.moveTo(hx+hr+15,hy-8);ctx.lineTo(hx+hr+25,hy-18);ctx.lineTo(hx+hr+25,hy-8);ctx.closePath();ctx.fill();
-  ctx.fillStyle='#e5a820';ctx.beginPath();ctx.arc(hx+hr+19,hy-14,1.5,0,Math.PI*2);ctx.fill();
-
-  ctx.restore();
+  ctx.beginPath();ctx.moveTo(hx+hr*2-20,hy);ctx.lineTo(hx+hr*2-10,hy-8);ctx.stroke();
 }
 
 window.addEventListener('scroll',draw,{passive:true});
