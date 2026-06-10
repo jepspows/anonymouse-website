@@ -5,7 +5,7 @@
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anonymouse | The Ancient Tome</title>
+<title>Anonymouse | The Mouse Door</title>
 <style>
 @font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -126,91 +126,110 @@ var W=1,H=1;
 function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
 rs();window.addEventListener('resize',function(){rs();draw()});
 
-var BW=1200,BH=850,TX=BW*.62,TY=BH*.45;
-var stories=[
-  ['📜 THE BOOK OF ANON','','In the age before ages,','when the Great Kitchen','was new — there came a','mouse of humble birth,','born in the walls behind','the pantry. His mother','named him ANON. Born','under the Sign of the','Cheddar, the ancients','foretold he would rise','to challenge the darkness','at the sacred wheels.'],
-  ['The CHEESE CARTEL ruled','with an iron paw. KING','RATTUS, a beast of grease','and malice, hoarded every','wheel of gouda. Beside him','stood SLICK WHISKERS,','cunning and cruel. The','mice starved while the','Cartel feasted in their','fortress of discarded','cardboard. None dared','defy them — until ANON.'],
-  ['On the Night of the Full','Refrigerator, Anon awoke','the ancient power of the','CHAIN. Golden energy wove','around his paws — the force','that binds the universe.','He forged his mask from','aged parmesan, his weapon','a toothpick dipped in','ghost pepper: the BURNING','STRIKE. The time for war','had come.'],
-  ['The battle raged atop the','GREAT CHEESE WHEEL — vast','enough to cast shadows','across the pantry. One by','one the Cartel fell before','the BURNING STRIKE. Anon','redirected their cheese','back to the starving colony.','The wheel was FREE. The','mice were FREE.'],
-  ['Now ANONYMOUSE watches','from the shadows — guardian','of the kitchen, wielder of','the CHAIN, protector of all','who dwell in the walls.','"In cheese we trust." 🐭','','THE ANCIENT TOME FORETELLS:','10,000 heroes shall rise.','On-chain. Eternal.','','WILL YOU ANSWER THE CALL?'],
-  ['The Cartel still lingers','in the dark corners,','plotting their return. But','a new generation rises.','Each one unique. Each one','a guardian of the cheese.','Each one a warrior against','the darkness. The Mint','approaches. The CHAIN','awaits. The legend of','ANONYMOUSE lives on.']
-];
+var DZ=800; // door scene size
+var DTX=420,DTY=280; // zoom target (center of door)
 
 function draw(){
   var st=window.scrollY;
   var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
   var t=Math.min(Math.max(st/maxScroll,0),1)||0;
-  ctx.clearRect(0,0,W,H);
   ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
 
-  var zoom=1+t*12;
-  var bx=W/2-TX*zoom,by=H/2-TY*zoom;
+  var zoom=1+t*10;
+  var bx=W/2-DTX*zoom,by=H/2-DTY*zoom;
   ctx.save();ctx.translate(bx,by);ctx.scale(zoom,zoom);
 
-  // Old leather cover
-  var cov=ctx.createLinearGradient(0,0,0,BH);
-  cov.addColorStop(0,'#f5f0e5');cov.addColorStop(.5,'#e8e0d0');cov.addColorStop(1,'#d8d0c0');
-  ctx.fillStyle=cov;
-  ctx.beginPath();ctx.moveTo(20,10);ctx.lineTo(BW-20,10);
-  ctx.quadraticCurveTo(BW+35,10,BW+35,BH/2);ctx.quadraticCurveTo(BW+35,BH,BW-20,BH-10);
-  ctx.lineTo(20,BH-10);ctx.quadraticCurveTo(-35,BH,-35,BH/2);ctx.quadraticCurveTo(-35,10,20,10);
-  ctx.closePath();ctx.fill();
+  // Wall baseboard
+  var wg=ctx.createLinearGradient(0,0,0,DZ);
+  wg.addColorStop(0,'#f7f4ee');wg.addColorStop(1,'#ebe6db');
+  ctx.fillStyle=wg;ctx.fillRect(0,0,DZ,DZ);
 
-  // Spine
-  var sp=ctx.createLinearGradient(BW/2-10,0,BW/2+10,0);
-  sp.addColorStop(0,'#ddd8cc');sp.addColorStop(.5,'#c8c0b0');sp.addColorStop(1,'#ddd8cc');
-  ctx.fillStyle=sp;ctx.fillRect(BW/2-10,10,20,BH-20);
+  // Baseboard trim
+  ctx.fillStyle='#d4c9b5';ctx.fillRect(0,DZ-180,DZ,40);
+  ctx.fillStyle='#c4b8a2';ctx.fillRect(0,DZ-185,DZ,8);
 
-  // Pages with text
-  var spread=Math.min(Math.floor(t*3.2),2);
-  drawPg(30,20,BW/2-50,BH-40,stories[spread*2]);
-  drawPg(BW/2+20,20,BW/2-50,BH-40,stories[spread*2+1]);
+  // Wood grain lines on wall
+  ctx.strokeStyle='rgba(180,160,130,.08)';ctx.lineWidth=1;
+  for(var g=0;g<15;g++){ctx.beginPath();ctx.moveTo(0,100+g*45);for(var xi=0;xi<=DZ;xi+=30){ctx.lineTo(xi,100+g*45+Math.sin(xi*.015+g)*8)}ctx.stroke()}
 
-  ctx.restore();
-  if(t>.5){var a=(t-.5)/.5;var v=ctx.createRadialGradient(W/2,H/2,W*.35,W/2,H/2,W);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(255,255,255,'+(a*.5)+')');ctx.fillStyle=v;ctx.fillRect(0,0,W,H)}
-}
+  // === MOUSE DOOR ===
+  var dx=310,dy=DZ-410,dw=180,dh=230; // door position/size
+  var da=dh*.35; // arch height
 
-function drawPg(x,y,w,h,lines){
-  var pg=ctx.createLinearGradient(x,y,x,y+h);
-  pg.addColorStop(0,'#e8dcc0');pg.addColorStop(.4,'#d8cba0');pg.addColorStop(1,'#beb080');
-  ctx.fillStyle=pg;ctx.fillRect(x,y,w,h);
-  // Stains and wear
-  for(var i=0;i<8;i++){var sx=x+20+Math.random()*(w-40),sy=y+20+Math.random()*(h-40);ctx.fillStyle='rgba(120,80,40,'+(.03+Math.random()*.06)+')';ctx.beginPath();ctx.arc(sx,sy,10+Math.random()*35,0,Math.PI*2);ctx.fill()}
-  // Dirt spots
-  for(var i=0;i<20;i++){ctx.fillStyle='rgba(80,50,20,.04)';ctx.fillRect(x+Math.random()*w,y+Math.random()*h,2+Math.random()*3,2+Math.random()*3)}
-  // Torn edge
-  ctx.fillStyle='rgba(180,150,100,.1)';ctx.fillRect(x+w-3,y,3,h);
+  // Door shadow on wall
+  ctx.fillStyle='rgba(0,0,0,.06)';ctx.fillRect(dx+4,dy+4,dw,dh+da);
 
-  // === CARVED STONE INSCRIPTIONS ===
-  ctx.textBaseline='top';
-  // Generate random carved marks varying by page
-  var seed=pageNum||0;
-  for(var row=0;row<28;row++){
-    var sy=y+12+row*18;
-    if(row%7===0)continue; // paragraph break every 7 lines
-    var markW=20+((seed*137+row*73)%40); // varied line length
-    var sx=x+15+((seed*row)%(w-30-markW));
-    var shade=((seed+row)%3)*.04;
+  // Door frame cutout (dark hole behind)
+  ctx.fillStyle='#2a2218';
+  ctx.beginPath();ctx.moveTo(dx-6,dy+dh);ctx.lineTo(dx-6,dy+da);ctx.quadraticCurveTo(dx-6,dy-8,dx+dw*.5,dy-8);ctx.quadraticCurveTo(dx+dw+6,dy-8,dx+dw+6,dy+da);ctx.lineTo(dx+dw+6,dy+dh);ctx.closePath();ctx.fill();
 
-    // Carved groove shadow
-    ctx.fillStyle='rgba(0,0,0,'+(.1+shade)+')';
-    ctx.font='bold 14px serif';
-    var marks='';
-    var count=3+((seed+row)%8);
-    for(var m=0;m<count;m++)marks+='— ';
-    ctx.fillText(marks,sx+1,sy+1);
-
-    // Main carved groove
-    ctx.fillStyle='rgba(30,10,3,'+(.6+shade)+')';
-    ctx.fillText(marks,sx,sy);
-
-    // Catch light on top edge
-    ctx.fillStyle='rgba(255,250,240,.06)';
-    ctx.fillText(marks,sx-.5,sy-.5);
+  // Door itself - wood planks
+  for(var p=0;p<4;p++){
+    var px=dx+p*45;
+    var plank=ctx.createLinearGradient(px,0,px+45,0);
+    plank.addColorStop(0,'#8B6B3D');plank.addColorStop(.3,'#9C7A4A');plank.addColorStop(.5,'#A6854F');plank.addColorStop(.7,'#9C7A4A');plank.addColorStop(1,'#7A5C32');
+    ctx.fillStyle=plank;
+    ctx.beginPath();ctx.moveTo(px,dy+dh);ctx.lineTo(px,dy+da);
+    ctx.quadraticCurveTo(px,dy-2,px+22,dy-2);ctx.quadraticCurveTo(px+45,dy-2,px+45,dy+da);
+    ctx.lineTo(px+45,dy+dh);ctx.closePath();ctx.fill();
   }
 
-  // Page number
-  ctx.fillStyle='rgba(60,30,10,.15)';ctx.font='10px serif';ctx.fillText('◆',x+w/2,y+h-10);
+  // Wood grain on each plank
+  ctx.strokeStyle='rgba(0,0,0,.08)';ctx.lineWidth=.6;
+  for(var p=0;p<4;p++){
+    var px=dx+p*45+10;
+    for(var k=0;k<3;k++){
+      ctx.beginPath();ctx.moveTo(px+5,dy+dh-20);
+      for(var yi=0;yi<=dh;yi+=8){
+        var arcY=dy+da-(yi/(dh))*da;
+        ctx.lineTo(px+5+Math.sin(yi*.04+k*1.5)*3,Math.max(dy+da,dy+dh-yi))
+      }
+      ctx.stroke();
+    }
+  }
+
+  // Door arch rim
+  ctx.strokeStyle='#5a3a1a';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(dx,dy+dh);ctx.lineTo(dx,dy+da);
+  ctx.quadraticCurveTo(dx,dy-2,dx+dw*.5,dy-2);ctx.quadraticCurveTo(dx+dw,dy-2,dx+dw,dy+da);
+  ctx.lineTo(dx+dw,dy+dh);ctx.stroke();
+
+  // Bottom trim strip
+  ctx.fillStyle='#5a3a1a';ctx.fillRect(dx-2,dy+dh-4,dw+4,6);
+
+  // Doorknob
+  ctx.fillStyle='#d4a44a';ctx.beginPath();ctx.arc(dx+145,dy+140,8,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#b8892a';ctx.beginPath();ctx.arc(dx+144,dy+139,5,0,Math.PI*2);ctx.fill();
+
+  // Keyhole
+  ctx.fillStyle='#1a0e00';ctx.beginPath();ctx.arc(dx+145,dy+148,2.5,0,Math.PI*2);ctx.fill();
+  ctx.fillRect(dx+144,dy+148,3,7);
+
+  // Hinges
+  for(var hi=0;hi<2;hi++){
+    ctx.fillStyle='#3a2a15';ctx.fillRect(dx-3,dy+30+hi*140,8,18);
+    ctx.fillStyle='#555';ctx.beginPath();ctx.arc(dx+1,dy+35+hi*140,2.2,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(dx+1,dy+43+hi*140,2.2,0,Math.PI*2);ctx.fill();
+  }
+
+  // Simple carved marks on door (ancient inscription look)
+  ctx.fillStyle='rgba(0,0,0,.15)';ctx.font='11px serif';ctx.textBaseline='top';
+  var marks=['— — — — —','—  —  —  —','— — — —','—  —  —'];
+  for(var mi=0;mi<marks.length;mi++){
+    var mx=dx+35,my=dy+60+mi*25;
+    ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillText(marks[mi],mx+1,my+1);
+    ctx.fillStyle='rgba(20,8,0,.3)';ctx.fillText(marks[mi],mx,my);
+    ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillText(marks[mi],mx-.5,my-.5);
+  }
+
+  // Tiny mouse hole at bottom
+  ctx.fillStyle='#111';ctx.beginPath();ctx.arc(dx+dw-20,dy+dh-2,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#3a2a18';ctx.beginPath();ctx.arc(dx+dw-20,dy+dh-4,7,0,Math.PI*2);ctx.fill();
+  // Tiny cheese wedge near hole
+  ctx.fillStyle='#f5c542';ctx.beginPath();ctx.moveTo(dx+dw-40,dy+dh-5);ctx.lineTo(dx+dw-30,dy+dh-15);ctx.lineTo(dx+dw-30,dy+dh-5);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#e5a820';ctx.beginPath();ctx.arc(dx+dw-36,dy+dh-11,1.5,0,Math.PI*2);ctx.fill();
+
+  ctx.restore();
 }
 
 window.addEventListener('scroll',draw,{passive:true});
