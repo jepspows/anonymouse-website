@@ -11,119 +11,119 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
-  background:#fffef9;
-  color:#111; min-height:100vh;
+  background:#fef7d5;
+  color:#5c3a1a; min-height:100vh;
   font-family:'Milkway',cursive;
   line-height:1.6; overflow-x:hidden;
 }
 
+/* ---------- NAV — cheese rind ---------- */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:#2d8a4e; border-bottom:1px solid rgba(255,255,255,.12);
+  background:#e8a840; border-bottom:3px solid #c88720;
   display:flex; align-items:center; justify-content:center; padding:0 2rem; height:64px;
 }
 .nav-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:1200px; }
 .logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; }
-.logo-area span { font-size:1.6rem; font-weight:700; color:#fff; letter-spacing:.5px; }
+.logo-area span { font-size:1.6rem; font-weight:700; color:#5c3a1a; letter-spacing:.5px; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
-.nav-links a { color:rgba(255,255,255,.72); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
-.nav-links a:hover { color:#fff; }
+.nav-links a { color:rgba(92,58,26,.7); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
+.nav-links a:hover { color:#5c3a1a; }
 .nav-actions { display:flex; align-items:center; gap:12px; }
-.social-link { color:rgba(255,255,255,.55); text-decoration:none; font-size:.95rem; transition:color .2s; }
-.social-link:hover { color:#fff; }
-.btn-lang { background:none; border:1px solid rgba(255,255,255,.45); color:#fff; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
-.btn-lang:hover { background:#fff; color:#2d8a4e; }
-.btn-connect { background:#fff; color:#2d8a4e; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.2); }
-.btn-connect:hover { background:#3cb864; color:#fff; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
+.social-link { color:rgba(92,58,26,.55); text-decoration:none; font-size:.95rem; transition:color .2s; }
+.social-link:hover { color:#5c3a1a; }
+.btn-lang { background:none; border:1px solid rgba(92,58,26,.4); color:#5c3a1a; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.btn-lang:hover { background:#5c3a1a; color:#e8a840; }
+.btn-connect { background:#2d8a4e; color:#fff; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.2); }
+.btn-connect:hover { background:#3cb864; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
 
-section { padding:6rem 2rem; text-align:center; position:relative; }
-.section-inner { max-width:1000px; margin:0 auto; }
+/* ---------- CHEESE HOLES ---------- */
+.cheese-hole {
+  position:absolute; border-radius:50%; background:#e8c860; z-index:0; pointer-events:none;
+  box-shadow:inset 0 3px 8px rgba(180,140,50,.4), 0 0 0 2px #d4a830;
+}
+
+section { padding:6rem 2rem; text-align:center; position:relative; overflow:hidden; }
+.section-inner { max-width:1000px; margin:0 auto; position:relative; z-index:1; }
 
 /* ---------- HERO ---------- */
-.hero {
-  padding-top:120px; min-height:100vh;
-  display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden;
-  background:linear-gradient(180deg, #e8f5e9 0%, #fffef9 60%);
-}
-.hero-scene {
-  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:600px; height:420px; z-index:0;
-}
-.hero-inner { text-align:center; position:relative; z-index:2; padding-bottom:340px; }
-.hero-logo-wrap { position:relative; display:inline-block; }
+.hero { padding-top:140px; min-height:90vh; display:flex; align-items:center; justify-content:center; position:relative; }
+.hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#5c3a1a; }
+.hero .tagline { font-size:1.4rem; color:rgba(92,58,26,.55); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero .description { font-size:1.1rem; color:rgba(92,58,26,.4); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
+.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2.5rem; }
+.stat-num { font-size:2.8rem; font-weight:700; color:#2d8a4e; }
+.stat-label { font-size:.9rem; color:rgba(92,58,26,.4); text-transform:uppercase; letter-spacing:1px; }
+.hero-logo { width:180px; height:180px; border-radius:50%; margin-bottom:1.5rem; border:4px solid #e8a840; object-fit:cover; }
 
-.speech-bubble { position:fixed; background:#fff; color:#111; padding:10px 16px; border-radius:16px; font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,.08); z-index:50; font-size:1rem; line-height:1.3; white-space:nowrap; border:1px solid rgba(0,0,0,.04); }
-.sb1 { top:20px; right:20px; } .sb2 { top:65px; left:20px; }
-.sb3 { top:110px; right:20px; } .sb4 { top:155px; left:20px; }
-.sb5 { top:200px; right:20px; } .sb6 { top:245px; left:20px; }
-.sb7 { top:290px; right:20px; } .sb8 { top:335px; left:20px; }
-.sb9 { top:380px; right:20px; } .sb10 { top:425px; left:20px; }
-.sb11 { top:470px; right:20px; } .sb12 { top:515px; left:20px; }
-
-.hero-logo { width:160px; height:160px; border-radius:50%; margin-bottom:1.5rem; border:3px solid #2d8a4e; object-fit:cover; }
-.hero h1 { font-size:3.5rem; font-weight:700; letter-spacing:-1px; color:#2d8a4e; }
-.hero .tagline { font-size:1.3rem; color:rgba(0,0,0,.48); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
-.hero .description { font-size:1.05rem; color:rgba(0,0,0,.38); max-width:600px; margin:1.2rem auto 0; line-height:1.7; }
-.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2rem; }
-.stat-num { font-size:2.6rem; font-weight:700; color:#2d8a4e; }
-.stat-label { font-size:.85rem; color:rgba(0,0,0,.38); text-transform:uppercase; letter-spacing:1px; }
-
-/* ---------- SECTIONS ---------- */
-#types, #about, #history { border-top:1px solid rgba(45,138,78,.12); }
+/* ---------- TYPES ---------- */
+#types { background:#fef0c0; }
 .types-grid { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
-.type-card { background:#fff; border:1px solid #d8e8d4; border-radius:14px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
-.type-card:hover { border-color:#2d8a4e; background:rgba(45,138,78,.03); transform:translateY(-4px); box-shadow:0 8px 30px rgba(45,138,78,.1); }
-.type-card h3 { font-size:1.4rem; color:#111; margin-bottom:.3rem; }
-.type-card .count { font-size:1rem; color:rgba(0,0,0,.32); }
+.type-card { background:#fffdf0; border:2px solid #e8c860; border-radius:20px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
+.type-card:hover { border-color:#e8a840; transform:translateY(-4px); box-shadow:0 8px 30px rgba(232,168,64,.2); }
+.type-card h3 { font-size:1.4rem; color:#5c3a1a; margin-bottom:.3rem; }
+.type-card .count { font-size:1rem; color:rgba(92,58,26,.35); }
 
+/* ---------- GALLERY ---------- */
 .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; max-width:900px; margin:2.5rem auto 0; }
-.gallery-item { background:#fff; border:1px solid #d8e8d4; border-radius:12px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
-.gallery-item:hover { border-color:#2d8a4e; transform:translateY(-3px); box-shadow:0 12px 40px rgba(45,138,78,.1); }
+.gallery-item { background:#fffdf0; border:2px solid #e8c860; border-radius:16px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
+.gallery-item:hover { border-color:#e8a840; transform:translateY(-3px); box-shadow:0 12px 40px rgba(232,168,64,.15); }
 .gallery-item img { width:100%; height:100%; object-fit:cover; }
 .gallery-blur { filter:blur(20px); pointer-events:none; user-select:none; }
-.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.7); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fff; font-weight:600; }
+.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(92,58,26,.85); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fef7d5; font-weight:600; }
+.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#e8a840; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
 
-.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#2d8a4e; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
+/* ---------- ABOUT ---------- */
+.about-text { max-width:650px; margin:2rem auto 0; color:rgba(92,58,26,.55); font-size:1.1rem; line-height:1.8; }
+.about-text strong { color:#5c3a1a; }
 
-.about-text { max-width:650px; margin:2rem auto 0; color:rgba(0,0,0,.52); font-size:1.1rem; line-height:1.8; }
-.about-text strong { color:#111; }
-
+/* ---------- HISTORY ---------- */
+#history { background:#fef0c0; }
 .timeline { max-width:700px; margin:2.5rem auto 0; text-align:left; }
-.timeline-item { border-left:2px solid rgba(45,138,78,.28); padding:1.5rem 0 1.5rem 2rem; position:relative; }
-.timeline-item::before { content:''; position:absolute; left:-6px; top:2rem; width:10px; height:10px; border-radius:50%; background:#2d8a4e; box-shadow:0 0 10px rgba(45,138,78,.4); }
-.timeline-item h3 { font-size:1.3rem; color:#111; margin-bottom:.3rem; }
-.timeline-item p { color:rgba(0,0,0,.42); font-size:1.05rem; line-height:1.7; }
-.timeline-item .date { font-size:.9rem; color:#2d8a4e; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
+.timeline-item { border-left:3px solid #e8c860; padding:1.5rem 0 1.5rem 2rem; position:relative; }
+.timeline-item::before { content:''; position:absolute; left:-7px; top:2rem; width:12px; height:12px; border-radius:50%; background:#e8a840; box-shadow:0 0 10px rgba(232,168,64,.4); }
+.timeline-item h3 { font-size:1.3rem; color:#5c3a1a; margin-bottom:.3rem; }
+.timeline-item p { color:rgba(92,58,26,.45); font-size:1.05rem; line-height:1.7; }
+.timeline-item .date { font-size:.9rem; color:#e8a840; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
 
+/* ---------- SEARCH ---------- */
 .search-row { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
-.search-row input { background:#fff; border:1px solid #d8e8d4; color:#111; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
-.search-row input:focus { border-color:#2d8a4e; }
-.search-row button { background:#2d8a4e; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(45,138,78,.2); }
-.search-row button:hover { background:#3cb864; }
+.search-row input { background:#fffdf0; border:2px solid #e8c860; color:#5c3a1a; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
+.search-row input:focus { border-color:#e8a840; }
+.search-row button { background:#e8a840; color:#5c3a1a; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(232,168,64,.25); }
+.search-row button:hover { background:#f0c060; }
 
-footer { background:#2d8a4e; padding:3rem 2rem; text-align:center; }
+/* ---------- FOOTER ---------- */
+footer { background:#c88720; padding:3rem 2rem; text-align:center; }
 footer .footer-links { display:flex; gap:2rem; justify-content:center; list-style:none; margin-bottom:1rem; }
-footer .footer-links a { color:rgba(255,255,255,.55); text-decoration:none; font-size:1rem; transition:color .2s; }
-footer .footer-links a:hover { color:#fff; }
-footer .copy { color:rgba(255,255,255,.3); font-size:.95rem; }
+footer .footer-links a { color:rgba(92,58,26,.5); text-decoration:none; font-size:1rem; transition:color .2s; }
+footer .footer-links a:hover { color:#5c3a1a; }
+footer .copy { color:rgba(92,58,26,.35); font-size:.95rem; }
 
+/* ---------- MODAL ---------- */
 .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-.modal { background:#fff; border:1px solid rgba(45,138,78,.3); border-radius:16px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; }
-.modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(0,0,0,.4); font-size:1.5rem; cursor:pointer; transition:color .2s; }
-.modal-close:hover { color:#2d8a4e; }
+.modal { background:#fffdf0; border:2px solid #e8a840; border-radius:20px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; }
+.modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(92,58,26,.4); font-size:1.5rem; cursor:pointer; transition:color .2s; }
+.modal-close:hover { color:#e8a840; }
 .modal img { width:160px; height:160px; border-radius:12px; margin-bottom:1rem; }
-.modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#111; }
-.modal .trait { color:rgba(0,0,0,.45); font-size:1rem; margin:.2rem 0; }
-.modal .trait span { color:#2d8a4e; font-weight:600; }
+.modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#5c3a1a; }
+.modal .trait { color:rgba(92,58,26,.45); font-size:1rem; margin:.2rem 0; }
+.modal .trait span { color:#e8a840; font-weight:600; }
 
-h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#2d8a4e; }
-h2.section-title span { color:#2d8a4e; }
+h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#5c3a1a; }
+h2.section-title span { color:#e8a840; }
+
+/* ---------- CHEESE HOLE DECORATIONS ---------- */
+#types .cheese-hole:nth-child(1) { width:80px; height:80px; top:-30px; left:10%; }
+#types .cheese-hole:nth-child(2) { width:50px; height:50px; top:20px; right:8%; }
+#about .cheese-hole:nth-child(1) { width:120px; height:120px; bottom:-40px; right:5%; }
+#about .cheese-hole:nth-child(2) { width:60px; height:60px; top:30px; left:5%; }
+#gallery .cheese-hole:nth-child(1) { width:90px; height:90px; top:-20px; right:10%; }
+#history .cheese-hole:nth-child(1) { width:70px; height:70px; bottom:15px; left:8%; }
 
 @media(max-width:768px) {
-  .hero-inner { padding-bottom:200px; }
-  .hero-scene { max-width:100%; height:280px; }
+  .cheese-hole { display:none; }
   .nav-links { display:none; }
   .nav-inner { padding:0 10px; }
   .logo-area span { font-size:1.2rem; }
@@ -138,7 +138,6 @@ h2.section-title span { color:#2d8a4e; }
   .stat-num { font-size:1.5rem; }
   .stat-label { font-size:.65rem; }
   .hero-logo { width:120px; height:120px; }
-  .speech-bubble { display:none; }
   section { padding:3rem 1rem; }
   .section-inner { max-width:100%; }
   h2.section-title { font-size:1.6rem; }
@@ -182,7 +181,7 @@ h2.section-title span { color:#2d8a4e; }
     </ul>
     <div class="nav-actions">
       <a href="https://x.com/anonymouseoneth" target="_blank" class="social-link">X</a>
-      <span style="color:rgba(255,255,255,.3);font-size:.85rem;cursor:default;">Discord</span>
+      <span style="color:rgba(92,58,26,.35);font-size:.85rem;cursor:default;">Discord</span>
       <button class="btn-lang" onclick="toggleLang()" data-i18n="nav.lang">日本語</button>
       <button class="btn-connect" data-i18n="nav.connect">Coming Soon</button>
     </div>
@@ -190,94 +189,22 @@ h2.section-title span { color:#2d8a4e; }
 </nav>
 
 <section class="hero" id="home">
-  <svg class="hero-scene" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-    <!-- Grass ground -->
-    <rect x="0" y="360" width="600" height="60" fill="#7cbd7c" rx="0"/>
-    <ellipse cx="300" cy="360" rx="320" ry="20" fill="#6db36d"/>
-    <!-- House body - cute rounded shape -->
-    <rect x="170" y="180" width="260" height="180" fill="#f5e6c8" rx="20"/>
-    <rect x="170" y="180" width="260" height="180" fill="none" stroke="#5c3a1a" stroke-width="4" rx="20"/>
-    <!-- Roof -->
-    <polygon points="140,190 300,60 460,190" fill="#c0392b"/>
-    <polygon points="140,190 300,60 460,190" fill="none" stroke="#5c3a1a" stroke-width="4" stroke-linejoin="round"/>
-    <!-- Roof shingle lines -->
-    <line x1="220" y1="145" x2="380" y2="145" stroke="rgba(0,0,0,.08)" stroke-width="2"/>
-    <line x1="260" y1="105" x2="340" y2="105" stroke="rgba(0,0,0,.08)" stroke-width="2"/>
-    <!-- Chimney -->
-    <rect x="370" y="80" width="30" height="50" fill="#e8d5b0" rx="2"/>
-    <rect x="370" y="80" width="30" height="50" fill="none" stroke="#5c3a1a" stroke-width="3" rx="2"/>
-    <!-- Smoke puffs -->
-    <circle cx="395" cy="65" r="10" fill="white" opacity="0.6"/>
-    <circle cx="405" cy="48" r="13" fill="white" opacity="0.5"/>
-    <circle cx="395" cy="30" r="16" fill="white" opacity="0.35"/>
-    <!-- Mouse hole door (arch) -->
-    <path d="M270,360 L270,300 Q300,250 330,300 L330,360 Z" fill="#3d2b15"/>
-    <path d="M270,360 L270,300 Q300,250 330,300 L330,360 Z" fill="none" stroke="#5c3a1a" stroke-width="3"/>
-    <!-- Door frame highlight -->
-    <path d="M275,355 L275,300 Q300,258 325,300 L325,355" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2"/>
-    <!-- Window (round) -->
-    <circle cx="230" cy="260" r="25" fill="#87CEEB"/>
-    <circle cx="230" cy="260" r="25" fill="none" stroke="#5c3a1a" stroke-width="3"/>
-    <line x1="230" y1="235" x2="230" y2="285" stroke="#5c3a1a" stroke-width="2"/>
-    <line x1="205" y1="260" x2="255" y2="260" stroke="#5c3a1a" stroke-width="2"/>
-    <!-- Small window -->
-    <circle cx="370" cy="260" r="20" fill="#87CEEB"/>
-    <circle cx="370" cy="260" r="20" fill="none" stroke="#5c3a1a" stroke-width="3"/>
-    <line x1="370" y1="240" x2="370" y2="280" stroke="#5c3a1a" stroke-width="2"/>
-    <line x1="350" y1="260" x2="390" y2="260" stroke="#5c3a1a" stroke-width="2"/>
-    <!-- Welcome mat -->
-    <rect x="275" y="360" width="50" height="8" fill="#8B7355" rx="1"/>
-    <!-- Little flowers -->
-    <circle cx="120" cy="355" r="6" fill="#f9e076"/>
-    <circle cx="120" cy="355" r="3" fill="#e8a840"/>
-    <circle cx="480" cy="350" r="5" fill="#f9e076"/>
-    <circle cx="480" cy="350" r="2.5" fill="#e8a840"/>
-    <circle cx="500" cy="358" r="4" fill="#f5a0a0"/>
-    <circle cx="500" cy="358" r="2" fill="#e87070"/>
-    <!-- Fence -->
-    <rect x="90" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="90" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
-    <rect x="112" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="112" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
-    <rect x="134" y="320" width="6" height="40" fill="#d4b896" rx="1"/><rect x="134" y="320" width="6" height="40" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
-    <rect x="90" y="325" width="50" height="5" fill="#d4b896" rx="1"/><rect x="90" y="325" width="50" height="5" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
-    <rect x="90" y="345" width="50" height="5" fill="#d4b896" rx="1"/><rect x="90" y="345" width="50" height="5" fill="none" stroke="#8B7355" stroke-width="1.5" rx="1"/>
-    <!-- Bush -->
-    <ellipse cx="140" cy="365" rx="30" ry="18" fill="#5ea85e"/>
-    <ellipse cx="125" cy="362" rx="20" ry="14" fill="#6db36d"/>
-    <ellipse cx="155" cy="362" rx="20" ry="14" fill="#4d9c4d"/>
-    <!-- Sign post -->
-    <rect x="440" y="300" width="4" height="60" fill="#8B7355"/>
-    <rect x="420" y="295" width="45" height="25" fill="#f5e6c8" rx="3"/>
-    <rect x="420" y="295" width="45" height="25" fill="none" stroke="#5c3a1a" stroke-width="2" rx="3"/>
-    <text x="442" y="312" font-size="9" fill="#5c3a1a" text-anchor="middle" font-weight="bold" font-family="sans-serif">HOME</text>
-  </svg>
-  <div class="hero-inner section-inner">
-    <div class="hero-logo-wrap">
-    </div>
-    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" style="width:180px;height:180px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #2d8a4e;">
+  <div class="section-inner">
+    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
     <h1>ANONYMOUSE</h1>
-    <div class="speech-bubble sb1">Simon: Bro. We're an NFT now.</div>
-    <div class="speech-bubble sb2">Stuart: Wait what. Like... a jpeg?!</div>
-    <div class="speech-bubble sb3">Simon: Not just a jpeg. We're ON-CHAIN.</div>
-    <div class="speech-bubble sb4">Stuart: So we live in the blockchain? Is it cozy?</div>
-    <div class="speech-bubble sb5">Simon: It's immutable. We exist FOREVER.</div>
-    <div class="speech-bubble sb6">Stuart: Forever?! I didn't sign up for forever!</div>
-    <div class="speech-bubble sb7">Simon: Too late. 10K of us. No takebacks.</div>
-    <div class="speech-bubble sb8">Stuart: Okay okay. When do we get minted?</div>
-    <div class="speech-bubble sb9">Simon: Soon. The humans are preparing.</div>
-    <div class="speech-bubble sb10">Stuart: Preparing what? A cheese platter?!</div>
-    <div class="speech-bubble sb11">Simon: ...No. A smart contract. Stay focused.</div>
-    <div class="speech-bubble sb12">Stuart: Contract-schmontract. Wen cheese?</div>
     <p class="tagline" data-i18n="hero.tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
-      <div class="stat"><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
-      <div class="stat"><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
+      <div><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
+      <div><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
+      <div><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
     </div>
     <p class="description" data-i18n="hero.desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon — join the community.</p>
   </div>
 </section>
 
 <section id="types">
+  <div class="cheese-hole"></div>
+  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title" data-i18n="types.heading">Types of Mouse</h2>
     <div class="types-grid">
@@ -290,6 +217,7 @@ h2.section-title span { color:#2d8a4e; }
 </section>
 
 <section id="gallery">
+  <div class="cheese-hole"></div>
   <div class="section-inner" style="position:relative;">
     <h2 class="section-title"><span data-i18n="gallery.heading">Meet</span> <span data-i18n="gallery.heading2">the Mouse</span></h2>
     <div class="search-row">
@@ -304,6 +232,8 @@ h2.section-title span { color:#2d8a4e; }
 </section>
 
 <section id="about">
+  <div class="cheese-hole"></div>
+  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title"><span data-i18n="about.heading">About</span> Anonymouse</h2>
     <div class="about-text">
@@ -315,6 +245,7 @@ h2.section-title span { color:#2d8a4e; }
 </section>
 
 <section id="history">
+  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title"><span data-i18n="story.heading">The</span> <span data-i18n="story.heading2">Story</span></h2>
     <div class="timeline">
@@ -340,9 +271,9 @@ h2.section-title span { color:#2d8a4e; }
 <footer>
   <ul class="footer-links">
     <li><a href="https://x.com/anonymouseoneth" target="_blank">X</a></li>
-    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Discord</span></li>
-    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">OpenSea</span></li>
-    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Etherscan</span></li>
+    <li><span style="color:rgba(92,58,26,.3);font-size:.85rem;">Discord</span></li>
+    <li><span style="color:rgba(92,58,26,.3);font-size:.85rem;">OpenSea</span></li>
+    <li><span style="color:rgba(92,58,26,.3);font-size:.85rem;">Etherscan</span></li>
   </ul>
   <p class="copy" data-i18n="footer.copy">Anonymouse &copy; 2026. All rights reserved.</p>
 </footer>
@@ -361,140 +292,20 @@ h2.section-title span { color:#2d8a4e; }
 </div>
 
 <script>
-var I18N = {
-  en: {
-    "nav.home":"Home","nav.gallery":"Gallery","nav.about":"About","nav.story":"Story",
-    "nav.lang":"日本語","nav.connect":"Coming Soon",
-    
-    "hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.",
-    "hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH",
-    "hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.",
-    "types.heading":"Types of Mouse",
-    "gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!",
-    "about.heading":"About",
-    "about.p1":"Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> - the art, metadata, and traits are stored directly in the smart contract.",
-    "about.p2":"Every Anonymouse is procedurally generated from a pool of traits - backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.",
-    "about.p3":"Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.",
-    "story.heading":"The","story.heading2":"Story",
-    "story.t1date":"Coming Soon","story.t1title":"The Mint","story.t1desc":"10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain - no two alike. Be ready.",
-    "story.t2date":"Post-Mint","story.t2title":"Community Takes Over","story.t2desc":"Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.",
-    "story.t3date":"Roadmap","story.t3title":"Building the Colony","story.t3desc":"Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.",
-    "footer.copy":"Anonymouse &copy; 2026. All rights reserved.",
-    "modal.type":"Type","modal.bg":"Background","modal.fur":"Fur","modal.eyes":"Eyes","modal.head":"Headgear"
-  },
-  ja: {
-    "nav.home":"ホーム","nav.gallery":"ギャラリー","nav.about":"概要","nav.story":"ストーリー",
-    "nav.lang":"English","nav.connect":"近日公開",
-    
-    "hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。",
-    "hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH",
-    "hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。",
-    "types.heading":"マウスの種類",
-    "gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！",
-    "about.heading":"アノニマウスについて",
-    "about.p1":"アノニマウスは、ブロックチェーン上に存在する<strong>10,000体のユニークなマウス</strong>のコレクションです。各マウスは<strong>100%オンチェーン</strong> - アート、メタデータ、特性がスマートコントラクトに直接保存されています。",
-    "about.p2":"背景、毛色、目のスタイル、ヘッドギアなど、様々な特性から自動生成されます。同じマウスは二つと存在しません。公平なミントでリリースされ、誰もがコレクションの一部を所有するチャンスを得られます。",
-    "about.p3":"アノニマウスをステーキングしてトークンを獲得。保有するほど報酬が増えます。コロニーを築いて報酬を得よう。",
-    "story.heading":"","story.heading2":"ストーリー",
-    "story.t1date":"近日公開","story.t1title":"ミント開始","story.t1desc":"10,000体のアノニマウスが公平で透明なミントでリリースされます。各マウスはオンチェーンで生成 - 同じものは二つとありません。",
-    "story.t2date":"ミント後","story.t2title":"コミュニティの時代","story.t2desc":"ステーキング開始。アノニマウスを保有してトークンを獲得。取引、収集、コロニーの拡大。コミュニティが全てを動かします。",
-    "story.t3date":"ロードマップ","story.t3title":"コロニーの拡大","story.t3desc":"ステーキング報酬、トークン経済、進化、コミュニティ主導のロア。保有するマウスごとにトークンを獲得。コロニーは共に成長します。",
-    "footer.copy":"アノニマウス &copy; 2026. All rights reserved.",
-    "modal.type":"タイプ","modal.bg":"背景","modal.fur":"毛色","modal.eyes":"目","modal.head":"頭装備"
-  }
-};
-
-var currentLang = "ja";
-function setLang(lang) {
-  currentLang = lang;
-  var t = I18N[lang];
-  document.querySelectorAll("[data-i18n]").forEach(function(el) {
-    var k = el.getAttribute("data-i18n");
-    if (t[k] !== undefined) el.innerHTML = t[k];
-  });
-  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
-    var k = el.getAttribute("data-i18n-placeholder");
-    if (t[k] !== undefined) el.placeholder = t[k];
-  });
-  localStorage.setItem("anonymouse-lang", lang);
-}
-function toggleLang() { setLang(currentLang === "en" ? "ja" : "en"); }
-
-var saved = localStorage.getItem("anonymouse-lang");
-if (saved) { setLang(saved); } else { setLang("ja"); }
-
-var TRAITS = {
-  type: ["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],
-  bg: ["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],
-  fur: ["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],
-  eyes: ["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],
-  head: ["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]
-};
-
-function seedRand(seed) {
-  var s = seed;
-  return function() { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
-}
-function pick(arr, rand) { return arr[Math.floor(rand() * arr.length)]; }
-
-var MICE = [];
-for (var i = 1; i <= 20; i++) {
-  var r = seedRand(i * 1337 + 42);
-  MICE.push({ id:i, type:pick(TRAITS.type,r), bg:pick(TRAITS.bg,r), fur:pick(TRAITS.fur,r), eyes:pick(TRAITS.eyes,r), head:pick(TRAITS.head,r) });
-}
-
-function drawMouse(id) {
-  var c = document.createElement("canvas");
-  c.width = 200; c.height = 200;
-  var ctx = c.getContext("2d");
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, 200, 200);
-  return c.toDataURL();
-}
-
-function renderGallery(filter) {
-  filter = filter || "";
-  var grid = document.getElementById("galleryGrid");
-  grid.innerHTML = "";
-  var filtered = filter ? MICE.filter(function(m) { return m.id === parseInt(filter); }) : MICE;
-  filtered.forEach(function(m) {
-    var div = document.createElement("div");
-    div.className = "gallery-item";
-    div.onclick = function() { openModal(m); };
-    var img = document.createElement("img");
-    img.src = drawMouse(m.id);
-    img.alt = "Anonymouse #" + m.id;
-    img.loading = "lazy";
-    var tag = document.createElement("div");
-    tag.className = "id-tag";
-    tag.textContent = "#" + m.id;
-    div.appendChild(img);
-    div.appendChild(tag);
-    grid.appendChild(div);
-  });
-}
-
-function openModal(mouse) {
-  document.getElementById("modalImg").src = drawMouse(mouse.id);
-  document.getElementById("modalTitle").textContent = "Anonymouse #" + mouse.id;
-  document.getElementById("modalType").textContent = mouse.type;
-  document.getElementById("modalBg").textContent = mouse.bg;
-  document.getElementById("modalFur").textContent = mouse.fur;
-  document.getElementById("modalEyes").textContent = mouse.eyes;
-  document.getElementById("modalHead").textContent = mouse.head;
-  document.getElementById("modal").classList.add("open");
-}
-function closeModal() { document.getElementById("modal").classList.remove("open"); }
-document.getElementById("modal").addEventListener("click", function(e) { if (e.target === this) closeModal(); });
-
-function searchMouse() {
-  var val = document.getElementById("searchInput").value.trim();
-  renderGallery(val);
-}
-document.getElementById("searchInput").addEventListener("keydown", function(e) { if (e.key === "Enter") searchMouse(); });
-
+var I18N={en:{"nav.home":"Home","nav.gallery":"Gallery","nav.about":"About","nav.story":"Story","nav.lang":"日本語","nav.connect":"Coming Soon","hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.","hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH","hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.","types.heading":"Types of Mouse","gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!","about.heading":"About","about.p1":"Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> - the art, metadata, and traits are stored directly in the smart contract.","about.p2":"Every Anonymouse is procedurally generated from a pool of traits - backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.","about.p3":"Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.","story.heading":"The","story.heading2":"Story","story.t1date":"Coming Soon","story.t1title":"The Mint","story.t1desc":"10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain - no two alike. Be ready.","story.t2date":"Post-Mint","story.t2title":"Community Takes Over","story.t2desc":"Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.","story.t3date":"Roadmap","story.t3title":"Building the Colony","story.t3desc":"Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.","footer.copy":"Anonymouse &copy; 2026. All rights reserved.","modal.type":"Type","modal.bg":"Background","modal.fur":"Fur","modal.eyes":"Eyes","modal.head":"Headgear"},ja:{"nav.home":"ホーム","nav.gallery":"ギャラリー","nav.about":"概要","nav.story":"ストーリー","nav.lang":"English","nav.connect":"近日公開","hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。","hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH","hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。","types.heading":"マウスの種類","gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！","about.heading":"アノニマウスについて","about.p1":"アノニマウスは、ブロックチェーン上に存在する<strong>10,000体のユニークなマウス</strong>のコレクションです。各マウスは<strong>100%オンチェーン</strong> - アート、メタデータ、特性がスマートコントラクトに直接保存されています。","about.p2":"背景、毛色、目のスタイル、ヘッドギアなど、様々な特性から自動生成されます。同じマウスは二つと存在しません。公平なミントでリリースされ、誰もがコレクションの一部を所有するチャンスを得られます。","about.p3":"アノニマウスをステーキングしてトークンを獲得。保有するほど報酬が増えます。コロニーを築いて報酬を得よう。","story.heading":"","story.heading2":"ストーリー","story.t1date":"近日公開","story.t1title":"ミント開始","story.t1desc":"10,000体のアノニマウスが公平で透明なミントでリリースされます。各マウスはオンチェーンで生成 - 同じものは二つとありません。","story.t2date":"ミント後","story.t2title":"コミュニティの時代","story.t2desc":"ステーキング開始。アノニマウスを保有してトークンを獲得。取引、収集、コロニーの拡大。コミュニティが全てを動かします。","story.t3date":"ロードマップ","story.t3title":"コロニーの拡大","story.t3desc":"ステーキング報酬、トークン経済、進化、コミュニティ主導のロア。保有するマウスごとにトークンを獲得。コロニーは共に成長します。","footer.copy":"アノニマウス &copy; 2026. All rights reserved.","modal.type":"タイプ","modal.bg":"背景","modal.fur":"毛色","modal.eyes":"目","modal.head":"頭装備"}};
+var currentLang="ja";function setLang(lang){currentLang=lang;var t=I18N[lang];document.querySelectorAll("[data-i18n]").forEach(function(el){var k=el.getAttribute("data-i18n");if(t[k]!==undefined)el.innerHTML=t[k]});document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){var k=el.getAttribute("data-i18n-placeholder");if(t[k]!==undefined)el.placeholder=t[k]});localStorage.setItem("anonymouse-lang",lang)}function toggleLang(){setLang(currentLang==="en"?"ja":"en")}
+var saved=localStorage.getItem("anonymouse-lang");if(saved){setLang(saved)}else{setLang("ja")}
+var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
+function seedRand(seed){var s=seed;return function(){s=(s*16807)%2147483647;return(s-1)/2147483646}}function pick(arr,rand){return arr[Math.floor(rand()*arr.length)]}
+var MICE=[];for(var i=1;i<=20;i++){var r=seedRand(i*1337+42);MICE.push({id:i,type:pick(TRAITS.type,r),bg:pick(TRAITS.bg,r),fur:pick(TRAITS.fur,r),eyes:pick(TRAITS.eyes,r),head:pick(TRAITS.head,r)})}
+function drawMouse(id){var c=document.createElement("canvas");c.width=200;c.height=200;var ctx=c.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,200,200);return c.toDataURL()}
+function renderGallery(filter){filter=filter||"";var grid=document.getElementById("galleryGrid");grid.innerHTML="";var filtered=filter?MICE.filter(function(m){return m.id===parseInt(filter)}):MICE;filtered.forEach(function(m){var div=document.createElement("div");div.className="gallery-item";div.onclick=function(){openModal(m)};var img=document.createElement("img");img.src=drawMouse(m.id);img.alt="Anonymouse #"+m.id;img.loading="lazy";var tag=document.createElement("div");tag.className="id-tag";tag.textContent="#"+m.id;div.appendChild(img);div.appendChild(tag);grid.appendChild(div)})}
+function openModal(mouse){document.getElementById("modalImg").src=drawMouse(mouse.id);document.getElementById("modalTitle").textContent="Anonymouse #"+mouse.id;document.getElementById("modalType").textContent=mouse.type;document.getElementById("modalBg").textContent=mouse.bg;document.getElementById("modalFur").textContent=mouse.fur;document.getElementById("modalEyes").textContent=mouse.eyes;document.getElementById("modalHead").textContent=mouse.head;document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});
+function searchMouse(){var val=document.getElementById("searchInput").value.trim();renderGallery(val)}
+document.getElementById("searchInput").addEventListener("keydown",function(e){if(e.key==="Enter")searchMouse()});
 renderGallery();
 </script>
-
 </body>
 </html>
