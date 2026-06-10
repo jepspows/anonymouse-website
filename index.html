@@ -19,26 +19,26 @@ body {
 
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:rgba(255,255,255,.92);
+  background:#2d8a4e;
   backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(45,138,78,.2);
+  border-bottom:1px solid rgba(255,255,255,.15);
   display:flex; align-items:center; justify-content:center;
   padding:0 2rem; height:64px;
 }
 .nav-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:1200px; }
 .logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; }
 .logo-area img { height:40px; width:40px; border-radius:8px; }
-.logo-area span { font-size:1.6rem; font-weight:700; color:#2d8a4e; letter-spacing:.5px; }
+.logo-area span { font-size:1.6rem; font-weight:700; color:#fff; letter-spacing:.5px; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
-.nav-links a { color:rgba(0,0,0,.65); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
-.nav-links a:hover { color:#2d8a4e; }
+.nav-links a { color:rgba(255,255,255,.75); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
+.nav-links a:hover { color:#fff; }
 .nav-actions { display:flex; align-items:center; gap:12px; }
-.social-link { color:rgba(0,0,0,.45); text-decoration:none; font-size:.95rem; transition:color .2s; }
-.social-link:hover { color:#2d8a4e; }
-.btn-lang { background:none; border:1px solid #2d8a4e; color:#2d8a4e; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
-.btn-lang:hover { background:#2d8a4e; color:#fff; }
-.btn-connect { background:#2d8a4e; color:#fff; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.25); }
-.btn-connect:hover { background:#3cb864; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
+.social-link { color:rgba(255,255,255,.6); text-decoration:none; font-size:.95rem; transition:color .2s; }
+.social-link:hover { color:#fff; }
+.btn-lang { background:none; border:1px solid rgba(255,255,255,.5); color:#fff; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.btn-lang:hover { background:#fff; color:#2d8a4e; }
+.btn-connect { background:#fff; color:#2d8a4e; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(0,0,0,.1); }
+.btn-connect:hover { background:#3cb864; color:#fff; box-shadow:0 0 30px rgba(0,0,0,.15); transform:translateY(-1px); }
 
 section { padding:6rem 2rem; text-align:center; }
 .section-inner { max-width:1000px; margin:0 auto; }
@@ -100,11 +100,11 @@ section { padding:6rem 2rem; text-align:center; }
 .search-row button { background:#2d8a4e; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(45,138,78,.2); }
 .search-row button:hover { background:#3cb864; }
 
-footer { border-top:1px solid #eee; padding:3rem 2rem; text-align:center; }
+footer { background:#2d8a4e; padding:3rem 2rem; text-align:center; }
 footer .footer-links { display:flex; gap:2rem; justify-content:center; list-style:none; margin-bottom:1rem; }
-footer .footer-links a { color:rgba(0,0,0,.35); text-decoration:none; font-size:1rem; transition:color .2s; }
-footer .footer-links a:hover { color:#2d8a4e; }
-footer .copy { color:rgba(0,0,0,.2); font-size:.95rem; }
+footer .footer-links a { color:rgba(255,255,255,.6); text-decoration:none; font-size:1rem; transition:color .2s; }
+footer .footer-links a:hover { color:#fff; }
+footer .copy { color:rgba(255,255,255,.4); font-size:.95rem; }
 
 .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
@@ -196,7 +196,7 @@ h2.section-title span { color:#2d8a4e; }
     </ul>
     <div class="nav-actions">
       <a href="https://x.com/anonymouseoneth" target="_blank" class="social-link">X</a>
-      <span style="color:rgba(0,0,0,.2);font-size:.85rem;cursor:default;">Discord</span>
+      <span style="color:rgba(255,255,255,.35);font-size:.85rem;cursor:default;">Discord</span>
       <button class="btn-lang" onclick="toggleLang()" data-i18n="nav.lang">日本語</button>
       <button class="btn-connect" data-i18n="nav.connect">Coming Soon</button>
     </div>
@@ -294,9 +294,9 @@ h2.section-title span { color:#2d8a4e; }
 <footer>
   <ul class="footer-links">
     <li><a href="https://x.com/anonymouseoneth" target="_blank">X</a></li>
-    <li><span style="color:rgba(0,0,0,.2);font-size:.85rem;">Discord</span></li>
-    <li><span style="color:rgba(0,0,0,.2);font-size:.85rem;">OpenSea</span></li>
-    <li><span style="color:rgba(0,0,0,.2);font-size:.85rem;">Etherscan</span></li>
+    <li><span style="color:rgba(255,255,255,.35);font-size:.85rem;">Discord</span></li>
+    <li><span style="color:rgba(255,255,255,.35);font-size:.85rem;">OpenSea</span></li>
+    <li><span style="color:rgba(255,255,255,.35);font-size:.85rem;">Etherscan</span></li>
   </ul>
   <p class="copy" data-i18n="footer.copy">Anonymouse &copy; 2026. All rights reserved.</p>
 </footer>
