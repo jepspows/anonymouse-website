@@ -10,44 +10,53 @@
 @font-face { font-family:'Milkway'; src:url('assets/fonts/Milkway.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
+
+/* Cheese texture background */
 body {
-  background:#fef7d5;
+  background:
+    radial-gradient(circle at 15% 20%, #fef0c0 0%, #fde8a0 40%, #f5d060 100%),
+    radial-gradient(circle at 85% 40%, #fef4d0 0%, #fde8a0 30%, #f0c840 100%),
+    radial-gradient(circle at 50% 70%, #fef0c0 0%, #f8d870 50%, #e8b830 100%),
+    radial-gradient(circle at 25% 80%, #fef4d0 0%, #f5d060 50%, #d4a020 100%);
+  background-color:#fef0c0;
+  background-attachment:fixed;
   color:#5c3a1a; min-height:100vh;
   font-family:'Milkway',cursive;
   line-height:1.6; overflow-x:hidden;
 }
 
-/* ---------- NAV — cheese rind ---------- */
+/* ---------- CHEESE HOLES ---------- */
+.cheese-holes { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.hole {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #e8c860 0%, #d4a020 60%, #b89018 100%);
+  box-shadow:inset 0 4px 12px rgba(160,120,30,.5), 0 0 0 3px #c89820;
+}
+
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:#e8a840; border-bottom:3px solid #c88720;
+  background:rgba(232,168,64,.95); backdrop-filter:blur(8px);
+  border-bottom:2px solid #c88720;
   display:flex; align-items:center; justify-content:center; padding:0 2rem; height:64px;
 }
 .nav-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:1200px; }
-.logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; }
 .logo-area span { font-size:1.6rem; font-weight:700; color:#5c3a1a; letter-spacing:.5px; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
 .nav-links a { color:rgba(92,58,26,.7); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
-.nav-links a:hover { color:#5c3a1a; }
+.nav-links a:hover { color:#3a1a05; }
 .nav-actions { display:flex; align-items:center; gap:12px; }
 .social-link { color:rgba(92,58,26,.55); text-decoration:none; font-size:.95rem; transition:color .2s; }
-.social-link:hover { color:#5c3a1a; }
+.social-link:hover { color:#3a1a05; }
 .btn-lang { background:none; border:1px solid rgba(92,58,26,.4); color:#5c3a1a; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
-.btn-lang:hover { background:#5c3a1a; color:#e8a840; }
-.btn-connect { background:#2d8a4e; color:#fff; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.2); }
-.btn-connect:hover { background:#3cb864; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
+.btn-lang:hover { background:#5c3a1a; color:#fde8a0; }
+.btn-connect { background:#2d8a4e; color:#fff; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.3); }
+.btn-connect:hover { background:#3cb864; transform:translateY(-1px); }
 
-/* ---------- CHEESE HOLES ---------- */
-.cheese-hole {
-  position:absolute; border-radius:50%; background:#e8c860; z-index:0; pointer-events:none;
-  box-shadow:inset 0 3px 8px rgba(180,140,50,.4), 0 0 0 2px #d4a830;
-}
+section { padding:6rem 2rem; text-align:center; position:relative; z-index:1; }
+.section-inner { max-width:1000px; margin:0 auto; }
 
-section { padding:6rem 2rem; text-align:center; position:relative; overflow:hidden; }
-.section-inner { max-width:1000px; margin:0 auto; position:relative; z-index:1; }
-
-/* ---------- HERO ---------- */
-.hero { padding-top:140px; min-height:90vh; display:flex; align-items:center; justify-content:center; position:relative; }
+/* ---------- HERO — cheese surface ---------- */
+.hero { padding-top:160px; min-height:100vh; display:flex; align-items:center; justify-content:center; }
 .hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#5c3a1a; }
 .hero .tagline { font-size:1.4rem; color:rgba(92,58,26,.55); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
 .hero .description { font-size:1.1rem; color:rgba(92,58,26,.4); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
@@ -56,74 +65,66 @@ section { padding:6rem 2rem; text-align:center; position:relative; overflow:hidd
 .stat-label { font-size:.9rem; color:rgba(92,58,26,.4); text-transform:uppercase; letter-spacing:1px; }
 .hero-logo { width:180px; height:180px; border-radius:50%; margin-bottom:1.5rem; border:4px solid #e8a840; object-fit:cover; }
 
-/* ---------- TYPES ---------- */
-#types { background:#fef0c0; }
+/* ---------- SECTIONS — cheese layers ---------- */
 .types-grid { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
-.type-card { background:#fffdf0; border:2px solid #e8c860; border-radius:20px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
-.type-card:hover { border-color:#e8a840; transform:translateY(-4px); box-shadow:0 8px 30px rgba(232,168,64,.2); }
+.type-card { background:rgba(255,253,240,.7); backdrop-filter:blur(4px); border:2px solid #e8c860; border-radius:20px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
+.type-card:hover { border-color:#c89820; transform:translateY(-4px); box-shadow:0 8px 30px rgba(180,140,40,.2); }
 .type-card h3 { font-size:1.4rem; color:#5c3a1a; margin-bottom:.3rem; }
 .type-card .count { font-size:1rem; color:rgba(92,58,26,.35); }
 
-/* ---------- GALLERY ---------- */
 .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; max-width:900px; margin:2.5rem auto 0; }
-.gallery-item { background:#fffdf0; border:2px solid #e8c860; border-radius:16px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
-.gallery-item:hover { border-color:#e8a840; transform:translateY(-3px); box-shadow:0 12px 40px rgba(232,168,64,.15); }
+.gallery-item { background:rgba(255,253,240,.7); backdrop-filter:blur(4px); border:2px solid #e8c860; border-radius:16px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
+.gallery-item:hover { border-color:#c89820; transform:translateY(-3px); box-shadow:0 12px 40px rgba(180,140,40,.15); }
 .gallery-item img { width:100%; height:100%; object-fit:cover; }
 .gallery-blur { filter:blur(20px); pointer-events:none; user-select:none; }
-.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(92,58,26,.85); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fef7d5; font-weight:600; }
-.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#e8a840; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
+.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(92,58,26,.85); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fef0c0; font-weight:600; }
+.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#c89820; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
 
-/* ---------- ABOUT ---------- */
 .about-text { max-width:650px; margin:2rem auto 0; color:rgba(92,58,26,.55); font-size:1.1rem; line-height:1.8; }
 .about-text strong { color:#5c3a1a; }
 
-/* ---------- HISTORY ---------- */
-#history { background:#fef0c0; }
 .timeline { max-width:700px; margin:2.5rem auto 0; text-align:left; }
 .timeline-item { border-left:3px solid #e8c860; padding:1.5rem 0 1.5rem 2rem; position:relative; }
-.timeline-item::before { content:''; position:absolute; left:-7px; top:2rem; width:12px; height:12px; border-radius:50%; background:#e8a840; box-shadow:0 0 10px rgba(232,168,64,.4); }
+.timeline-item::before { content:''; position:absolute; left:-7px; top:2rem; width:12px; height:12px; border-radius:50%; background:#c89820; }
 .timeline-item h3 { font-size:1.3rem; color:#5c3a1a; margin-bottom:.3rem; }
 .timeline-item p { color:rgba(92,58,26,.45); font-size:1.05rem; line-height:1.7; }
-.timeline-item .date { font-size:.9rem; color:#e8a840; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
+.timeline-item .date { font-size:.9rem; color:#c89820; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
 
-/* ---------- SEARCH ---------- */
 .search-row { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
-.search-row input { background:#fffdf0; border:2px solid #e8c860; color:#5c3a1a; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
-.search-row input:focus { border-color:#e8a840; }
-.search-row button { background:#e8a840; color:#5c3a1a; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(232,168,64,.25); }
-.search-row button:hover { background:#f0c060; }
+.search-row input { background:rgba(255,253,240,.7); border:2px solid #e8c860; color:#5c3a1a; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
+.search-row input:focus { border-color:#c89820; }
+.search-row button { background:#c89820; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; }
+.search-row button:hover { background:#d4a830; }
 
-/* ---------- FOOTER ---------- */
-footer { background:#c88720; padding:3rem 2rem; text-align:center; }
+/* ---------- MOUSE NEST — the hole at the bottom ---------- */
+#history { padding-bottom:12rem; position:relative; }
+#history::after {
+  content:''; display:block; margin:4rem auto 0; width:200px; height:100px;
+  background:radial-gradient(ellipse at center, #3a1a05 0%, #2a0f00 50%, #f5d060 70%);
+  border-radius:50%; opacity:0;
+  animation:none; pointer-events:none;
+}
+
+footer { background:#c88720; padding:3rem 2rem; text-align:center; position:relative; z-index:1; }
 footer .footer-links { display:flex; gap:2rem; justify-content:center; list-style:none; margin-bottom:1rem; }
 footer .footer-links a { color:rgba(92,58,26,.5); text-decoration:none; font-size:1rem; transition:color .2s; }
-footer .footer-links a:hover { color:#5c3a1a; }
+footer .footer-links a:hover { color:#3a1a05; }
 footer .copy { color:rgba(92,58,26,.35); font-size:.95rem; }
 
-/* ---------- MODAL ---------- */
 .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
 .modal { background:#fffdf0; border:2px solid #e8a840; border-radius:20px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; }
 .modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(92,58,26,.4); font-size:1.5rem; cursor:pointer; transition:color .2s; }
-.modal-close:hover { color:#e8a840; }
+.modal-close:hover { color:#c89820; }
 .modal img { width:160px; height:160px; border-radius:12px; margin-bottom:1rem; }
 .modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#5c3a1a; }
 .modal .trait { color:rgba(92,58,26,.45); font-size:1rem; margin:.2rem 0; }
-.modal .trait span { color:#e8a840; font-weight:600; }
+.modal .trait span { color:#c89820; font-weight:600; }
 
 h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#5c3a1a; }
-h2.section-title span { color:#e8a840; }
-
-/* ---------- CHEESE HOLE DECORATIONS ---------- */
-#types .cheese-hole:nth-child(1) { width:80px; height:80px; top:-30px; left:10%; }
-#types .cheese-hole:nth-child(2) { width:50px; height:50px; top:20px; right:8%; }
-#about .cheese-hole:nth-child(1) { width:120px; height:120px; bottom:-40px; right:5%; }
-#about .cheese-hole:nth-child(2) { width:60px; height:60px; top:30px; left:5%; }
-#gallery .cheese-hole:nth-child(1) { width:90px; height:90px; top:-20px; right:10%; }
-#history .cheese-hole:nth-child(1) { width:70px; height:70px; bottom:15px; left:8%; }
+h2.section-title span { color:#c89820; }
 
 @media(max-width:768px) {
-  .cheese-hole { display:none; }
   .nav-links { display:none; }
   .nav-inner { padding:0 10px; }
   .logo-area span { font-size:1.2rem; }
@@ -168,11 +169,25 @@ h2.section-title span { color:#e8a840; }
 </head>
 <body>
 
+<!-- Cheese holes layer -->
+<div class="cheese-holes">
+  <div class="hole" style="width:40px;height:40px;top:5%;left:10%;"></div>
+  <div class="hole" style="width:25px;height:25px;top:15%;left:85%;"></div>
+  <div class="hole" style="width:55px;height:55px;top:50%;left:5%;"></div>
+  <div class="hole" style="width:30px;height:30px;top:40%;left:92%;"></div>
+  <div class="hole" style="width:70px;height:70px;top:70%;left:88%;"></div>
+  <div class="hole" style="width:45px;height:45px;top:80%;left:8%;"></div>
+  <div class="hole" style="width:20px;height:20px;top:25%;left:30%;"></div>
+  <div class="hole" style="width:35px;height:35px;top:60%;left:45%;"></div>
+  <div class="hole" style="width:50px;height:50px;top:90%;left:60%;"></div>
+  <div class="hole" style="width:28px;height:28px;top:92%;left:25%;"></div>
+  <div class="hole" style="width:60px;height:60px;top:35%;left:65%;"></div>
+  <div class="hole" style="width:18px;height:18px;top:55%;left:20%;"></div>
+</div>
+
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo-area">
-      <span>ANONYMOUSE</span>
-    </a>
+    <a href="#" class="logo-area"><span>ANONYMOUSE</span></a>
     <ul class="nav-links">
       <li><a href="#home" data-i18n="nav.home">Home</a></li>
       <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
@@ -203,8 +218,6 @@ h2.section-title span { color:#e8a840; }
 </section>
 
 <section id="types">
-  <div class="cheese-hole"></div>
-  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title" data-i18n="types.heading">Types of Mouse</h2>
     <div class="types-grid">
@@ -217,23 +230,18 @@ h2.section-title span { color:#e8a840; }
 </section>
 
 <section id="gallery">
-  <div class="cheese-hole"></div>
   <div class="section-inner" style="position:relative;">
     <h2 class="section-title"><span data-i18n="gallery.heading">Meet</span> <span data-i18n="gallery.heading2">the Mouse</span></h2>
     <div class="search-row">
       <input type="text" data-i18n-placeholder="gallery.search" placeholder="Search by ID..." id="searchInput">
       <button onclick="searchMouse()" data-i18n="gallery.find">Find</button>
     </div>
-    <div class="gallery-blur">
-      <div class="gallery-grid" id="galleryGrid"></div>
-    </div>
+    <div class="gallery-blur"><div class="gallery-grid" id="galleryGrid"></div></div>
     <div class="coming-soon-overlay" data-i18n="gallery.coming">COMING SOON!</div>
   </div>
 </section>
 
 <section id="about">
-  <div class="cheese-hole"></div>
-  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title"><span data-i18n="about.heading">About</span> Anonymouse</h2>
     <div class="about-text">
@@ -245,7 +253,6 @@ h2.section-title span { color:#e8a840; }
 </section>
 
 <section id="history">
-  <div class="cheese-hole"></div>
   <div class="section-inner">
     <h2 class="section-title"><span data-i18n="story.heading">The</span> <span data-i18n="story.heading2">Story</span></h2>
     <div class="timeline">
