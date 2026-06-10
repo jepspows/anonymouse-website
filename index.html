@@ -5,183 +5,449 @@
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anonymouse | The Mouse Hole</title>
+<title>Anonymouse | Home</title>
 <style>
-@font-face{font-family:'Milkway';src:url('assets/fonts/Milkway.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:auto}
-body{background:#fff;color:#111;font-family:'Milkway',cursive;line-height:1.6;overflow-x:hidden}
+@font-face { font-family:'Milkway'; src:url('assets/fonts/Milkway.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:#fdf8f0;
+  color:#111; min-height:100vh;
+  font-family:'Milkway',cursive;
+  line-height:1.6; overflow-x:hidden;
+}
 
-#scroll-zone{height:300vh}
-#c{position:fixed;inset:0;z-index:0;display:block;background:#fff}
+/* Mouse hole arch at top of hero */
+.hero::before {
+  content:''; position:absolute; top:80px; left:50%; transform:translateX(-50%);
+  width:320px; height:160px;
+  background:#fdf8f0;
+  border-radius:0 0 160px 160px;
+  box-shadow:0 -8px 0 #2d8a4e, 0 0 0 9999px #2d8a4e;
+  z-index:-1;
+}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#2d8a4e;display:flex;align-items:center;justify-content:center;padding:0 1.5rem;height:56px}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;gap:.5rem}
-.nav-brand{font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:3px;text-decoration:none}
-.nav-links{display:flex;gap:1.2rem;list-style:none}
-.nav-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.nav-links a:hover{color:#fff}
-.nav-actions{display:flex;align-items:center;gap:8px}
-.nav-x{color:rgba(255,255,255,.5);text-decoration:none;font-size:.7rem}.nav-x:hover{color:#fff}
-.btn-sm{background:none;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.6);padding:3px 8px;border-radius:3px;font-size:.65rem;cursor:pointer;white-space:nowrap;font-family:inherit}
-.btn-sm:hover{background:rgba(255,255,255,.1)}
-.btn-cta{background:#fff;color:#2d8a4e;border:none;padding:5px 14px;border-radius:3px;font-weight:700;font-size:.7rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-family:inherit}
-.btn-cta:hover{background:#e8f5e9}
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:#2d8a4e;
+  border-bottom:2px solid rgba(255,255,255,.1);
+  display:flex; align-items:center; justify-content:center;
+  padding:0 2rem; height:64px;
+}
+.nav-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:1200px; }
+.logo-area { display:flex; align-items:center; gap:12px; text-decoration:none; }
+.logo-area img { height:40px; width:40px; border-radius:8px; }
+.logo-area span { font-size:1.6rem; font-weight:700; color:#fff; letter-spacing:.5px; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { color:rgba(255,255,255,.7); text-decoration:none; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:color .2s; }
+.nav-links a:hover { color:#fff; }
+.nav-actions { display:flex; align-items:center; gap:12px; }
+.social-link { color:rgba(255,255,255,.55); text-decoration:none; font-size:.95rem; transition:color .2s; }
+.social-link:hover { color:#fff; }
+.btn-lang { background:none; border:1px solid rgba(255,255,255,.4); color:#fff; padding:4px 12px; border-radius:6px; font-size:.9rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.btn-lang:hover { background:#fff; color:#2d8a4e; }
+.btn-connect { background:#fff; color:#2d8a4e; border:none; padding:8px 22px; border-radius:6px; font-weight:700; font-size:.95rem; cursor:pointer; text-transform:uppercase; letter-spacing:.5px; transition:all .2s; box-shadow:0 0 20px rgba(45,138,78,.2); }
+.btn-connect:hover { background:#3cb864; color:#fff; box-shadow:0 0 30px rgba(45,138,78,.4); transform:translateY(-1px); }
 
-section{padding:5rem 1.5rem;text-align:center;position:relative;z-index:1}
-.section-inner{max-width:900px;margin:0 auto;padding:2.5rem}
-section h1{font-size:3rem;font-weight:700;letter-spacing:3px;color:#2d8a4e}
-.hero-logo{width:140px;height:140px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #2d8a4e;object-fit:cover}
-.tagline{font-size:1.1rem;color:rgba(0,0,0,.5);font-style:italic;margin-top:.5rem}
-.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:2rem}
-.stat-num{font-size:2.2rem;font-weight:700;color:#2d8a4e}.stat-label{font-size:.75rem;color:rgba(0,0,0,.4);text-transform:uppercase;letter-spacing:2px}
-.desc{font-size:1rem;color:rgba(0,0,0,.45);max-width:600px;margin:1.5rem auto 0;line-height:1.8}
-.types-grid{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem}
-.type-card{background:#fff;border:1px solid #d8e8d4;border-radius:8px;padding:1.8rem 2rem;cursor:pointer;transition:all .3s;min-width:160px}
-.type-card:hover{border-color:#2d8a4e;transform:translateY(-3px)}.type-card h3{font-size:1.2rem;color:#111}.type-card .count{color:rgba(0,0,0,.3)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;max-width:900px;margin:2.5rem auto 0}
-.gallery-item{background:#fff;border:1px solid #d8e8d4;border-radius:8px;overflow:hidden;transition:all .3s;cursor:pointer;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
-.gallery-item:hover{border-color:#2d8a4e;transform:translateY(-3px)}
-.gallery-item img{width:100%;height:100%;object-fit:cover}
-.gallery-blur{filter:blur(20px);pointer-events:none;user-select:none}
-.gallery-item .id-tag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:2px 8px;border-radius:2px;font-size:.65rem;color:#fff}
-.coming-soon-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;font-weight:700;color:#2d8a4e;letter-spacing:10px;text-transform:uppercase;pointer-events:none;z-index:10}
-.about-text{max-width:650px;margin:2rem auto 0;color:rgba(0,0,0,.5);font-size:1rem;line-height:1.9}.about-text strong{color:#111}
-.timeline{max-width:700px;margin:2.5rem auto 0;text-align:left}
-.timeline-item{border-left:2px solid rgba(45,138,78,.2);padding:1.5rem 0 1.5rem 2rem;position:relative}
-.timeline-item::before{content:'';position:absolute;left:-4px;top:1.8rem;width:6px;height:6px;border-radius:50%;background:#2d8a4e}
-.timeline-item h3{font-size:1.2rem;color:#111;margin-bottom:.3rem}
-.timeline-item p{color:rgba(0,0,0,.4);font-size:.95rem;line-height:1.7}
-.timeline-item .date{font-size:.7rem;color:#2d8a4e;text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem}
-.search-row{display:flex;gap:8px;justify-content:center;margin-top:2rem}
-.search-row input{background:#fff;border:1px solid #d8e8d4;color:#111;padding:10px 14px;border-radius:6px;width:240px;font-size:1rem;outline:none;font-family:inherit}
-.search-row input:focus{border-color:#2d8a4e}
-.search-row button{background:#2d8a4e;color:#fff;border:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit}
-.search-row button:hover{background:#3cb864}
-footer{background:#f5f5f5;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid #eee;position:relative;z-index:1}
-.footer-links{display:flex;gap:2rem;justify-content:center;list-style:none;margin-bottom:1rem}
-.footer-links a{color:rgba(0,0,0,.3);text-decoration:none;font-size:.8rem}.footer-links a:hover{color:#2d8a4e}
-footer .copy{color:rgba(0,0,0,.15);font-size:.75rem}
-h2.section-title{font-size:2.2rem;font-weight:700;letter-spacing:2px;color:#2d8a4e}h2.section-title span{color:#2d8a4e}
+section { padding:6rem 2rem; text-align:center; position:relative; }
+.section-inner { max-width:1000px; margin:0 auto; }
 
-@media(max-width:768px){
-  #scroll-zone{height:200vh}
-  .nav-links{display:none}.nav-inner{padding:0 3px}.nav-brand{font-size:1rem}
-  .btn-cta{padding:4px 8px;font-size:.6rem}.btn-sm{font-size:.6rem;padding:2px 6px}
-  section{padding:3rem 1rem}section h1{font-size:2rem}.hero-logo{width:100px;height:100px}
-  .hero-stats{gap:1.5rem}.stat-num{font-size:1.6rem}.section-inner{padding:1.5rem;max-width:100%}
-  h2.section-title{font-size:1.5rem}.types-grid{flex-direction:column;align-items:center}.type-card{width:85%;padding:1.3rem}
-  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.5rem}
-  .coming-soon-overlay{font-size:1.3rem;letter-spacing:5px}
-  .search-row input{width:160px;font-size:.8rem}.search-row button{padding:8px 16px;font-size:.8rem}
-  .timeline{padding-left:0}.timeline-item{padding:1rem 0 1rem 1.2rem}
-  footer{padding:1.5rem 1rem}.footer-links{gap:1rem}
+.hero { padding-top:140px; min-height:90vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.hero-inner { text-align:center; }
+.hero-logo-wrap { position:relative; display:inline-block; }
+
+.speech-bubble { position:fixed; background:#fff; color:#111; padding:10px 16px; border-radius:16px; font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,.1); z-index:50; font-size:1rem; line-height:1.3; white-space:nowrap; border:1px solid rgba(0,0,0,.04); }
+.sb1 { top:20px; right:20px; } .sb2 { top:65px; left:20px; }
+.sb3 { top:110px; right:20px; } .sb4 { top:155px; left:20px; }
+.sb5 { top:200px; right:20px; } .sb6 { top:245px; left:20px; }
+.sb7 { top:290px; right:20px; } .sb8 { top:335px; left:20px; }
+.sb9 { top:380px; right:20px; } .sb10 { top:425px; left:20px; }
+.sb11 { top:470px; right:20px; } .sb12 { top:515px; left:20px; }
+
+.hero-logo { width:200px; height:200px; border-radius:50%; margin-bottom:2rem; border:4px solid #2d8a4e; object-fit:cover; }
+.hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#2d8a4e; }
+.hero .tagline { font-size:1.4rem; color:rgba(0,0,0,.5); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero .description { font-size:1.1rem; color:rgba(0,0,0,.4); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
+.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2.5rem; }
+.stat { text-align:center; }
+.stat-num { font-size:2.8rem; font-weight:700; color:#2d8a4e; }
+.stat-label { font-size:.9rem; color:rgba(0,0,0,.4); text-transform:uppercase; letter-spacing:1px; }
+
+/* Types section with house vibe */
+#types { background:#fffdf7; border-top:2px dashed rgba(45,138,78,.15); border-bottom:2px dashed rgba(45,138,78,.15); }
+
+.types-grid { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
+.type-card { background:#fdf8f0; border:2px solid rgba(45,138,78,.15); border-radius:16px; padding:2rem 2.5rem; cursor:pointer; transition:all .3s; min-width:180px; text-align:center; }
+.type-card:hover { border-color:#2d8a4e; background:#fffdf7; transform:translateY(-4px); box-shadow:0 8px 30px rgba(45,138,78,.1); }
+.type-card h3 { font-size:1.4rem; color:#111; margin-bottom:.3rem; }
+.type-card .count { font-size:1rem; color:rgba(0,0,0,.35); }
+
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; max-width:900px; margin:2.5rem auto 0; }
+.gallery-item { background:#fffdf7; border:2px solid rgba(45,138,78,.12); border-radius:14px; overflow:hidden; transition:all .3s; cursor:pointer; aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative; }
+.gallery-item:hover { border-color:#2d8a4e; transform:translateY(-3px); box-shadow:0 12px 40px rgba(45,138,78,.1); }
+.gallery-item img { width:100%; height:100%; object-fit:cover; }
+.gallery-blur { filter:blur(20px); pointer-events:none; user-select:none; }
+.gallery-item .id-tag { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.7); padding:2px 10px; border-radius:4px; font-size:.7rem; color:#fff; font-weight:600; }
+
+.coming-soon-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2.5rem; font-weight:700; color:#2d8a4e; letter-spacing:8px; text-transform:uppercase; pointer-events:none; z-index:10; }
+
+.about-text { max-width:650px; margin:2rem auto 0; color:rgba(0,0,0,.55); font-size:1.1rem; line-height:1.8; }
+.about-text strong { color:#111; }
+
+.timeline { max-width:700px; margin:2.5rem auto 0; text-align:left; }
+.timeline-item { border-left:2px solid rgba(45,138,78,.3); padding:1.5rem 0 1.5rem 2rem; position:relative; }
+.timeline-item::before { content:''; position:absolute; left:-6px; top:2rem; width:10px; height:10px; border-radius:50%; background:#2d8a4e; box-shadow:0 0 10px rgba(45,138,78,.4); }
+.timeline-item h3 { font-size:1.3rem; color:#111; margin-bottom:.3rem; }
+.timeline-item p { color:rgba(0,0,0,.45); font-size:1.05rem; line-height:1.7; }
+.timeline-item .date { font-size:.9rem; color:#2d8a4e; text-transform:uppercase; letter-spacing:1px; margin-bottom:.3rem; }
+
+.search-row { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
+.search-row input { background:#fffdf7; border:2px solid rgba(45,138,78,.15); color:#111; padding:10px 16px; border-radius:8px; width:240px; font-size:1rem; outline:none; transition:border .2s; }
+.search-row input:focus { border-color:#2d8a4e; }
+.search-row button { background:#2d8a4e; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; transition:all .2s; box-shadow:0 0 15px rgba(45,138,78,.2); }
+.search-row button:hover { background:#3cb864; }
+
+footer { background:#2d8a4e; padding:3rem 2rem; text-align:center; }
+footer .footer-links { display:flex; gap:2rem; justify-content:center; list-style:none; margin-bottom:1rem; }
+footer .footer-links a { color:rgba(255,255,255,.5); text-decoration:none; font-size:1rem; transition:color .2s; }
+footer .footer-links a:hover { color:#fff; }
+footer .copy { color:rgba(255,255,255,.3); font-size:.95rem; }
+
+.modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:#fffdf7; border:2px solid rgba(45,138,78,.15); border-radius:16px; padding:2.5rem; max-width:500px; width:90%; text-align:center; position:relative; }
+.modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:rgba(0,0,0,.4); font-size:1.5rem; cursor:pointer; transition:color .2s; }
+.modal-close:hover { color:#2d8a4e; }
+.modal img { width:160px; height:160px; border-radius:12px; margin-bottom:1rem; }
+.modal h2 { font-size:1.7rem; margin-bottom:.5rem; color:#111; }
+.modal .trait { color:rgba(0,0,0,.45); font-size:1rem; margin:.2rem 0; }
+.modal .trait span { color:#2d8a4e; font-weight:600; }
+
+h2.section-title { font-size:2.6rem; font-weight:700; letter-spacing:-.5px; color:#2d8a4e; }
+h2.section-title span { color:#2d8a4e; }
+
+@media(max-width:768px) {
+  .hero::before { display:none; }
+  .nav-links { display:none; }
+  .nav-inner { padding:0 10px; }
+  .logo-area span { font-size:1.2rem; }
+  .btn-connect { padding:6px 14px; font-size:.75rem; }
+  .btn-lang { font-size:.7rem; padding:3px 8px; }
+  .social-link { font-size:.75rem; }
+
+  .hero { padding-top:100px; min-height:auto; padding-bottom:2rem; }
+  .hero h1 { font-size:2rem; }
+  .hero .tagline { font-size:1rem; max-width:90%; }
+  .hero .description { font-size:.85rem; max-width:90%; padding:0 10px; }
+  .hero-stats { gap:1rem; flex-wrap:wrap; }
+  .stat-num { font-size:1.5rem; }
+  .stat-label { font-size:.65rem; }
+  .hero-logo { width:120px; height:120px; }
+  .hero-logo-wrap { margin:0 auto; }
+
+  .speech-bubble { display:none; }
+
+  section { padding:3rem 1rem; }
+  .section-inner { max-width:100%; }
+  h2.section-title { font-size:1.6rem; }
+  .about-text { font-size:.9rem; padding:0 5px; }
+  .about-text p { text-align:left; }
+
+  .types-grid { flex-direction:column; align-items:center; gap:0.8rem; }
+  .type-card { min-width:auto; width:80%; padding:1.2rem 1.5rem; }
+  .type-card h3 { font-size:1.1rem; }
+
+  .gallery-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:0.5rem; margin:1.5rem auto 0; }
+  .coming-soon-overlay { font-size:1.3rem; letter-spacing:3px; }
+  .search-row input { width:160px; font-size:.85rem; }
+  .search-row button { padding:8px 16px; font-size:.85rem; }
+
+  .timeline { padding-left:0; }
+  .timeline-item { padding:1rem 0 1rem 1.5rem; }
+  .timeline-item h3 { font-size:1rem; }
+  .timeline-item p { font-size:.8rem; }
+  .timeline-item .date { font-size:.7rem; }
+
+  footer { padding:2rem 1rem; }
+  footer .footer-links { gap:1rem; }
+  footer .footer-links a, footer .footer-links span { font-size:.75rem; }
+  footer .copy { font-size:.7rem; }
+
+  .modal { padding:1.5rem; max-width:90%; }
+  .modal h2 { font-size:1.2rem; }
+  .modal .trait { font-size:.8rem; }
+  .modal img { width:100px; height:100px; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="c"></canvas>
-<div id="scroll-zone"></div>
-
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-brand">ANONYMOUSE</a>
+    <a href="#" class="logo-area">
+      <span>ANONYMOUSE</span>
+    </a>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li><li><a href="#gallery">Gallery</a></li>
-      <li><a href="#about">About</a></li><li><a href="#history">Story</a></li>
+      <li><a href="#home" data-i18n="nav.home">Home</a></li>
+      <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#history" data-i18n="nav.story">Story</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="https://x.com/anonymouseoneth" class="nav-x">X</a>
-      <span style="color:rgba(200,180,140,.08);font-size:.65rem">Discord</span>
-      <button class="btn-sm">日本語</button>
-      <button class="btn-cta">Coming Soon</button>
+      <a href="https://x.com/anonymouseoneth" target="_blank" class="social-link">X</a>
+      <span style="color:rgba(255,255,255,.3);font-size:.85rem;cursor:default;">Discord</span>
+      <button class="btn-lang" onclick="toggleLang()" data-i18n="nav.lang">日本語</button>
+      <button class="btn-connect" data-i18n="nav.connect">Coming Soon</button>
     </div>
   </div>
 </nav>
 
-<section id="home"><div class="section-inner">
-  <img src="assets/logo.png?v=1781111002" alt="Anonymouse" class="hero-logo">
-  <h1>ANONYMOUSE</h1>
-  <p class="tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
-  <div class="hero-stats"><div><div class="stat-num">10K</div><div class="stat-label">Supply</div></div><div><div class="stat-num">—</div><div class="stat-label">Mint Date</div></div><div><div class="stat-num">0.015</div><div class="stat-label">ETH</div></div></div>
-  <p class="desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract.</p>
-</div></section>
+<section class="hero" id="home">
+  <div class="hero-inner section-inner">
+    <div class="hero-logo-wrap">
+    </div>
+    <img src="assets/logo.png?v=1781111002" alt="Anonymouse" style="width:180px;height:180px;border-radius:50%;margin-bottom:1.5rem;border:3px solid #2d8a4e;">
+    <h1>ANONYMOUSE</h1>
+    <div class="speech-bubble sb1">Simon: Bro. We're an NFT now.</div>
+    <div class="speech-bubble sb2">Stuart: Wait what. Like... a jpeg?!</div>
+    <div class="speech-bubble sb3">Simon: Not just a jpeg. We're ON-CHAIN.</div>
+    <div class="speech-bubble sb4">Stuart: So we live in the blockchain? Is it cozy?</div>
+    <div class="speech-bubble sb5">Simon: It's immutable. We exist FOREVER.</div>
+    <div class="speech-bubble sb6">Stuart: Forever?! I didn't sign up for forever!</div>
+    <div class="speech-bubble sb7">Simon: Too late. 10K of us. No takebacks.</div>
+    <div class="speech-bubble sb8">Stuart: Okay okay. When do we get minted?</div>
+    <div class="speech-bubble sb9">Simon: Soon. The humans are preparing.</div>
+    <div class="speech-bubble sb10">Stuart: Preparing what? A cheese platter?!</div>
+    <div class="speech-bubble sb11">Simon: ...No. A smart contract. Stay focused.</div>
+    <div class="speech-bubble sb12">Stuart: Contract-schmontract. Wen cheese?</div>
+    <p class="tagline" data-i18n="hero.tagline">10,000 procedurally generated mouse. On-chain. Coming soon.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">10K</div><div class="stat-label" data-i18n="hero.supply">Supply</div></div>
+      <div class="stat"><div class="stat-num">—</div><div class="stat-label" data-i18n="hero.mintdate">Mint Date</div></div>
+      <div class="stat"><div class="stat-num">0.015</div><div class="stat-label" data-i18n="hero.price">ETH</div></div>
+    </div>
+    <p class="description" data-i18n="hero.desc">A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon — join the community.</p>
+  </div>
+</section>
 
-<section id="types"><div class="section-inner"><h2 class="section-title">Types of Mouse</h2><div class="types-grid"><div class="type-card"><h3>Genesis</h3><div class="count">—</div></div><div class="type-card"><h3>Evolved</h3><div class="count">—</div></div><div class="type-card"><h3>Legendary</h3><div class="count">—</div></div><div class="type-card"><h3>Mythic</h3><div class="count">—</div></div></div></div></section>
+<section id="types">
+  <div class="section-inner">
+    <h2 class="section-title" data-i18n="types.heading">Types of Mouse</h2>
+    <div class="types-grid">
+      <div class="type-card"><h3>Genesis</h3><div class="count">—</div></div>
+      <div class="type-card"><h3>Evolved</h3><div class="count">—</div></div>
+      <div class="type-card"><h3>Legendary</h3><div class="count">—</div></div>
+      <div class="type-card"><h3>Mythic</h3><div class="count">—</div></div>
+    </div>
+  </div>
+</section>
 
-<section id="gallery"><div class="section-inner" style="position:relative"><h2 class="section-title"><span>Meet</span> <span>the Mouse</span></h2><div class="search-row"><input type="text" placeholder="Search by ID..." id="searchInput"><button onclick="searchMouse()">Find</button></div><div class="gallery-blur"><div class="gallery-grid" id="galleryGrid"></div></div><div class="coming-soon-overlay">COMING SOON!</div></div></section>
+<section id="gallery">
+  <div class="section-inner" style="position:relative;">
+    <h2 class="section-title"><span data-i18n="gallery.heading">Meet</span> <span data-i18n="gallery.heading2">the Mouse</span></h2>
+    <div class="search-row">
+      <input type="text" data-i18n-placeholder="gallery.search" placeholder="Search by ID..." id="searchInput">
+      <button onclick="searchMouse()" data-i18n="gallery.find">Find</button>
+    </div>
+    <div class="gallery-blur">
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+    <div class="coming-soon-overlay" data-i18n="gallery.coming">COMING SOON!</div>
+  </div>
+</section>
 
-<section id="about"><div class="section-inner"><h2 class="section-title"><span>About</span> Anonymouse</h2><div class="about-text"><p>Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> — art, metadata, and traits stored directly in the smart contract.</p><p style="margin-top:1rem">Every Anonymouse is procedurally generated. No two alike. Fair mint, fair launch.</p><p style="margin-top:1rem">Stake your Anonymouse to earn tokens. Build your colony.</p></div></div></section>
+<section id="about">
+  <div class="section-inner">
+    <h2 class="section-title"><span data-i18n="about.heading">About</span> Anonymouse</h2>
+    <div class="about-text">
+      <p data-i18n="about.p1">Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> — the art, metadata, and traits are stored directly in the smart contract.</p>
+      <p style="margin-top:1rem;" data-i18n="about.p2">Every Anonymouse is procedurally generated from a pool of traits — backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.</p>
+      <p style="margin-top:1rem;" data-i18n="about.p3">Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.</p>
+    </div>
+  </div>
+</section>
 
-<section id="history"><div class="section-inner"><h2 class="section-title"><span>The</span> <span>Story</span></h2><div class="timeline"><div class="timeline-item"><div class="date">Coming Soon</div><h3>The Mint</h3><p>10,000 Anonymouse released in a fair, transparent mint.</p></div><div class="timeline-item"><div class="date">Post-Mint</div><h3>Community Takes Over</h3><p>Staking live. Earn tokens. Trade, collect, grow.</p></div><div class="timeline-item"><div class="date">Roadmap</div><h3>Building the Colony</h3><p>Token economy, evolutions, community-driven lore.</p></div></div></div></section>
+<section id="history">
+  <div class="section-inner">
+    <h2 class="section-title"><span data-i18n="story.heading">The</span> <span data-i18n="story.heading2">Story</span></h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="date" data-i18n="story.t1date">Coming Soon</div>
+        <h3 data-i18n="story.t1title">The Mint</h3>
+        <p data-i18n="story.t1desc">10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain — no two alike. Be ready.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="date" data-i18n="story.t2date">Post-Mint</div>
+        <h3 data-i18n="story.t2title">Community Takes Over</h3>
+        <p data-i18n="story.t2desc">Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="date" data-i18n="story.t3date">Roadmap</div>
+        <h3 data-i18n="story.t3title">Building the Colony</h3>
+        <p data-i18n="story.t3desc">Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<footer><ul class="footer-links"><li><a href="https://x.com/anonymouseoneth">X</a></li><li><span style="color:rgba(200,180,140,.06);font-size:.75rem">Discord</span></li></ul><p class="copy">Anonymouse &copy; 2026</p></footer>
+<footer>
+  <ul class="footer-links">
+    <li><a href="https://x.com/anonymouseoneth" target="_blank">X</a></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Discord</span></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">OpenSea</span></li>
+    <li><span style="color:rgba(255,255,255,.25);font-size:.85rem;">Etherscan</span></li>
+  </ul>
+  <p class="copy" data-i18n="footer.copy">Anonymouse &copy; 2026. All rights reserved.</p>
+</footer>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img src="" alt="Mouse" id="modalImg" style="display:none;">
+    <h2 id="modalTitle">Anonymouse #1</h2>
+    <p class="trait"><span data-i18n="modal.type">Type</span>: <span id="modalType">Genesis</span></p>
+    <p class="trait"><span data-i18n="modal.bg">Background</span>: <span id="modalBg">Cyber</span></p>
+    <p class="trait"><span data-i18n="modal.fur">Fur</span>: <span id="modalFur">Shadow</span></p>
+    <p class="trait"><span data-i18n="modal.eyes">Eyes</span>: <span id="modalEyes">Laser</span></p>
+    <p class="trait"><span data-i18n="modal.head">Headgear</span>: <span id="modalHead">None</span></p>
+  </div>
+</div>
 
 <script>
-(function(){
-var C=document.getElementById('c'),ctx=C.getContext('2d');
-if(!ctx)return;
-var W=1,H=1;
-function rs(){W=C.width=window.innerWidth||1;H=C.height=window.innerHeight||1}
-rs();window.addEventListener('resize',function(){rs();draw()});
-
-function draw(){
-  var st=window.scrollY;
-  var maxScroll=Math.max(document.getElementById('scroll-zone').offsetHeight-H,1);
-  var t=Math.min(Math.max(st/maxScroll,0),1)||0;
-
-  // Block wall fills the viewport
-  var bw=Math.max(60,Math.min(120,W/10));
-  var bh=bw*.5;
-  var cols=Math.ceil(W/bw)+2,rows=Math.ceil(H/bh)+2;
-
-  ctx.fillStyle='#f5f2ec';ctx.fillRect(0,0,W,H);
-
-  for(var r=0;r<rows;r++){
-    var off=(r%2)*bw/2;
-    for(var c=-1;c<cols;c++){
-      var bx2=c*bw+off,by2=r*bh;
-      var bg=ctx.createLinearGradient(bx2,by2,bx2+bw,by2+bh);
-      bg.addColorStop(0,'#e8e0d0');bg.addColorStop(.3,'#ddd5c5');bg.addColorStop(1,'#ccc0b0');
-      ctx.fillStyle=bg;
-      ctx.fillRect(bx2,by2,bw-2,bh-2);
-      ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillRect(bx2,by2,bw-2,2);
-      ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(bx2,by2,2,bh-2);
-      ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillRect(bx2,by2+bh-3,bw-2,2);
-      ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(bx2+bw-3,by2,2,bh-2);
-    }
+var I18N = {
+  en: {
+    "nav.home":"Home","nav.gallery":"Gallery","nav.about":"About","nav.story":"Story",
+    "nav.lang":"日本語","nav.connect":"Coming Soon",
+    
+    "hero.tagline":"10,000 procedurally generated mouse. On-chain. Coming soon.",
+    "hero.supply":"Supply","hero.mintdate":"Mint Date","hero.price":"ETH",
+    "hero.desc":"A new collection of 10,000 uniquely generated mouse, stored entirely on-chain. Each Anonymouse is procedurally generated with traits, art, and metadata living directly in the smart contract. Minting soon - join the community.",
+    "types.heading":"Types of Mouse",
+    "gallery.heading":"Meet","gallery.heading2":"the Mouse","gallery.search":"Search by ID...","gallery.find":"Find","gallery.coming":"COMING SOON!",
+    "about.heading":"About",
+    "about.p1":"Anonymouse is a collection of <strong>10,000 uniquely generated mouse</strong> living on the blockchain. Each mouse is <strong>100% on-chain</strong> - the art, metadata, and traits are stored directly in the smart contract.",
+    "about.p2":"Every Anonymouse is procedurally generated from a pool of traits - backgrounds, fur colors, eye styles, headgear, and more. No two mouse are alike. The collection will launch with a fair mint, giving everyone a chance to own a piece of the colony.",
+    "about.p3":"Stake your Anonymouse to earn tokens. The more you hold, the more you earn. Build your colony and reap the rewards.",
+    "story.heading":"The","story.heading2":"Story",
+    "story.t1date":"Coming Soon","story.t1title":"The Mint","story.t1desc":"10,000 Anonymouse will be released in a fair, transparent mint. Every mouse is procedurally generated on-chain - no two alike. Be ready.",
+    "story.t2date":"Post-Mint","story.t2title":"Community Takes Over","story.t2desc":"Staking goes live. Earn tokens by holding your Anonymouse. Trade, collect, and grow your colony. The community drives everything.",
+    "story.t3date":"Roadmap","story.t3title":"Building the Colony","story.t3desc":"Staking rewards, token economy, evolutions, and community-driven lore. Earn tokens with every mouse you hold. The colony grows with you.",
+    "footer.copy":"Anonymouse &copy; 2026. All rights reserved.",
+    "modal.type":"Type","modal.bg":"Background","modal.fur":"Fur","modal.eyes":"Eyes","modal.head":"Headgear"
+  },
+  ja: {
+    "nav.home":"ホーム","nav.gallery":"ギャラリー","nav.about":"概要","nav.story":"ストーリー",
+    "nav.lang":"English","nav.connect":"近日公開",
+    
+    "hero.tagline":"10,000体のオンチェーン生成マウス。近日公開。",
+    "hero.supply":"供給数","hero.mintdate":"ミント日","hero.price":"ETH",
+    "hero.desc":"オンチェーンで完全生成された10,000体のユニークなマウスコレクション。各アノニマウスはスマートコントラクト上でアート、メタデータ、特性が直接管理されています。まもなくミント開始 - コミュニティに参加しよう。",
+    "types.heading":"マウスの種類",
+    "gallery.heading":"マウス","gallery.heading2":"を見る","gallery.search":"IDで検索...","gallery.find":"検索","gallery.coming":"近日公開！",
+    "about.heading":"アノニマウスについて",
+    "about.p1":"アノニマウスは、ブロックチェーン上に存在する<strong>10,000体のユニークなマウス</strong>のコレクションです。各マウスは<strong>100%オンチェーン</strong> - アート、メタデータ、特性がスマートコントラクトに直接保存されています。",
+    "about.p2":"背景、毛色、目のスタイル、ヘッドギアなど、様々な特性から自動生成されます。同じマウスは二つと存在しません。公平なミントでリリースされ、誰もがコレクションの一部を所有するチャンスを得られます。",
+    "about.p3":"アノニマウスをステーキングしてトークンを獲得。保有するほど報酬が増えます。コロニーを築いて報酬を得よう。",
+    "story.heading":"","story.heading2":"ストーリー",
+    "story.t1date":"近日公開","story.t1title":"ミント開始","story.t1desc":"10,000体のアノニマウスが公平で透明なミントでリリースされます。各マウスはオンチェーンで生成 - 同じものは二つとありません。",
+    "story.t2date":"ミント後","story.t2title":"コミュニティの時代","story.t2desc":"ステーキング開始。アノニマウスを保有してトークンを獲得。取引、収集、コロニーの拡大。コミュニティが全てを動かします。",
+    "story.t3date":"ロードマップ","story.t3title":"コロニーの拡大","story.t3desc":"ステーキング報酬、トークン経済、進化、コミュニティ主導のロア。保有するマウスごとにトークンを獲得。コロニーは共に成長します。",
+    "footer.copy":"アノニマウス &copy; 2026. All rights reserved.",
+    "modal.type":"タイプ","modal.bg":"背景","modal.fur":"毛色","modal.eyes":"目","modal.head":"頭装備"
   }
+};
 
-  // Baseboard
-  var bbH=Math.max(30,H*.035);
-  ctx.fillStyle='#b8a890';ctx.fillRect(0,H-bbH,W,bbH);
-  ctx.fillStyle='#a89880';ctx.fillRect(0,H-bbH-4,W,5);
+var currentLang = "ja";
+function setLang(lang) {
+  currentLang = lang;
+  var t = I18N[lang];
+  document.querySelectorAll("[data-i18n]").forEach(function(el) {
+    var k = el.getAttribute("data-i18n");
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
+    var k = el.getAttribute("data-i18n-placeholder");
+    if (t[k] !== undefined) el.placeholder = t[k];
+  });
+  localStorage.setItem("anonymouse-lang", lang);
+}
+function toggleLang() { setLang(currentLang === "en" ? "ja" : "en"); }
 
-  // === MOUSE HOLE (bottom center) ===
-  var hr=Math.max(30,W*.04);
-  var hx=W/2-hr,hy=H;
-  ctx.fillStyle='#0d0a05';ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.fill();
-  ctx.fillStyle='#1a1408';ctx.beginPath();ctx.arc(hx+hr,hy,hr-8,Math.PI,0);ctx.fill();
-  ctx.strokeStyle='rgba(80,60,30,.4)';ctx.lineWidth=3;
-  ctx.beginPath();ctx.arc(hx+hr,hy,hr,Math.PI,0);ctx.stroke();
-  ctx.strokeStyle='rgba(60,40,20,.25)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(hx-3,hy);ctx.lineTo(hx-25,hy-5);ctx.lineTo(hx-40,hy-3);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(hx+hr*2-20,hy);ctx.lineTo(hx+hr*2-10,hy-8);ctx.stroke();
+var saved = localStorage.getItem("anonymouse-lang");
+if (saved) { setLang(saved); } else { setLang("ja"); }
+
+var TRAITS = {
+  type: ["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],
+  bg: ["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],
+  fur: ["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],
+  eyes: ["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],
+  head: ["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]
+};
+
+function seedRand(seed) {
+  var s = seed;
+  return function() { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+}
+function pick(arr, rand) { return arr[Math.floor(rand() * arr.length)]; }
+
+var MICE = [];
+for (var i = 1; i <= 20; i++) {
+  var r = seedRand(i * 1337 + 42);
+  MICE.push({ id:i, type:pick(TRAITS.type,r), bg:pick(TRAITS.bg,r), fur:pick(TRAITS.fur,r), eyes:pick(TRAITS.eyes,r), head:pick(TRAITS.head,r) });
 }
 
-window.addEventListener('scroll',draw,{passive:true});
-setTimeout(draw,200);
-})();
+function drawMouse(id) {
+  var c = document.createElement("canvas");
+  c.width = 200; c.height = 200;
+  var ctx = c.getContext("2d");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 200, 200);
+  return c.toDataURL();
+}
 
-var TRAITS={type:["Genesis","Genesis","Evolved","Evolved","Legendary","Mythic"],bg:["Cyber","Neon","Void","Matrix","Crimson","Gold","Arctic","Shadow"],fur:["Shadow","Ghost","Crimson","Gold","Frost","Ember","Void","Pixel"],eyes:["Laser","Holo","XRay","Neon","Void","Crystal","Demon","Angel"],head:["Crown","Halo","Horns","Antenna","Goggles","Headset","None","Bandana"]};
-function sr(s){var d=s;return function(){d=(d*16807)%2147483647;return(d-1)/2147483646}}function pk(a,r){return a[Math.floor(r()*a.length)]}
-var MC=[];for(var i=1;i<=20;i++){var rd=sr(i*1337+42);MC.push({id:i,type:pk(TRAITS.type,rd),bg:pk(TRAITS.bg,rd),fur:pk(TRAITS.fur,rd),eyes:pk(TRAITS.eyes,rd),head:pk(TRAITS.head,rd)})}
-function dm(id){var c=document.createElement("canvas");c.width=200;c.height=200;var cx=c.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,200,200);return c.toDataURL()}
-function rg(f){f=f||"";var g=document.getElementById("galleryGrid");g.innerHTML="";var ls=f?MC.filter(function(m){return m.id===parseInt(f)}):MC;ls.forEach(function(m){var d=document.createElement("div");d.className="gallery-item";d.onclick=function(){alert("Anonymouse #"+m.id+"\n"+m.type+" | "+m.bg+" | "+m.fur)};var img=document.createElement("img");img.src=dm(m.id);img.alt="#"+m.id;img.loading="lazy";var t=document.createElement("div");t.className="id-tag";t.textContent="#"+m.id;d.appendChild(img);d.appendChild(t);g.appendChild(d)})}
-function sm(){rg(document.getElementById("searchInput").value.trim())}
-document.getElementById("searchInput").addEventListener("keydown",function(e){if(e.key==="Enter")sm()});
-rg();
+function renderGallery(filter) {
+  filter = filter || "";
+  var grid = document.getElementById("galleryGrid");
+  grid.innerHTML = "";
+  var filtered = filter ? MICE.filter(function(m) { return m.id === parseInt(filter); }) : MICE;
+  filtered.forEach(function(m) {
+    var div = document.createElement("div");
+    div.className = "gallery-item";
+    div.onclick = function() { openModal(m); };
+    var img = document.createElement("img");
+    img.src = drawMouse(m.id);
+    img.alt = "Anonymouse #" + m.id;
+    img.loading = "lazy";
+    var tag = document.createElement("div");
+    tag.className = "id-tag";
+    tag.textContent = "#" + m.id;
+    div.appendChild(img);
+    div.appendChild(tag);
+    grid.appendChild(div);
+  });
+}
+
+function openModal(mouse) {
+  document.getElementById("modalImg").src = drawMouse(mouse.id);
+  document.getElementById("modalTitle").textContent = "Anonymouse #" + mouse.id;
+  document.getElementById("modalType").textContent = mouse.type;
+  document.getElementById("modalBg").textContent = mouse.bg;
+  document.getElementById("modalFur").textContent = mouse.fur;
+  document.getElementById("modalEyes").textContent = mouse.eyes;
+  document.getElementById("modalHead").textContent = mouse.head;
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal() { document.getElementById("modal").classList.remove("open"); }
+document.getElementById("modal").addEventListener("click", function(e) { if (e.target === this) closeModal(); });
+
+function searchMouse() {
+  var val = document.getElementById("searchInput").value.trim();
+  renderGallery(val);
+}
+document.getElementById("searchInput").addEventListener("keydown", function(e) { if (e.key === "Enter") searchMouse(); });
+
+renderGallery();
 </script>
+
 </body>
 </html>
