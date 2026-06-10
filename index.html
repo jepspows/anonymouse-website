@@ -51,31 +51,17 @@ nav {
 section { padding:6rem 2rem; text-align:center; position:relative; }
 .section-inner { max-width:1000px; margin:0 auto; }
 
-/* ---------- HERO — mouse hole in hillside + mountains ---------- */
+/* ---------- HERO — rice field + mouse house ---------- */
 .hero {
   padding-top:140px; min-height:100vh;
   display:flex; align-items:center; justify-content:center;
   position:relative; overflow:hidden;
 }
-/* Green hillside / mound where the mouse hole lives */
-.hero::before {
-  content:''; position:absolute; top:80px; left:50%; transform:translateX(-50%);
-  width:340px; height:170px;
-  background:#fdf8f0;
-  border-radius:0 0 170px 170px;
-  box-shadow:0 -6px 0 #2d8a4e, 0 0 0 8px #1a6b35, 0 0 0 9999px #2d8a4e;
-  z-index:0;
+.hero-scene {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%;
 }
-/* Mountain silhouettes at bottom */
-.hero::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:180px;
-  background:
-    linear-gradient(175deg, transparent 65%, rgba(26,107,53,.15) 65.5%),
-    linear-gradient(185deg, transparent 58%, rgba(26,107,53,.25) 58.5%),
-    linear-gradient(180deg, transparent 60%, rgba(45,138,78,.35) 60.5%);
-  z-index:0; pointer-events:none;
-}
-.hero-inner { text-align:center; position:relative; z-index:1; }
+.hero-inner { text-align:center; position:relative; z-index:2; }
 .hero-logo-wrap { position:relative; display:inline-block; }
 
 .speech-bubble { position:fixed; background:#fff; color:#111; padding:10px 16px; border-radius:16px; font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,.08); z-index:50; font-size:1rem; line-height:1.3; white-space:nowrap; border:1px solid rgba(0,0,0,.04); }
@@ -87,13 +73,13 @@ section { padding:6rem 2rem; text-align:center; position:relative; }
 .sb11 { top:470px; right:20px; } .sb12 { top:515px; left:20px; }
 
 .hero-logo { width:200px; height:200px; border-radius:50%; margin-bottom:2rem; border:4px solid #2d8a4e; object-fit:cover; box-shadow:0 0 40px rgba(45,138,78,.2); }
-.hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#2d8a4e; }
-.hero .tagline { font-size:1.4rem; color:rgba(0,0,0,.48); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
-.hero .description { font-size:1.1rem; color:rgba(0,0,0,.38); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
+.hero h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; color:#fff; text-shadow:0 2px 8px rgba(0,0,0,.3); }
+.hero .tagline { font-size:1.4rem; color:rgba(255,255,255,.85); text-shadow:0 1px 4px rgba(0,0,0,.3); margin-top:.5rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero .description { font-size:1.1rem; color:rgba(255,255,255,.7); text-shadow:0 1px 3px rgba(0,0,0,.3); max-width:620px; margin:1.5rem auto 0; line-height:1.7; }
 .hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:2.5rem; }
 .stat { text-align:center; }
-.stat-num { font-size:2.8rem; font-weight:700; color:#2d8a4e; }
-.stat-label { font-size:.9rem; color:rgba(0,0,0,.38); text-transform:uppercase; letter-spacing:1px; }
+.stat-num { font-size:2.8rem; font-weight:700; color:#fff; text-shadow:0 2px 6px rgba(0,0,0,.3); }
+.stat-label { font-size:.9rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:1px; text-shadow:0 1px 3px rgba(0,0,0,.3); }
 
 /* ---------- TYPES ---------- */
 #types { background:#fffef8; }
@@ -226,6 +212,82 @@ h2.section-title span { color:#2d8a4e; }
 </nav>
 
 <section class="hero" id="home">
+  <svg class="hero-scene" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Sky -->
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#87CEEB"/>
+        <stop offset="60%" stop-color="#B0E0F0"/>
+        <stop offset="100%" stop-color="#E8F5E9"/>
+      </linearGradient>
+      <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#4a7c4f"/>
+        <stop offset="100%" stop-color="#2d5a30"/>
+      </linearGradient>
+      <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5c8a5f"/>
+        <stop offset="100%" stop-color="#3d6b40"/>
+      </linearGradient>
+      <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8B4513"/>
+        <stop offset="100%" stop-color="#5c2d0a"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="900" fill="url(#sky)"/>
+    <!-- Sun -->
+    <circle cx="950" cy="120" r="55" fill="#FFF9C4" opacity="0.9"/>
+    <circle cx="950" cy="120" r="45" fill="#FFEB3B" opacity="0.7"/>
+    <!-- Clouds -->
+    <g fill="white" opacity="0.7">
+      <ellipse cx="200" cy="100" rx="70" ry="25"/><ellipse cx="260" cy="90" rx="50" ry="20"/><ellipse cx="150" cy="95" rx="45" ry="18"/>
+      <ellipse cx="700" cy="140" rx="60" ry="22"/><ellipse cx="760" cy="130" rx="45" ry="18"/>
+    </g>
+    <!-- Far mountains -->
+    <polygon points="0,380 150,240 300,350 450,200 600,380" fill="url(#mtn1)" opacity="0.6"/>
+    <polygon points="300,380 500,260 650,340 800,220 950,330 1100,250 1200,380" fill="url(#mtn1)" opacity="0.5"/>
+    <!-- Near mountains -->
+    <polygon points="-50,450 100,320 250,420 400,290 550,400 700,340 850,430 1000,310 1150,420 1250,350" fill="url(#mtn2)"/>
+    <!-- Rice terraces -->
+    <rect x="0" y="430" width="1200" height="35" fill="#6db36d" rx="2"/>
+    <rect x="0" y="465" width="1200" height="35" fill="#5ea85e" rx="2"/>
+    <rect x="0" y="500" width="1200" height="35" fill="#4d9c4d" rx="2"/>
+    <rect x="0" y="535" width="1200" height="40" fill="#3d8b3d" rx="2"/>
+    <rect x="0" y="575" width="1200" height="40" fill="#2d7a2d" rx="2"/>
+    <!-- Terrace water lines -->
+    <rect x="0" y="430" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
+    <rect x="0" y="465" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
+    <rect x="0" y="500" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
+    <rect x="0" y="535" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
+    <rect x="0" y="575" width="1200" height="3" fill="#a8d8a8" opacity="0.5"/>
+    <!-- Mouse house -->
+    <rect x="510" y="490" width="80" height="70" fill="#D2B48C" rx="3"/>
+    <rect x="510" y="490" width="80" height="70" fill="none" stroke="#8B7355" stroke-width="2" rx="3"/>
+    <polygon points="500,490 550,440 600,490" fill="url(#roof)"/>
+    <polygon points="500,490 550,440 600,490" fill="none" stroke="#3d1a00" stroke-width="2"/>
+    <rect x="542" y="520" width="16" height="40" fill="#5c2d0a" rx="8"/>
+    <circle cx="554" cy="540" r="2" fill="#D2B48C"/>
+    <rect x="518" y="510" width="18" height="18" fill="#87CEEB" opacity="0.6" rx="2"/>
+    <rect x="518" y="510" width="18" height="18" fill="none" stroke="#8B7355" stroke-width="1" rx="2"/>
+    <line x1="527" y1="510" x2="527" y2="528" stroke="#8B7355" stroke-width="1"/>
+    <line x1="518" y1="519" x2="536" y2="519" stroke="#8B7355" stroke-width="1"/>
+    <!-- Path to house -->
+    <path d="M550,560 Q540,590 530,620 Q520,650 540,680 Q560,710 580,740" fill="none" stroke="#C4A265" stroke-width="14" opacity="0.7" stroke-linecap="round"/>
+    <!-- Rice stalks in foreground -->
+    <g stroke="#3d6b3d" stroke-width="2" fill="none" opacity="0.8">
+      <path d="M50,750 Q55,700 48,660"/><path d="M55,750 Q60,705 65,670"/>
+      <path d="M150,750 Q145,695 152,650"/><path d="M155,750 Q160,700 158,660"/>
+      <path d="M850,750 Q845,700 852,660"/><path d="M855,750 Q860,705 858,670"/>
+      <path d="M950,750 Q945,695 952,650"/><path d="M955,750 Q960,700 958,660"/>
+      <path d="M1050,750 Q1045,700 1052,660"/><path d="M1055,750 Q1060,705 1058,670"/>
+      <path d="M350,750 Q345,700 352,660"/><path d="M355,750 Q360,705 358,670"/>
+      <path d="M650,750 Q645,700 652,660"/><path d="M655,750 Q660,705 658,670"/>
+      <path d="M750,750 Q745,700 752,660"/><path d="M755,750 Q760,705 758,670"/>
+    </g>
+    <!-- Foreground grass -->
+    <rect x="0" y="615" width="1200" height="300" fill="#1d5a1d"/>
+    <!-- Bottom fade to content -->
+    <rect x="0" y="750" width="1200" height="150" fill="url(#sky)" opacity="0.95"/>
+  </svg>
   <div class="hero-inner section-inner">
     <div class="hero-logo-wrap">
     </div>
